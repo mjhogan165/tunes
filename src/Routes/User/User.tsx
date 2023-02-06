@@ -1,10 +1,10 @@
 import React from "react";
-import NavList from "../NavList";
+import NavList from "../../NavList";
 import { Outlet } from "react-router-dom";
 
 function Root() {
   return (
-    <div className="container mx-auto">
+    <div className="max-w-7xl mx-auto px-6">
       <NavList />
       <Outlet />
     </div>
