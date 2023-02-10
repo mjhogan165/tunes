@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { getSongs } from "../api-calls/get-songs";
-import { SongCard } from "../Interfaces/";
+import { SongCard } from "../Interfaces/forms";
 
 interface UserInterface {
   songCards: SongCard[];

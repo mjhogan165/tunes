@@ -1,15 +1,24 @@
-// type Song = {
-//   artist: string;
-//   title: string;
+// import { writeFileSync } from "fs";
+
+//Typescript
+// export type Data = {
+//   users: User[];
 // };
-// type DataType = {
-//   songs: Song[];
+// export type User = {
+//   id: number;
+//   name: string;
 // };
 
-// module.exports = () => {
-//   const data = { songs: [] };
-//   for (let i = 0; i < 1000; i++) {
-//     data.songs.push({ id: i, name: `user${i}` });
+// export const seeder = () => {
+//   const data: Data = { users: [] };
+//   // Create 1000 users
+//   for (let i = 0; i < 10; i++) {
+//     data.users.push({ id: i, name: `user${i}` });
 //   }
 //   return data;
 // };
+
+// const data = seeder();
+
+// writeFileSync("db2.json", JSON.stringify(data));
+// index.js

@@ -1,17 +1,13 @@
 import React from "react";
 import Card from "../../Componants/Card";
-import CreatePost from "../../Componants/CreatePost";
-import { getSongs } from "../../api-calls/get-songs";
-import { useEffect } from "react";
 import { useUser } from "../../providers/user-provider";
-import { SongCard } from "../../Interfaces/";
+import { SongCard } from "../../Interfaces/forms";
 
 function Feed() {
   const { songCards } = useUser();
 
   return (
     <div className="">
-      <CreatePost />
       <div>
         {songCards.map((song: SongCard, index: number) => {
           return (
@@ -19,6 +15,7 @@ function Feed() {
               key={index}
               artist={song.artist}
               title={song.title}
+              img={song.img}
               comment={song.comment}
             />
           );

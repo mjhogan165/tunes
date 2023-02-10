@@ -7,8 +7,7 @@ import LoginPage from "./Routes/Login-Layout/LoginPage";
 import Login from "./Routes/Login-Layout/Login";
 import Feed from "./Routes/User/Feed";
 import Friends from "./Routes/User/Friends";
-import Notifications from "./Routes/User/Notifications";
-import Logout from "./Routes/User/Logout";
+import CreatePost from "./Routes/User/CreatePost";
 import AuthProvider from "./providers/auth-provider";
 import CreateAccount from "./Routes/Login-Layout/CreateUser";
 import { Toaster } from "react-hot-toast";
@@ -35,8 +34,8 @@ const router = createBrowserRouter([
         element: <Feed />,
       },
       {
-        path: "Notifications/",
-        element: <Notifications />,
+        path: "CreatePost/",
+        element: <CreatePost />,
       },
       {
         path: "Friends/",

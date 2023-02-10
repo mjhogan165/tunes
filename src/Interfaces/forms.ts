@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
+import { Url } from "url";
 
 export interface UserInputProps {
   name: string;
@@ -29,6 +30,13 @@ export interface CreateUser {
 export interface User {
   userName: string;
   password: string;
+}
+
+export interface SongCard {
+  artist: string;
+  title: string;
+  img: string;
+  comment?: string;
 }
 
 type AuthState = "loading" | "logged-in" | "logged-out";

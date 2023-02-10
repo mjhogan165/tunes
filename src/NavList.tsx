@@ -48,10 +48,10 @@ function NavList() {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/">
+          <NavLink to="CreatePost">
             {({ isActive }) => (
               <span className={isActive ? activeClassName : undefined}>
-                Notifications
+                +Create
               </span>
             )}
           </NavLink>

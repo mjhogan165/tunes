@@ -1,7 +1,7 @@
 import React from "react";
-import { SongCard } from "../Interfaces/";
+import { SongCard } from "../Interfaces/forms";
 
-function Card({ artist, title }: SongCard) {
+function Card({ artist, title, img }: SongCard) {
   return (
     <div className="border-2 border-slate-200 rounded-sm p-4">
       <h4 className="text-lg font-semibold">UserNdfdame:</h4>
@@ -22,7 +22,7 @@ function Card({ artist, title }: SongCard) {
           </svg>
         </div>
 
-        <img className="p-4" src="" alt="imagePH" />
+        <img className="p-4" src={img} alt="imagePH" />
         <div className="p-4 flex-col">
           <h2 className="text-2xl font-bold">{artist}</h2>
           <h3 className="text-xl font-semibold">{title}</h3>

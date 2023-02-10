@@ -56,6 +56,7 @@ function AuthProvider({ children }: { children: JSX.Element | JSX.Element[] }) {
     getAccounts()
       .then((response) => response.json())
       .then((accounts) => {
+        console.log(accounts);
         setIsLoading(false);
         const foundUser: User = accounts.find(
           (elm: User) => elm.userName === userNameInput
@@ -63,7 +64,7 @@ function AuthProvider({ children }: { children: JSX.Element | JSX.Element[] }) {
         if (!foundUser) {
           toast.error("username not found");
         } else if (foundUser.password === passwordInput) {
-          toast.success("Logging in!");
+          toast.success("Success!");
           localStorage.setItem("user", JSON.stringify(foundUser));
           setUser(foundUser);
         } else toast.error("invalid password");
