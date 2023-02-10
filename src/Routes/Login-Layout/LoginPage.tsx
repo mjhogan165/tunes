@@ -1,7 +1,10 @@
 import React from "react";
 import { Outlet, NavLink } from "react-router-dom";
+import { useAuth } from "../../providers/auth-provider";
+import Loading from "../../Componants/Loading";
 
-function Home() {
+function LoginPage() {
+  const { isLoading } = useAuth();
   return (
     <div>
       <section className="flex content-between justify-center gap-6 items-center">
@@ -23,9 +26,10 @@ function Home() {
           Welcome to NewTunes!
         </h1>
       </section>
-      <Outlet />
+      {!isLoading && <Outlet />}
+      {isLoading && <Loading />}
     </div>
   );
 }
 
-export default Home;
+export default LoginPage;

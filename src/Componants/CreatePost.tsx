@@ -15,17 +15,20 @@ function CreatePost() {
             id=""
           />
 
-          <Button btnType="submit" label="+ Create Post" />
+          <Button
+            btnType="submit"
+            label="Search"
+            handleClick={() => console.log("void")}
+          />
         </form>
         <form action="" className="p-4 flex flex-col">
           <label className="text-2xl">Add a comment:</label>
           <input className="border-2 h-28 w-80" type="text" name="" id="" />
-          <button
-            className="bg-indigo-400 border-2 rounded-md p-2 my-4 w-40 text-center"
-            type="submit"
-          >
-            +Create Post
-          </button>
+          <Button
+            btnType="submit"
+            label="+ Create Post"
+            handleClick={() => console.log("void")}
+          />
         </form>
       </div>
     </div>

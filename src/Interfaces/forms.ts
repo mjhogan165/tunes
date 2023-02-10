@@ -1,25 +1,34 @@
 import { Dispatch, SetStateAction } from "react";
 
-export interface InputProps {
+export interface UserInputProps {
   name: string;
   type: string;
   id: string;
   label: string;
   state?: string;
-  setState: Dispatch<SetStateAction<string>>;
+  setUserNameInput?: React.Dispatch<React.SetStateAction<string>>;
+  setPasswordInput?: React.Dispatch<React.SetStateAction<string>>;
+  setInput: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export interface NewUserInputProps {
+export interface CreateUserInputProps {
   name: string;
   type: string;
   id: string;
   label: string;
-  state?: NewUser;
-  setState: Dispatch<SetStateAction<NewUser>>;
-  setStateProperty: string
+  state?: CreateUser;
+  setState: Dispatch<SetStateAction<CreateUser>>;
+  setStateProperty: string;
 }
-export interface NewUser {
-  newUserName: string;
-  newCreatePassword: string;
-  newConfirmPassword: string;
+export interface CreateUser {
+  createUserName: string;
+  createPassword: string;
+  confirmPassword: string;
 }
+
+export interface User {
+  userName: string;
+  password: string;
+}
+
+type AuthState = "loading" | "logged-in" | "logged-out";

@@ -1,14 +1,112 @@
 {
   "accounts": [
     {
-      "user_name": "userone",
+      "userName": "userone",
       "password": "password",
       "id": 0
     },
     {
-      "user_name": "usertwo",
+      "userName": "usertwo",
       "password": "password",
       "id": 1
+    },
+    {
+      "userName": "CREATESUSER",
+      "password": "CONFIRMOPASSO",
+      "id": 2
+    },
+    {
+      "userName": "MYUSERTO",
+      "password": "FURRRRCC",
+      "id": 3
+    },
+    {
+      "userName": "ONEMORE",
+      "password": "ONEMOREMORMEORMEOMOROERM",
+      "id": 4
+    },
+    {
+      "userName": "red",
+      "password": "redredred",
+      "id": 5
+    },
+    {
+      "userName": "CRE",
+      "password": "dfdsfdsfsfsedfsdfsdfs",
+      "id": 6
+    },
+    {
+      "userName": "ones",
+      "password": "threeeeee",
+      "id": 7
+    },
+    {
+      "userName": "ones",
+      "password": "threeeeeekopoi[jk",
+      "id": 8
+    },
+    {
+      "userName": "ones",
+      "password": "threeeeeekopoi[jk",
+      "id": 9
+    },
+    {
+      "userName": "ones",
+      "id": 10
+    },
+    {
+      "userName": "ones",
+      "id": 11
+    },
+    {
+      "userName": "ones",
+      "id": 12
+    },
+    {
+      "id": 13
+    },
+    {
+      "id": 14
+    },
+    {
+      "id": 15
+    },
+    {
+      "userName": "wetrwertwertwe",
+      "password": "terwtertwertw",
+      "id": 16
+    },
+    {
+      "userName": "TESTO",
+      "password": "threeeeee",
+      "id": 17
+    },
+    {
+      "userName": "awerawera",
+      "id": 18
+    },
+    {
+      "userName": "qwreqwreq",
+      "password": "PASS",
+      "id": 19
+    }
+  ],
+  "songs": [
+    {
+      "artist": "artistONE",
+      "title": "titleONE"
+    },
+    {
+      "artist": "artistTWO",
+      "title": "titleTWO"
+    },
+    {
+      "artist": "artistTHREE",
+      "title": "titleTHREE"
+    },
+    {
+      "artist": "artistFOUR",
+      "title": "titleFOUR"
     }
   ]
 }

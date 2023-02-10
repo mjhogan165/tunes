@@ -1,10 +1,12 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { useAuth } from "./providers/auth-provider";
 
 function NavList() {
   const activeStyle = {
     textDecoration: "underline",
   };
+  const { logout } = useAuth();
 
   const activeClassName = "underline";
 
@@ -12,7 +14,7 @@ function NavList() {
     <nav className="flex justify-center">
       <ul className="flex justify-between w-full items-center p-4">
         <li>
-          <NavLink             to="Feed">
+          <NavLink to="Feed">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -46,7 +48,7 @@ function NavList() {
           </NavLink>
         </li>
         <li>
-          <NavLink to="Notifications">
+          <NavLink to="/">
             {({ isActive }) => (
               <span className={isActive ? activeClassName : undefined}>
                 Notifications
@@ -55,9 +57,12 @@ function NavList() {
           </NavLink>
         </li>
         <li>
-          <NavLink to="Logout">
+          <NavLink to="/">
             {({ isActive }) => (
-              <span className={isActive ? activeClassName : undefined}>
+              <span
+                className={isActive ? activeClassName : undefined}
+                onClick={logout}
+              >
                 Logout
               </span>
             )}

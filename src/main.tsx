@@ -1,24 +1,27 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import User from "./Routes/User/User"
+import User from "./Routes/User/User";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
-import Login from "./Routes/Home/Login";
+import LoginPage from "./Routes/Login-Layout/LoginPage";
+import Login from "./Routes/Login-Layout/Login";
 import Feed from "./Routes/User/Feed";
 import Friends from "./Routes/User/Friends";
 import Notifications from "./Routes/User/Notifications";
 import Logout from "./Routes/User/Logout";
 import AuthProvider from "./providers/auth-provider";
-import CreateAccount from "./Routes/Home/CreateAccount";
-import Home from "./Routes/Home/Home";
+import CreateAccount from "./Routes/Login-Layout/CreateUser";
+import { Toaster } from "react-hot-toast";
+import UserProvider from "./providers/user-provider";
 
 const router = createBrowserRouter([
   {
-    element: <Home />,
+    path: "/",
+    element: <LoginPage />,
     children: [
       {
-        path: "/",
         element: <Login />,
+        index: true,
       },
       { path: "CreateAccount/", element: <CreateAccount /> },
     ],
@@ -27,10 +30,6 @@ const router = createBrowserRouter([
     path: "User",
     element: <User />,
     children: [
-      {
-        path: "Home/",
-        element: <CreateAccount />,
-      },
       {
         path: "Feed/",
         element: <Feed />,
@@ -42,14 +41,6 @@ const router = createBrowserRouter([
       {
         path: "Friends/",
         element: <Friends />,
-      },
-      // {
-      //   path: "Login/",
-      //   element: <Login />,
-      // },
-      {
-        path: "Logout/",
-        element: <Logout />,
       },
     ],
   },
@@ -63,7 +54,10 @@ if (rootElm === null) {
 ReactDOM.createRoot(rootElm).render(
   <React.StrictMode>
     <AuthProvider>
-      <RouterProvider router={router} />
+      <UserProvider>
+        <Toaster />
+        <RouterProvider router={router} />
+      </UserProvider>
     </AuthProvider>
   </React.StrictMode>
 );
