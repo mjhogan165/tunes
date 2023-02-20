@@ -10,7 +10,7 @@ function CreateAccount() {
   const { handleClickCreateAccount, user } = useAuth();
   const [createUser, setCreateUser] = useState({} as CreateUser);
   return (
-    <div className="container mx-auto my-6 border-2 flex flex-col items-center border-gray-500 max-w-lg p-6 gap-6 font-normal">
+    <form className="container mx-auto my-6 border-2 flex flex-col items-center border-gray-500 max-w-lg p-6 gap-6 font-normal">
       <h1 className="font-semibold text-4xl">Create New Account</h1>{" "}
       <CreateUserInput
         setState={setCreateUser}
@@ -36,13 +36,20 @@ function CreateAccount() {
         id="confirm-password"
         label="Confirm Password"
       />{" "}
+      {/* <button
+        className="bg-indigo-400 border-2 rounded-md p-2 my-4 w-40 text-center"
+        type="submit"
+        onClick={(e) => handleClickCreateAccount(e, createUser)}
+      >
+        Create Account
+      </button> */}
       <Button
         btnType="submit"
         label="Create Account"
         handleClick={(e) => handleClickCreateAccount(e, createUser)}
       />
-      {user && <Navigate to="/User" replace={true} />}
-    </div>
+      {user && <Navigate to="/Home/Feed" replace={true} />}
+    </form>
   );
 }
 

@@ -4,8 +4,6 @@ import UserInput from "../../Componants/UserInput";
 import { useAuth } from "../../providers/auth-provider";
 import { Navigate } from "react-router-dom";
 import Button from "../../Componants/Button";
-import { toast } from "react-hot-toast";
-import { User } from "../../Interfaces/forms";
 
 function Login() {
   const { user, handleClickLogin } = useAuth();
@@ -38,7 +36,7 @@ function Login() {
               handleClickLogin(event, userNameInput, passwordInput);
             }}
           />
-          {user && <Navigate to="/User" replace={true} />}
+          {user && <Navigate to="/Home/Feed" replace={true} />}
         </form>
         <p>
           Not a member?

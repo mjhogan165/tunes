@@ -1,11 +1,16 @@
 import React from "react";
-import { SongCard } from "../Interfaces/forms";
+import { INewTune } from "../Interfaces/feed";
 
-function Card({ artist, title, img }: SongCard) {
+interface ICardProps {
+  key: number;
+  tune: INewTune;
+}
+function Card({ tune }: ICardProps) {
+  const { artist, title, id, comment, img, createdBy } = tune;
   return (
     <div className="border-2 border-slate-200 rounded-sm p-4">
-      <h4 className="text-lg font-semibold">UserNdfdame:</h4>
-      <p className="text-base">Comment...</p>
+      <h4 className="text-lg font-semibold">{createdBy}</h4>
+      <p className="text-base">{comment}</p>
       <div className="border-2 border-slate-500 flex items-center w-inherit justify-start p-3 rounded-xl m-6">
         <div className="p-4">
           <svg
@@ -22,7 +27,7 @@ function Card({ artist, title, img }: SongCard) {
           </svg>
         </div>
 
-        <img className="p-4" src={img} alt="imagePH" />
+        <img className="p-4 w-44" src={img} alt="imagePH" />
         <div className="p-4 flex-col">
           <h2 className="text-2xl font-bold">{artist}</h2>
           <h3 className="text-xl font-semibold">{title}</h3>

@@ -1,7 +1,7 @@
 import { API } from "../constants";
 
-export const getSongs = () => {
-  return fetch(API + "songs", {
+export const getTunes = () => {
+  return fetch(API + "tunes", {
     method: "GET",
   });
 };

@@ -1,22 +1,27 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import User from "./Routes/User/User";
+import Home from "./Routes/Home-Layout/Home";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
-import LoginPage from "./Routes/Login-Layout/LoginPage";
-import Login from "./Routes/Login-Layout/Login";
-import Feed from "./Routes/User/Feed";
-import Friends from "./Routes/User/Friends";
-import CreatePost from "./Routes/User/CreatePost";
+import LoginPage from "./Routes/Auth-Layout/LoginPage";
+import Login from "./Routes/Auth-Layout/Login";
+import Feed from "./Routes/Home-Layout/Feed";
+import Friends from "./Routes/Home-Layout/Friends";
+import CreateNewTune from "./Routes/Home-Layout/CreateNewTune";
 import AuthProvider from "./providers/auth-provider";
-import CreateAccount from "./Routes/Login-Layout/CreateUser";
+import CreateAccount from "./Routes/Auth-Layout/CreateUser";
 import { Toaster } from "react-hot-toast";
-import UserProvider from "./providers/user-provider";
+import FeedProvider from "./providers/feed-provider";
+import NewTuneProvider from "./providers/new-tune-provider";
+import ErrorPage from "./Routes/ErrorPage";
+import Redirect from "./Routes/Redirect";
+import FriendsProvider from "./providers/friends-provider";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <LoginPage />,
+    errorElement: <ErrorPage />,
     children: [
       {
         element: <Login />,
@@ -26,20 +31,24 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "User",
-    element: <User />,
+    path: "Home",
+    element: <Home />,
     children: [
       {
         path: "Feed/",
         element: <Feed />,
       },
       {
-        path: "CreatePost/",
-        element: <CreatePost />,
+        path: "CreateNewTune/",
+        element: <CreateNewTune />,
       },
       {
         path: "Friends/",
         element: <Friends />,
+      },
+      {
+        path: "Redirect/",
+        element: <Redirect />,
       },
     ],
   },
@@ -53,10 +62,14 @@ if (rootElm === null) {
 ReactDOM.createRoot(rootElm).render(
   <React.StrictMode>
     <AuthProvider>
-      <UserProvider>
-        <Toaster />
-        <RouterProvider router={router} />
-      </UserProvider>
+      <FeedProvider>
+        <NewTuneProvider>
+          <FriendsProvider>
+            <Toaster />
+            <RouterProvider router={router} />
+          </FriendsProvider>
+        </NewTuneProvider>
+      </FeedProvider>
     </AuthProvider>
   </React.StrictMode>
 );

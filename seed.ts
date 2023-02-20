@@ -1,24 +1,62 @@
-// import { writeFileSync } from "fs";
+import { faker } from "@faker-js/faker";
+import { writeFileSync } from "fs";
 
-//Typescript
-// export type Data = {
-//   users: User[];
-// };
-// export type User = {
-//   id: number;
-//   name: string;
-// };
+function generateTunes() {
+  const inputArray = [];
+  for (let i = 0; i < 2; i++) {
+    inputArray.push({
+      artist: `${faker.name.firstName()} ${faker.music.genre()}`,
+      title: faker.music.songName(),
+      img: faker.image.abstract(100, 100, true),
+      createdBy: "user" + faker.random.numeric(),
+      comment: faker.lorem.lines(2),
+      id: i,
+    });
+  }
+  return inputArray;
+}
+function generateAccounts() {
+  const inputArray = [];
+  for (let i = 0; i < 10; i++) {
+    inputArray.push({ userName: `user${i}`, password: `pw${i}`, id: i });
+  }
+  return inputArray;
+}
+function generateFriendRequests() {
+  const inputArray = [];
+  for (let i = 0; i < 10; i++) {
+    let status = "";
+    switch (true) {
+      case i === 0:
+        status = "pending";
+        break;
+      case i === 1:
+        status = "accepted";
+        break;
+      case i === 2:
+        status = "rejected";
+        break;
 
-// export const seeder = () => {
-//   const data: Data = { users: [] };
-//   // Create 1000 users
-//   for (let i = 0; i < 10; i++) {
-//     data.users.push({ id: i, name: `user${i}` });
-//   }
-//   return data;
-// };
+      default:
+        status = "pending";
+        break;
+    }
+    inputArray.push({
+      status: status,
+      sender: faker.random.numeric().toString(),
+      reciever: faker.random.numeric().toString(),
+      id: i,
+    });
+  }
+  return inputArray;
+}
 
-// const data = seeder();
+const data = {
+  accounts: generateAccounts(),
+  tunes: generateTunes(),
+  friendRequests: generateFriendRequests(),
+};
 
-// writeFileSync("db2.json", JSON.stringify(data));
+writeFileSync("db.json", JSON.stringify(data));
+
 // index.js

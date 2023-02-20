@@ -1,9 +1,8 @@
 import React from "react";
-import { NewUser } from "../Interfaces/forms";
 type Button = {
   btnType: "button" | "submit" | "reset";
   label: string;
-  handleClick: (e: React.SyntheticEvent, newUser?: NewUser) => void;
+  handleClick: (e: React.SyntheticEvent) => void;
 };
 function Button({ btnType, label, handleClick }: Button) {
   return (

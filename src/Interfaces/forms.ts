@@ -32,11 +32,4 @@ export interface User {
   password: string;
 }
 
-export interface SongCard {
-  artist: string;
-  title: string;
-  img: string;
-  comment?: string;
-}
-
 type AuthState = "loading" | "logged-in" | "logged-out";

@@ -1,17 +1,10 @@
-import React, {
-  useState,
-  createContext,
-  useContext,
-  useEffect,
-  Dispatch,
-  SetStateAction,
-} from "react";
+import React, { useState, createContext, useContext, useEffect } from "react";
 import { getAccounts } from "../api-calls/get-accounts";
 import { CreateUser, User } from "../Interfaces/forms";
 import { createAccount } from "../api-calls/create-account";
 import toast from "react-hot-toast";
-import { Navigate } from "react-router-dom";
-import { findExsistingUser } from "../form-validations";
+import { childrenType } from "../Interfaces/global";
+import { useNavigate } from "react-router-dom";
 
 interface AuthInterface {
   handleClickLogin: (
@@ -30,12 +23,12 @@ interface AuthInterface {
 
 const AuthContext = createContext({} as AuthInterface);
 
-function AuthProvider({ children }: { children: JSX.Element | JSX.Element[] }) {
+function AuthProvider({ children }: childrenType) {
   const [user, setUser] = useState<null | User>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  // const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("AuthProviderMounts");
     const maybeUser = localStorage.getItem("user");
     if (maybeUser) {
       setUser(JSON.parse(maybeUser));
@@ -54,9 +47,13 @@ function AuthProvider({ children }: { children: JSX.Element | JSX.Element[] }) {
     e.preventDefault();
     setIsLoading(true);
     getAccounts()
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        return Promise.reject(response);
+      })
       .then((accounts) => {
-        console.log(accounts);
         setIsLoading(false);
         const foundUser: User = accounts.find(
           (elm: User) => elm.userName === userNameInput
@@ -65,13 +62,15 @@ function AuthProvider({ children }: { children: JSX.Element | JSX.Element[] }) {
           toast.error("username not found");
         } else if (foundUser.password === passwordInput) {
           toast.success("Success!");
+          console.log("localstorage");
           localStorage.setItem("user", JSON.stringify(foundUser));
           setUser(foundUser);
         } else toast.error("invalid password");
       })
       .catch((err) => {
         toast.error(err.toString());
-      });
+      })
+      .finally(() => setIsLoading(false));
   };
   const handleClickCreateAccount = (
     e: React.SyntheticEvent,
@@ -83,12 +82,13 @@ function AuthProvider({ children }: { children: JSX.Element | JSX.Element[] }) {
       createAccount(createUser)
         .then((response) => response.json())
         .then((createdUser) => {
-          console.log(createdUser);
+          localStorage.setItem("user", JSON.stringify(createdUser));
           setUser(createdUser);
         })
         .finally(() => setIsLoading(false))
-        .catch((err) => console.error(err));
-      // .then((user) => localStorage.setItem("user", JSON.stringify(user)));
+        .catch((err) => {
+          toast.error(err.toString());
+        });
     } else toast.error("passwords do not match");
   };
   return (
