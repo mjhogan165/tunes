@@ -10,11 +10,10 @@ function createNewTune({
   artist,
   title,
 }: INewTune) {
-  // const {artist, title} = tuneObj
   return fetch(API + "tunes", {
     method: "POST",
     headers: {
-      ["Content-Type"]: "application/json",
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       id: id,

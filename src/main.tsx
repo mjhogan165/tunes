@@ -1,50 +1,55 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import Home from "./Routes/Home-Layout/Home";
+import DashboardLayout from "./Routes/Dashboard/DashboardLayout";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
-import LoginPage from "./Routes/Auth-Layout/LoginPage";
-import Login from "./Routes/Auth-Layout/Login";
-import Feed from "./Routes/Home-Layout/Feed";
-import Friends from "./Routes/Home-Layout/Friends";
-import CreateNewTune from "./Routes/Home-Layout/CreateNewTune";
+import HomeLayout from "./Routes/Home/HomeLayout";
+import Login from "./Routes/Home/Login";
+import Feed from "./Routes/Dashboard/Feed";
+import Friends from "./Routes/Dashboard/Friends";
+import CreateNewTune from "./Routes/Dashboard/CreateNewTune";
 import AuthProvider from "./providers/auth-provider";
-import CreateAccount from "./Routes/Auth-Layout/CreateUser";
+import CreateAccount from "./Routes/Home/CreateUser";
 import { Toaster } from "react-hot-toast";
 import FeedProvider from "./providers/feed-provider";
 import NewTuneProvider from "./providers/new-tune-provider";
 import ErrorPage from "./Routes/ErrorPage";
 import Redirect from "./Routes/Redirect";
 import FriendsProvider from "./providers/friends-provider";
+import HomePage from "./Routes/Home/HomePage";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <LoginPage />,
-    errorElement: <ErrorPage />,
+    element: <HomeLayout />,
     children: [
       {
-        element: <Login />,
-        index: true,
+        path: "/",
+        element: <HomePage />,
       },
-      { path: "CreateAccount/", element: <CreateAccount /> },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      { path: "/create-account", element: <CreateAccount /> },
     ],
   },
   {
-    path: "Home",
-    element: <Home />,
+    path: "/dashboard",
+    element: <DashboardLayout />,
+    errorElement: <ErrorPage />,
     children: [
       {
-        path: "Feed/",
+        path: "feed",
         element: <Feed />,
       },
       {
-        path: "CreateNewTune/",
+        path: "create-newtune",
         element: <CreateNewTune />,
       },
       {
-        path: "Friends/",
+        path: "friends",
         element: <Friends />,
+        errorElement: <ErrorPage />,
       },
       {
         path: "Redirect/",

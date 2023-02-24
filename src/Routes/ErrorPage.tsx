@@ -8,17 +8,22 @@ interface errors {
 export default function ErrorPage() {
   const error: any = useRouteError();
 
-  // console.error(error);
-  // console.log(error.statusText);
-  // console.log(error.error.message);
+  // if (error.error.message) {
+  //   console.log(error.error.message);
+  //   message = error.error.message;
+  // }
+  console.error(error);
+  console.log(error.statusText);
 
+  // console.error((err) => console.log(err));
   return (
     <div id="error-page">
       <h1>Oops!</h1>
       <p>Sorry, an unexpected error has totally occurred!!!.</p>
       <p>
         {/* <i>{error.statusText || error.message}</i> */}
-        <i>{error.status + " " + error.error.message}</i>
+        {/* <i>{error.status + " " + error.error.message}</i> */}
+        <i>{error.status + " "}</i>
       </p>
     </div>
   );

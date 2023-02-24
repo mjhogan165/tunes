@@ -37,7 +37,8 @@ function CreateNewTune() {
 
           <label className="text-xl">Add a comment:</label>
           <textarea
-            className="border-2 h-28  p-1"
+            className="border-2 h-28 p-1"
+            maxLength={140}
             name=""
             id=""
             value={commentInput}

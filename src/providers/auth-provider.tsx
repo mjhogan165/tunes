@@ -4,6 +4,7 @@ import { CreateUser, User } from "../Interfaces/forms";
 import { createAccount } from "../api-calls/create-account";
 import toast from "react-hot-toast";
 import { childrenType } from "../Interfaces/global";
+import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 interface AuthInterface {
@@ -26,7 +27,7 @@ const AuthContext = createContext({} as AuthInterface);
 function AuthProvider({ children }: childrenType) {
   const [user, setUser] = useState<null | User>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const maybeUser = localStorage.getItem("user");
@@ -38,6 +39,7 @@ function AuthProvider({ children }: childrenType) {
   const logout = () => {
     setUser(null);
     localStorage.removeItem("user");
+    navigate("/", { replace: true });
   };
   const handleClickLogin = (
     e: React.SyntheticEvent,
@@ -65,6 +67,7 @@ function AuthProvider({ children }: childrenType) {
           console.log("localstorage");
           localStorage.setItem("user", JSON.stringify(foundUser));
           setUser(foundUser);
+          navigate("/dashboard/feed", { replace: true });
         } else toast.error("invalid password");
       })
       .catch((err) => {
@@ -110,28 +113,24 @@ export const useAuth = () => {
   return useContext(AuthContext);
 };
 
-// export const useRequiredUser = () => {
-//   const { user } = useAuth();
-//   if (!user) {
-//     throw new Error("Must be logged in to use user on this component");
-//   }
-//   return user;
-// };
-
 export const useMaybeUser = () => {
   const { user } = useAuth();
   return user;
 };
+export const useRequiredUser = () => {
+  const { user } = useAuth();
+  if (!user) {
+    // <Navigate to="/" replace={true} />;
+    throw new Error("user not logged in error");
+  }
+  return user;
+};
 export default AuthProvider;
 
-function find<T>(array: T[], callback: (el: T) => any) {
-  for (const element of array) {
-    if (callback(element)) {
-      return element;
-    }
-  }
-}
-
-// find([1, 2, 3], (n) => n === 2);
-
-// find([{ name: "jon" }, { name: "matt" }], (person) => person.name.length === 3);
+// function find<T>(array: T[], callback: (el: T) => any) {
+//   for (const element of array) {
+//     if (callback(element)) {
+//       return element;
+//     }
+//   }
+// }

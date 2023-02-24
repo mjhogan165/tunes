@@ -8,40 +8,19 @@ import { getTunes } from "../../api-calls/get-tunes";
 
 function Feed() {
   const { tuneCards, setTuneCards } = useFeed();
-  const { user } = useAuth();
+
+  // useRequiredUser();
+
   useEffect(() => {
-    if (user) {
-      getTunes()
-        .then((response) => response.json())
-        .then((parsedArray) => setTuneCards(parsedArray));
-    }
+    getTunes()
+      .then((response) => response.json())
+      .then((parsedArray) => setTuneCards(parsedArray));
   }, []);
-  //  json Server feed
-  // return (
-  //   <div className="">
-  //     <div>
-  //       {tuneCards.map((tune: TuneCard, index: number) => {
-  //         return (
-  //           <Card
-  //             key={index}
-  //             artist={tune.artist}
-  //             title={tune.title}
-  //             img={tune.img}
-  //             comment={tune.comment}
-  //             createdById={tune.createdById}
-  //           />
-  //         );
-  //       })}
-  //     </div>
-  //   </div>
-  // );
   return (
-    <div className="">
-      <div>
-        {tuneCards.map((tune: INewTune, index: number) => {
-          return <Card key={index} tune={tune} />;
-        })}
-      </div>
+    <div className="border-2 max-w-3xl m-auto">
+      {tuneCards.map((tune: INewTune, index: number) => {
+        return <Card key={index} tune={tune} />;
+      })}
     </div>
   );
   // );

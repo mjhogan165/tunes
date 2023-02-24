@@ -14,12 +14,12 @@ const FeedContext = createContext({} as FeedInterface);
 function FeedProvider({ children }: childrenType) {
   const [tuneCards, setTuneCards] = useState([] as INewTune[]);
   const { user } = useAuth();
+
   useEffect(() => {
-    if (user) {
-      getTunes()
-        .then((response) => response.json())
-        .then((parsedArray) => setTuneCards(parsedArray));
-    }
+    console.log("dfdfd");
+    getTunes()
+      .then((response) => response.json())
+      .then((parsedArray) => setTuneCards(parsedArray));
   }, [user]);
   return (
     <FeedContext.Provider value={{ tuneCards, setTuneCards }}>

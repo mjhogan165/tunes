@@ -27,8 +27,8 @@ function generateFriendRequests() {
   for (let i = 0; i < 10; i++) {
     let status = "";
     switch (true) {
-      case i === 0:
-        status = "pending";
+      case i === 5:
+        status = "accepted";
         break;
       case i === 1:
         status = "accepted";
@@ -43,8 +43,10 @@ function generateFriendRequests() {
     }
     inputArray.push({
       status: status,
-      sender: faker.random.numeric().toString(),
-      reciever: faker.random.numeric().toString(),
+      sender: "user" + faker.random.numeric().toString(),
+      reciever: "user" + faker.random.numeric().toString(),
+      // sender: faker.random.numeric().toString(),
+      // reciever: faker.random.numeric().toString(),
       id: i,
     });
   }

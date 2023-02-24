@@ -3,10 +3,12 @@ import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "./providers/auth-provider";
 import NavLinkItem from "./Componants/NavLinkItem";
+import { useNavigate } from "react-router-dom";
 function NavList() {
   const activeStyle = {
     textDecoration: "underline",
   };
+  // const navigate = useNavigate();
   const { logout } = useAuth();
   const [showMenuItems, setShowMenuItems] = useState(false);
   const activeClassName = "underline";
@@ -28,7 +30,7 @@ function NavList() {
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="currentColor"
-          className="w-20 h-20"
+          className="w-14 h-14 md:w-20 md: h:20"
         >
           <path
             fillRule="evenodd"
@@ -59,12 +61,12 @@ function NavList() {
           </svg>
         </button>
         {showMenuItems && (
-          <ul className="absolute w-max flex-col md:flex md:justify-around md:w-full md:flex-row md:relative">
-            <NavLinkItem to="Feed" label="Feed" />
-            <NavLinkItem to="Friends" label="Friends" />
-            <NavLinkItem to="CreateNewTune" label="+ Create NewTune" />
+          <div className="absolute shadow-lg md:shadow-none md:bg-transparent right-2 text-left rounded-md bg-white w-max flex-col md:flex md:justify-around md:w-full md:flex-row md:relative">
+            <NavLinkItem to="feed" label="Feed" />
+            <NavLinkItem to="friends" label="Friends" />
+            <NavLinkItem to="create-newtune" label="+ Create NewTune" />
             <NavLinkItem to="/" label="Logout" onClick={logout} />
-          </ul>
+          </div>
         )}
       </div>
     </nav>

@@ -8,29 +8,17 @@ interface ICardProps {
 function Card({ tune }: ICardProps) {
   const { artist, title, id, comment, img, createdBy } = tune;
   return (
-    <div className="border-2 border-slate-200 rounded-sm p-4">
-      <h4 className="text-lg font-semibold">{createdBy}</h4>
-      <p className="text-base">{comment}</p>
-      <div className="border-2 border-slate-500 flex items-center w-inherit justify-start p-3 rounded-xl m-6">
-        <div className="p-4">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            className="w-14 h-14"
-          >
-            <path
-              fillRule="evenodd"
-              d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm14.024-.983a1.125 1.125 0 010 1.966l-5.603 3.113A1.125 1.125 0 019 15.113V8.887c0-.857.921-1.4 1.671-.983l5.603 3.113z"
-              clipRule="evenodd"
-            />
-          </svg>
+    <div className="bg-white rounded-2xl p-2 shadow-lg sm:p-6 my-4">
+      <i className="fa-solid fa-user inline p-2 border-2 rounded-full mr-2"></i>
+      <span className="text-lg font-semibold">{createdBy}</span>
+      <p className="text-base p-2 break-words">{comment}</p>
+      <div className="border-2 border-transparent flex gap-4 items-center w-full justify-start p-2 rounded-2xl ">
+        <div className="w-24 md:w-32 overflow-hidden rounded-2xl">
+          <img className="object-cover w-full" src={img} alt="imagePH" />
         </div>
-
-        <img className="p-4 w-44" src={img} alt="imagePH" />
-        <div className="p-4 flex-col">
-          <h2 className="text-2xl font-bold">{artist}</h2>
-          <h3 className="text-xl font-semibold">{title}</h3>
+        <div className="flex-col">
+          <h2 className="text-lg font-bold">{artist}</h2>
+          <h3 className="text-base font-semibold">{title}</h3>
         </div>
       </div>
     </div>

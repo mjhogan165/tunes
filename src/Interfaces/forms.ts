@@ -30,6 +30,7 @@ export interface CreateUser {
 export interface User {
   userName: string;
   password: string;
+  id: string;
 }
 
 type AuthState = "loading" | "logged-in" | "logged-out";

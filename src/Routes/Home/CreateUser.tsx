@@ -48,7 +48,7 @@ function CreateAccount() {
         label="Create Account"
         handleClick={(e) => handleClickCreateAccount(e, createUser)}
       />
-      {user && <Navigate to="/Home/Feed" replace={true} />}
+      {user && <Navigate to="/" replace={true} />}
     </form>
   );
 }

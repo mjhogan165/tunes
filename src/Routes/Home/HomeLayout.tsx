@@ -1,14 +1,21 @@
 import React from "react";
-import { Outlet, NavLink } from "react-router-dom";
+import { Outlet, NavLink, Navigate } from "react-router-dom";
 import { useAuth } from "../../providers/auth-provider";
 import Loading from "../../Componants/Loading";
 
-function LoginPage() {
-  const { isLoading } = useAuth();
+function HomeLayout() {
+  const { isLoading, user } = useAuth();
+  // if (user) {
+  //   return <Navigate to="/dashboard/feed" replace />;
+  // }
+  // else {
+  //   return <Navigate to="/" />
+  // }
+
   return (
     <div>
       <section className="flex content-between justify-center gap-6 items-center">
-        <NavLink to="Feed">
+        <NavLink to="feed">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -22,7 +29,7 @@ function LoginPage() {
             />
           </svg>
         </NavLink>
-        <h1 className="text-6xl font-semibold text-center my-10">
+        <h1 className="text-2xl font-semibold text-center my-10">
           Welcome to NewTunes!
         </h1>
       </section>
@@ -32,4 +39,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default HomeLayout;

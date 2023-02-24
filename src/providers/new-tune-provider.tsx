@@ -34,23 +34,22 @@ function NewTuneProvider({ children }: childrenType) {
     null
   );
   const { user } = useAuth();
-  let loggedUser = "";
+  let loggedUser = " ";
   if (user) {
     loggedUser = user.userName;
   }
-
   useEffect(() => {
-    console.log("useEffect token called");
+    // console.log("useEffect token called");
     const ifToken = localStorage.getItem("token");
     if (ifToken) {
-      console.log(ifToken);
+      // console.log(ifToken);
       setToken(ifToken);
     } else {
       getToken()
         .then((result) => result.json())
         .then((token) => {
           setToken(token.access_token);
-          console.log("getToken()");
+          // console.log("getToken()");
           console.log({
             tokenResponse: token.access_token,
             type: typeof token.access_token,
@@ -73,12 +72,9 @@ function NewTuneProvider({ children }: childrenType) {
         }
         return Promise.reject(response);
       })
-      .then((parsed) => {
-        toast.success("Tune Posted!");
-        // console.log({ parsed: parsed });
-      })
       .catch((err) => console.error(err))
       .finally(() => {
+        toast.success("Tune Posted!");
         setSearchResults(null);
         setSongInput("");
         setCommentInput("");
