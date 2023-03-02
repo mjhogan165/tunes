@@ -10,7 +10,7 @@ const redirect_uri = "http://localhost:5173/Home/Redirect";
 const client_secret = "e0f968f004f54c22ad052f3e3a634326";
 const url = "https://accounts.spotify.com/api/token";
 import { searchTrack } from "../api-calls/search";
-import { useAuth } from "./auth-provider";
+import { useAuth, useRequiredUser } from "./auth-provider";
 
 interface NewTuneInterface {
   handleClickPostNewTune: (e: React.SyntheticEvent, tuneObj: INewTune) => void;
@@ -33,16 +33,12 @@ function NewTuneProvider({ children }: childrenType) {
   const [searchResults, setSearchResults] = useState<null | Array<INewTune>>(
     null
   );
-  const { user } = useAuth();
-  let loggedUser = " ";
-  if (user) {
-    loggedUser = user.userName;
-  }
+  console.log("Render: NewTunePRovider");
+  const [refresh, setRefresh] = useState(false);
+  const { userName } = useRequiredUser();
   useEffect(() => {
-    // console.log("useEffect token called");
     const ifToken = localStorage.getItem("token");
-    if (ifToken) {
-      // console.log(ifToken);
+    if (ifToken && !refresh) {
       setToken(ifToken);
     } else {
       getToken()
@@ -58,7 +54,7 @@ function NewTuneProvider({ children }: childrenType) {
           return token;
         });
     }
-  }, []);
+  }, [refresh]);
 
   const handleClickPostNewTune = (
     e: React.SyntheticEvent,
@@ -87,9 +83,11 @@ function NewTuneProvider({ children }: childrenType) {
     searchTrack(input, token)
       .then((response) => {
         if (!response.ok) {
-          throw Error(response.statusText);
+          toast.error(response.status + "Search failed: please try again");
+          setRefresh((prev) => !prev);
+          throw new Error("API Error: Refresh Token");
         }
-        console.log({ response: response, status: response.statusText });
+        // console.log({ response: response, status: response.statusText });
         return response.json();
       })
       .then((trackObj) => {
@@ -101,7 +99,7 @@ function NewTuneProvider({ children }: childrenType) {
             title: elm.name,
             id: elm.id,
             img: elm.album.images[0].url,
-            createdBy: loggedUser,
+            createdBy: userName,
           });
         }
         return filteredResponse;

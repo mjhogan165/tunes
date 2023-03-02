@@ -3,19 +3,18 @@ import { useEffect } from "react";
 import Card from "../../Componants/Card";
 import { useFeed } from "../../providers/feed-provider";
 import { INewTune } from "../../Interfaces/feed";
-import { useAuth } from "../../providers/auth-provider";
+import { useRequiredUser } from "../../providers/auth-provider";
 import { getTunes } from "../../api-calls/get-tunes";
 
 function Feed() {
   const { tuneCards, setTuneCards } = useFeed();
-
-  // useRequiredUser();
+  const user = useRequiredUser();
 
   useEffect(() => {
     getTunes()
       .then((response) => response.json())
       .then((parsedArray) => setTuneCards(parsedArray));
-  }, []);
+  }, [user]);
   return (
     <div className="border-2 max-w-3xl m-auto">
       {tuneCards.map((tune: INewTune, index: number) => {

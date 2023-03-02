@@ -25,7 +25,7 @@ export function handleErrors(response: unknown) {
   };
 }
 
-export function findFriend(input: string) {
+export async function findFriend(input: string) {
   return getAccounts()
     .then((response) => response.json())
     .then((json) => {
@@ -40,4 +40,8 @@ export function findFriend(input: string) {
       }
     })
     .catch((err) => console.log(err));
+}
+
+export function toggle(bool: boolean) {
+  return !bool;
 }

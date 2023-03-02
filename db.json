@@ -49,98 +49,85 @@
       "userName": "user9",
       "password": "pw9",
       "id": 9
-    },
-    {
-      "userName": "ones",
-      "password": "TEKK",
-      "id": 10
     }
   ],
   "tunes": [
     {
-      "artist": "Elena Metal",
-      "title": "Earth Angel",
-      "img": "https://loremflickr.com/100/100/abstract?lock=21050",
-      "createdBy": "user4",
-      "comment": "Minima voluptates sunt aliquid et impedit.\nDebitis quibusdam magni nihil fuga magnam tempore quo tempore.",
+      "artist": "Elisabeth Electronic",
+      "title": "Surfin' USA",
+      "img": "https://loremflickr.com/100/100/abstract?lock=59759",
+      "createdBy": "user5",
+      "comment": "Reprehenderit exercitationem eius aliquam ullam sunt.\nReprehenderit sit ducimus sit vel facere neque vel doloremque error.",
       "id": 0
     },
     {
-      "artist": "Alexzander Funk",
-      "title": "Venus",
-      "img": "https://loremflickr.com/100/100/abstract?lock=90208",
-      "createdBy": "user2",
-      "comment": "Repellat consectetur eaque deleniti.\nSed sed assumenda pariatur nisi ut necessitatibus voluptate.",
+      "artist": "Tracey Stage And Screen",
+      "title": "A String of Pearls",
+      "img": "https://loremflickr.com/100/100/abstract?lock=85513",
+      "createdBy": "user7",
+      "comment": "Porro nemo aperiam ipsa earum nam incidunt quod.\nReprehenderit nam aliquid harum error sed architecto nesciunt.",
       "id": 1
-    },
-    {
-      "id": "4Vb5Y6RQztThqqqFre24wL",
-      "artist": "Lamb of God",
-      "title": "Omerta",
-      "comment": "OMERRRRRRTAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-      "createdBy": "user0",
-      "img": "https://i.scdn.co/image/ab67616d0000b273b12877d8bdfaa0f19b4624fa"
     }
   ],
   "friendRequests": [
     {
-      "status": "pending",
-      "sender": "user5",
-      "reciever": "user4",
+      "status": "accepted",
+      "sender": "user8",
+      "reciever": "user1",
       "id": 0
     },
     {
       "status": "accepted",
-      "sender": "user1",
+      "sender": "user2",
       "reciever": "user1",
       "id": 1
     },
     {
       "status": "rejected",
-      "sender": "user3",
-      "reciever": "user4",
+      "sender": "user6",
+      "reciever": "user1",
       "id": 2
     },
     {
-      "status": "pending",
-      "sender": "user6",
-      "reciever": "user6",
+      "status": "rejected",
+      "sender": "user3",
+      "reciever": "user1",
       "id": 3
     },
     {
       "status": "pending",
-      "sender": "user5",
-      "reciever": "user3",
+      "sender": "user8",
+      "reciever": "user1",
       "id": 4
     },
     {
-      "status": "accepted",
+      "status": "pending",
       "sender": "user1",
-      "reciever": "user3",
+      "reciever": "user1",
       "id": 5
     },
     {
       "status": "pending",
-      "sender": "user5",
+      "sender": "user4",
       "reciever": "user1",
       "id": 6
     },
     {
       "status": "pending",
-      "sender": "user8",
-      "reciever": "user4",
+      "sender": "user7",
+      "reciever": "user1",
       "id": 7
     },
     {
       "status": "pending",
-      "sender": "user7",
-      "reciever": "user3",
+      "sender": "user9",
+      "reciever": "user1",
       "id": 8
     },
     {
       "status": "pending",
-      "sender": "user9",
-      "reciever": "user5",
+      "sender": "user4",
+      "reciever": "user1",
       "id": 9
     }
   ]

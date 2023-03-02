@@ -8,41 +8,65 @@ import { toast } from "react-hot-toast";
 import { getFriendRequests } from "../api-calls/get-friend-requests";
 import { User } from "../Interfaces/forms";
 import { useRequiredUser } from "./auth-provider";
+import FriendRequest from "../Componants/FriendRequest";
+// import { useAuthenticatedUser } from "../Routes/Dashboard/DashboardLayout";
 
 const FriendsContext = createContext({} as FriendsContextInterface);
 
 interface FriendsContextInterface {
   handleSendFriendRequest: (e: React.SyntheticEvent, input: string) => void;
+  allFriendRequests: IFriendRequestsSorted | null;
 }
 
 export interface IFriendRequest {
   sender: string;
   reciever: string;
   status: "accpeted" | "rejected" | "pending";
+  id?: number;
+}
+export interface IFriendRequestsSorted {
+  accepted: IFriendRequest[];
+  rejected: IFriendRequest[];
+  pending: IFriendRequest[];
 }
 function FriendsProvider({ children }: childrenType) {
-  const { user } = useAuth();
-
-  // let loggedUser = {} as User;
-  // if (user) {
-  //   loggedUser = user;
-  // }
-
+  const { userName } = useRequiredUser();
+  console.log("Render: Friends Provider");
+  const [allFriendRequests, setAllFriendRequests] =
+    useState<IFriendRequestsSorted | null>(null);
+  // const [friendsList, setFriendsList] = useState<User[] | null>(null);
   // const [incomingRequest, setIncomingRequest] = useState<IFriendRequest | null>(
   //   null
   // );
 
+  // let rejectedRequests
+  // let pendingRequests
   useEffect(() => {
-    getFriendRequests()
-      .then((response) => response.json())
-      .then((requests) => {
-        for (const request of requests) {
-          // console.log(request);
-          // if (request.reciever === loggedUser.userName) {
-          //   console.log("matched");
-          // }
-        }
-      });
+    //get friend requests containing the user
+    (async function sortFriendRequests() {
+      getFriendRequests()
+        .then((response) => response.json())
+        .then((accounts) => {
+          const friendRequestObject: IFriendRequestsSorted = {
+            accepted: [],
+            rejected: [],
+            pending: [],
+          };
+          for (const acc of accounts) {
+            if (Object.values(acc).includes(userName)) {
+              if (acc.status === "accepted") {
+                friendRequestObject.accepted.push(acc);
+              } else if (acc.status === "rejected") {
+                friendRequestObject.rejected.push(acc);
+              } else {
+                friendRequestObject.pending.push(acc);
+              }
+            }
+          }
+          setAllFriendRequests(friendRequestObject);
+        });
+    })();
+    // sort requests by status
   }, []);
 
   async function handleSendFriendRequest(
@@ -55,16 +79,27 @@ function FriendsProvider({ children }: childrenType) {
     if (!result) {
       toast.error("user not found");
     } else {
-      const reciever = result.userName;
       sendFriendRequest({
         status: "pending",
-        sender: "",
-        reciever: reciever,
-      });
+        sender: userName,
+        reciever: result.userName,
+      })
+        .then((requestObj) => {
+          if (!requestObj.ok) {
+            toast.error("Failed to send request");
+          }
+        })
+        .catch((err) => {
+          toast.error(`${err}`);
+        })
+        .finally(() => toast.success("request sent!"));
+      //} else toast.error("must be logged in to use this feature");
     }
   }
   return (
-    <FriendsContext.Provider value={{ handleSendFriendRequest }}>
+    <FriendsContext.Provider
+      value={{ handleSendFriendRequest, allFriendRequests }}
+    >
       {children}
     </FriendsContext.Provider>
   );

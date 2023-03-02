@@ -12,16 +12,11 @@ function ProvidersWrapper() {
   //   console.log({ user: user });
   //   return <Navigate to="/login" replace />;
   // } else
+  console.log("Render: Provider wrapper");
   return (
     <AuthProvider>
-      <FeedProvider>
-        <NewTuneProvider>
-          <FriendsProvider>
-            <Toaster />
-            <Outlet />
-          </FriendsProvider>
-        </NewTuneProvider>
-      </FeedProvider>
+      <Toaster />
+      <Outlet />
     </AuthProvider>
   );
 }

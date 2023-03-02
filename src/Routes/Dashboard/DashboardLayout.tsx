@@ -1,23 +1,29 @@
 import React from "react";
-import { useEffect } from "react";
 import NavList from "../../NavList";
-import { Outlet } from "react-router-dom";
-import { useAuth } from "../../providers/auth-provider";
+import { Outlet, useOutletContext } from "react-router-dom";
+import { useAuth, useRequiredUser } from "../../providers/auth-provider";
 import { Navigate } from "react-router-dom";
-function DashboardLayout() {
-  console.log("dashboardlayout");
-  const { user } = useAuth();
-  if (!user) {
-    console.log({ user: user });
-    return <Navigate to="/login" replace />;
-  }
+import FeedProvider from "../../providers/feed-provider";
+import NewTuneProvider from "../../providers/new-tune-provider";
+import FriendsProvider from "../../providers/friends-provider";
 
-  return (
-    <div className="max-w-6xl mx-auto px-2 overflow-auto">
-      <NavList />
-      <Outlet />
-    </div>
-  );
+function DashboardLayout() {
+  console.log("Render: dashboardlayout");
+  const { user } = useAuth();
+  if (user) {
+    return (
+      <div className="max-w-6xl mx-auto overflow-auto">
+        <NavList />
+        <FeedProvider>
+          <NewTuneProvider>
+            <FriendsProvider>
+              <Outlet />
+            </FriendsProvider>
+          </NewTuneProvider>
+        </FeedProvider>
+      </div>
+    );
+  } else return <Navigate to="/" replace />;
 }
 
 export default DashboardLayout;

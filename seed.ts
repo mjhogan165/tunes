@@ -26,25 +26,34 @@ function generateFriendRequests() {
   const inputArray = [];
   for (let i = 0; i < 10; i++) {
     let status = "";
+    // if (i % 2 === 0) {
+    //   status = "accepted";
+    // } else if (i === 5 || i === 9) {
+    //   status = "rejected";
+    // } else status = "pending";
     switch (true) {
-      case i === 5:
+      case i === 0 || i === 1:
         status = "accepted";
+
         break;
-      case i === 1:
-        status = "accepted";
-        break;
-      case i === 2:
+      case i === 2 || i === 3:
         status = "rejected";
+        break;
+      case i === 4 || i === 5:
+        status = "pending";
         break;
 
       default:
         status = "pending";
         break;
     }
+
     inputArray.push({
       status: status,
+      //  sender: "user1",
       sender: "user" + faker.random.numeric().toString(),
-      reciever: "user" + faker.random.numeric().toString(),
+      // reciever: "user" + faker.random.numeric().toString(),
+      reciever: "user1",
       // sender: faker.random.numeric().toString(),
       // reciever: faker.random.numeric().toString(),
       id: i,

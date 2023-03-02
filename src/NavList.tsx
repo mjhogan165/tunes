@@ -13,7 +13,7 @@ function NavList() {
   const [showMenuItems, setShowMenuItems] = useState(false);
   const activeClassName = "underline";
   useEffect(() => {
-    console.log("reRENDER");
+    console.log("Render: Navlist");
     handleResize();
   }, []);
 
@@ -24,7 +24,7 @@ function NavList() {
   };
   window.addEventListener("resize", handleResize);
   return (
-    <nav className="min-h-20 flex items-center justify-around md:justify-between p-4">
+    <nav className="min-h-20 flex items-center justify-around md:justify-between my-2">
       <NavLink to="Feed">
         <svg
           xmlns="http://www.w3.org/2000/svg"

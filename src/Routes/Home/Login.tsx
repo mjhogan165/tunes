@@ -8,15 +8,8 @@ import { useNavigate } from "react-router-dom";
 
 function Login() {
   const { user, handleClickLogin } = useAuth();
-  // const navigate = useNavigate();
   const [userNameInput, setUserNameInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
-
-  useEffect(() => {
-    if (user) {
-      // navigate("/dashboard/feed", { replace: true });
-    }
-  }, [user]);
 
   return (
     <section className="rounded-lg bg-white container shadow-sm mx-auto my-6 border-2 flex flex-col items-center border-transparent max-w-lg p-6 gap-6 font-normal">
@@ -43,7 +36,6 @@ function Login() {
             handleClickLogin(event, userNameInput, passwordInput);
           }}
         />
-        {user && <Navigate to="/" replace={true} />}
       </form>
       <p>
         Not a member?

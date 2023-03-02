@@ -25,17 +25,18 @@ const router = createBrowserRouter([
     element: <ProvidersWrapper />,
     children: [
       {
+        path: "/",
         element: <HomeLayout />,
         children: [
+          // {
+          //   path: "/",
+          //   element: <HomePage />,
+          // },
           {
-            path: "/",
-            element: <HomePage />,
-          },
-          {
-            path: "/login",
+            index: true,
             element: <Login />,
           },
-          { path: "/create-account", element: <CreateAccount /> },
+          { path: "/create-account", index: true, element: <CreateAccount /> },
         ],
       },
       {
@@ -44,12 +45,12 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
         children: [
           {
-            path: "feed",
-            element: <Feed />,
-          },
-          {
             path: "create-newtune",
             element: <CreateNewTune />,
+          },
+          {
+            path: "feed",
+            element: <Feed />,
           },
           {
             path: "friends",

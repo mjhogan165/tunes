@@ -39,7 +39,6 @@ function AuthProvider({ children }: childrenType) {
   const logout = () => {
     setUser(null);
     localStorage.removeItem("user");
-    navigate("/", { replace: true });
   };
   const handleClickLogin = (
     e: React.SyntheticEvent,
@@ -67,7 +66,8 @@ function AuthProvider({ children }: childrenType) {
           console.log("localstorage");
           localStorage.setItem("user", JSON.stringify(foundUser));
           setUser(foundUser);
-          navigate("/dashboard/feed", { replace: true });
+          console.log("NAVIGATING TO DASHBOARD");
+          navigate("/dashboard");
         } else toast.error("invalid password");
       })
       .catch((err) => {
@@ -113,18 +113,19 @@ export const useAuth = () => {
   return useContext(AuthContext);
 };
 
-export const useMaybeUser = () => {
-  const { user } = useAuth();
-  return user;
-};
+// export const useMaybeUser = () => {
+//   const { user } = useAuth();
+//   return user;
+// };
 export const useRequiredUser = () => {
   const { user } = useAuth();
   if (!user) {
-    // <Navigate to="/" replace={true} />;
+    // return <Navigate to="/login" replace />;
     throw new Error("user not logged in error");
   }
   return user;
 };
+
 export default AuthProvider;
 
 // function find<T>(array: T[], callback: (el: T) => any) {
