@@ -6,7 +6,7 @@ import "./index.css";
 import HomeLayout from "./Routes/Home/HomeLayout";
 import Login from "./Routes/Home/Login";
 import Feed from "./Routes/Dashboard/Feed";
-import Friends from "./Routes/Dashboard/Friends";
+import Friends from "./Routes/Dashboard/Friends/Friends";
 import CreateNewTune from "./Routes/Dashboard/CreateNewTune";
 import AuthProvider from "./providers/auth-provider";
 import CreateAccount from "./Routes/Home/CreateUser";
@@ -14,19 +14,19 @@ import { Toaster } from "react-hot-toast";
 import FeedProvider from "./providers/feed-provider";
 import NewTuneProvider from "./providers/new-tune-provider";
 import ErrorPage from "./Routes/ErrorPage";
-import Redirect from "./Routes/Redirect";
-import FriendsProvider from "./providers/friends-provider";
-import HomePage from "./Routes/Home/HomePage";
-import { useAuth } from "./providers/auth-provider";
 import ProvidersWrapper from "./ProvidersWrapper";
+import { getTunes } from "./api-calls/get-tunes";
 
 const router = createBrowserRouter([
   {
     element: <ProvidersWrapper />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "/",
         element: <HomeLayout />,
+        errorElement: <ErrorPage />,
+        // loader: getTunes,
         children: [
           // {
           //   path: "/",
@@ -35,6 +35,7 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <Login />,
+            errorElement: <ErrorPage />,
           },
           { path: "/create-account", index: true, element: <CreateAccount /> },
         ],
@@ -51,15 +52,13 @@ const router = createBrowserRouter([
           {
             path: "feed",
             element: <Feed />,
+            // loader: getTunes,
+            errorElement: <ErrorPage />,
           },
           {
             path: "friends",
             element: <Friends />,
             errorElement: <ErrorPage />,
-          },
-          {
-            path: "Redirect/",
-            element: <Redirect />,
           },
         ],
       },

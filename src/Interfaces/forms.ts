@@ -30,6 +30,7 @@ export interface CreateUser {
 export interface User {
   userName: string;
   password: string;
+  profileImg?: string;
   id: string;
 }
 

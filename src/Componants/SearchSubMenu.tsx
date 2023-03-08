@@ -2,11 +2,11 @@ import React from "react";
 import { INewTune } from "../Interfaces/feed";
 import { useNewTune } from "../providers/new-tune-provider";
 
-type DropDownItem = {
+type SearchSubMenu = {
   result: INewTune;
 };
 
-function DropDownItem({ result }: DropDownItem) {
+function SearchSubMenu({ result }: SearchSubMenu) {
   const { artist, title, id } = result;
   const { handleClickTune, selectedTune } = useNewTune();
   const isSelected = selectedTune === result;
@@ -25,4 +25,4 @@ function DropDownItem({ result }: DropDownItem) {
   );
 }
 
-export default DropDownItem;
+export default SearchSubMenu;

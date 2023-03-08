@@ -2,7 +2,7 @@ import React from "react";
 import { useRef } from "react";
 import { INewTune } from "../Interfaces/feed";
 import { useNewTune } from "../providers/new-tune-provider";
-import DropDownItem from "./DropDownItem";
+import DropDownItem from "./SearchSubMenu";
 
 function SearchDropDown() {
   const { searchResults } = useNewTune();

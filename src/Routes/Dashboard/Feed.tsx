@@ -1,24 +1,32 @@
 import React from "react";
 import { useEffect } from "react";
-import Card from "../../Componants/Card";
+import FeedCard from "../../Componants/FeedCard";
 import { useFeed } from "../../providers/feed-provider";
 import { INewTune } from "../../Interfaces/feed";
 import { useRequiredUser } from "../../providers/auth-provider";
 import { getTunes } from "../../api-calls/get-tunes";
+import { useLoaderData } from "react-router-dom";
 
 function Feed() {
   const { tuneCards, setTuneCards } = useFeed();
   const user = useRequiredUser();
+  // const load = useLoaderData();
+  // console.log(load);
 
   useEffect(() => {
     getTunes()
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          console.log("ERROR IN FEED");
+          throw new Response("Bad Request", { status: 400 });
+        } else return response.json();
+      })
       .then((parsedArray) => setTuneCards(parsedArray));
   }, [user]);
   return (
-    <div className="border-2 max-w-3xl m-auto">
+    <div className="m-auto content-container">
       {tuneCards.map((tune: INewTune, index: number) => {
-        return <Card key={index} tune={tune} />;
+        return <FeedCard key={index} tune={tune} />;
       })}
     </div>
   );

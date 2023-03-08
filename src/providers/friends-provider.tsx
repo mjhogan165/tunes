@@ -8,7 +8,7 @@ import { toast } from "react-hot-toast";
 import { getFriendRequests } from "../api-calls/get-friend-requests";
 import { User } from "../Interfaces/forms";
 import { useRequiredUser } from "./auth-provider";
-import FriendRequest from "../Componants/FriendRequest";
+
 // import { useAuthenticatedUser } from "../Routes/Dashboard/DashboardLayout";
 
 const FriendsContext = createContext({} as FriendsContextInterface);

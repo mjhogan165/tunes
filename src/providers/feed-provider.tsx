@@ -2,7 +2,10 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import { getTunes } from "../api-calls/get-tunes";
 import { childrenType } from "../Interfaces/global";
 import { useAuth, useRequiredUser } from "./auth-provider";
+import { Toast } from "react-hot-toast";
 import { INewTune } from "../Interfaces/feed";
+import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 // import { useAuthenticatedUser } from "../Routes/Dashboard/DashboardLayout";
 interface FeedInterface {
   tuneCards: INewTune[];
@@ -21,7 +24,10 @@ function FeedProvider({ children }: childrenType) {
     console.log("Called: useEffect getTunes");
     getTunes()
       .then((response) => response.json())
-      .then((parsedArray) => setTuneCards(parsedArray));
+      .then((parsedArray) => setTuneCards(parsedArray))
+      .catch((err) => {
+        console.log("damn it messed up");
+      });
   }, [user]);
   return (
     <FeedContext.Provider value={{ tuneCards, setTuneCards }}>

@@ -5,7 +5,7 @@ interface ICardProps {
   key: number;
   tune: INewTune;
 }
-function Card({ tune }: ICardProps) {
+function FeedCard({ tune }: ICardProps) {
   const { artist, title, id, comment, img, createdBy } = tune;
   return (
     <div className="bg-white rounded-2xl p-2 shadow-lg sm:p-6 mb-4">
@@ -25,4 +25,4 @@ function Card({ tune }: ICardProps) {
   );
 }
 
-export default Card;
+export default FeedCard;

@@ -2,113 +2,154 @@
   "accounts": [
     {
       "userName": "user0",
+      "profileImg": "https://loremflickr.com/100/100/people?lock=32841",
       "password": "pw0",
       "id": 0
     },
     {
       "userName": "user1",
+      "profileImg": "https://loremflickr.com/100/100/people?lock=14937",
       "password": "pw1",
       "id": 1
     },
     {
       "userName": "user2",
+      "profileImg": "https://loremflickr.com/100/100/people?lock=45100",
       "password": "pw2",
       "id": 2
     },
     {
       "userName": "user3",
+      "profileImg": "https://loremflickr.com/100/100/people?lock=87781",
       "password": "pw3",
       "id": 3
     },
     {
       "userName": "user4",
+      "profileImg": "https://loremflickr.com/100/100/people?lock=25511",
       "password": "pw4",
       "id": 4
     },
     {
       "userName": "user5",
+      "profileImg": "https://loremflickr.com/100/100/people?lock=24513",
       "password": "pw5",
       "id": 5
     },
     {
       "userName": "user6",
+      "profileImg": "https://loremflickr.com/100/100/people?lock=29514",
       "password": "pw6",
       "id": 6
     },
     {
       "userName": "user7",
+      "profileImg": "https://loremflickr.com/100/100/people?lock=34785",
       "password": "pw7",
       "id": 7
     },
     {
       "userName": "user8",
+      "profileImg": "https://loremflickr.com/100/100/people?lock=82258",
       "password": "pw8",
       "id": 8
     },
     {
       "userName": "user9",
+      "profileImg": "https://loremflickr.com/100/100/people?lock=34769",
       "password": "pw9",
       "id": 9
     }
   ],
   "tunes": [
     {
-      "artist": "Elisabeth Electronic",
-      "title": "Surfin' USA",
-      "img": "https://loremflickr.com/100/100/abstract?lock=59759",
-      "createdBy": "user5",
-      "comment": "Reprehenderit exercitationem eius aliquam ullam sunt.\nReprehenderit sit ducimus sit vel facere neque vel doloremque error.",
+      "artist": "Ernesto Blues",
+      "title": "Tutti Frutti",
+      "img": "https://loremflickr.com/100/100/abstract?lock=61811",
+      "createdBy": "user4",
+      "comment": "Dignissimos iusto architecto eveniet repellat.\nNumquam incidunt quia.",
       "id": 0
     },
     {
-      "artist": "Tracey Stage And Screen",
-      "title": "A String of Pearls",
-      "img": "https://loremflickr.com/100/100/abstract?lock=85513",
-      "createdBy": "user7",
-      "comment": "Porro nemo aperiam ipsa earum nam incidunt quod.\nReprehenderit nam aliquid harum error sed architecto nesciunt.",
+      "artist": "Sterling Pop",
+      "title": "Somebody to Love",
+      "img": "https://loremflickr.com/100/100/abstract?lock=74421",
+      "createdBy": "user3",
+      "comment": "Molestiae sequi ratione.\nAspernatur ratione impedit excepturi sapiente quae officiis labore.",
       "id": 1
+    },
+    {
+      "id": "63BcfK6YAzJYeISaTPr6IO",
+      "artist": "The Notorious B.I.G.",
+      "title": "Big Poppa - 2007 Remaster",
+      "comment": "Yea boi Check this out ytou suyck",
+      "createdBy": "user4",
+      "img": "https://i.scdn.co/image/ab67616d0000b273639fea4197e676cfe9512e04"
+    },
+    {
+      "comment": "",
+      "id": 2
+    },
+    {
+      "comment": "",
+      "id": 3
+    },
+    {
+      "comment": "",
+      "id": 4
+    },
+    {
+      "comment": "",
+      "id": 5
+    },
+    {
+      "id": "0WtDGnWL2KrMCk0mI1Gpwz",
+      "artist": "Childish Gambino",
+      "title": "Redbone",
+      "createdBy": "user4",
+      "img": "https://i.scdn.co/image/ab67616d0000b2737582716b3666a5235d5af4ea"
     }
   ],
   "friendRequests": [
     {
       "status": "accepted",
-      "sender": "user8",
+      "sender": "user3",
       "reciever": "user1",
       "id": 0
     },
     {
       "status": "accepted",
-      "sender": "user2",
+      "sender": "user1",
       "reciever": "user1",
       "id": 1
     },
     {
       "status": "rejected",
-      "sender": "user6",
+      "sender": "user9",
       "reciever": "user1",
       "id": 2
     },
     {
       "status": "rejected",
-      "sender": "user3",
+      "sender": "user6",
       "reciever": "user1",
       "id": 3
     },
     {
       "status": "pending",
-      "sender": "user8",
+      "sender": "user5",
       "reciever": "user1",
       "id": 4
     },
     {
       "status": "pending",
-      "sender": "user1",
+      "sender": "user2",
       "reciever": "user1",
       "id": 5
     },
     {
       "status": "pending",
-      "sender": "user4",
+      "sender": "user9",
       "reciever": "user1",
       "id": 6
     },
@@ -120,15 +161,21 @@
     },
     {
       "status": "pending",
-      "sender": "user9",
+      "sender": "user6",
       "reciever": "user1",
       "id": 8
     },
     {
       "status": "pending",
-      "sender": "user4",
+      "sender": "user8",
       "reciever": "user1",
       "id": 9
+    },
+    {
+      "sender": "user1",
+      "reciever": "user4",
+      "status": "pending",
+      "id": 10
     }
   ]
 }

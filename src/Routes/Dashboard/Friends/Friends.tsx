@@ -1,39 +1,47 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import UserInput from "../../Componants/UserInput";
-import Button from "../../Componants/Button";
-import { IFriendRequest, useFriends } from "../../providers/friends-provider";
-import { getAccounts } from "../../api-calls/get-accounts";
-import { useRequiredUser } from "../../providers/auth-provider";
-import { User } from "../../Interfaces/forms";
-import FriendRequest from "../../Componants/FriendRequest";
-import { getFriendRequests } from "../../api-calls/get-friend-requests";
-import { IFriendRequestsSorted } from "../../providers/friends-provider";
+import UserInput from "../../../Componants/UserInput";
+import Button from "../../../Componants/Button";
+import {
+  IFriendRequest,
+  useFriends,
+} from "../../../providers/friends-provider";
+import { getAccounts } from "../../../api-calls/get-accounts";
+import { useRequiredUser } from "../../../providers/auth-provider";
+import { User } from "../../../Interfaces/forms";
+import { getFriendRequests } from "../../../api-calls/get-friend-requests";
+import { IFriendRequestsSorted } from "../../../providers/friends-provider";
 import { NavLink } from "react-router-dom";
-import { toggle } from "../../functions";
-import FriendsDropBar from "../../Componants/FriendsDropBar";
-
+import { toggle } from "../../../functions";
+import FriendsDropBar from "./Componants/FriendsDropBar";
+import FriendsSubMenu from "./Componants/FriendsSubMenu";
+import IncomingFriendRequest from "./Componants/IncomingFriendRequest";
 function Friends() {
   const { handleSendFriendRequest, allFriendRequests } = useFriends();
   const [friendInput, setFriendInput] = useState("");
-  const [friends, setFriends] = useState<IFriendRequest[] | null>(null);
   const [showIncomingRequests, setShowIncomingRequests] = useState(false);
-  const [showFriendsListSubMenu, setShowFriendsListSubMenu] = useState(false);
   const user = useRequiredUser();
-  let accepted;
-  if (allFriendRequests) {
-    accepted = allFriendRequests.accepted;
-  }
-
+  console.log(allFriendRequests);
   return (
-    <div className="rounded-lg bg-transparent container shadow-sm mx-auto border-2 flex flex-col items-center border-transparent max-w-full py-4 gap-6 font-normal">
-      {allFriendRequests && (
+    <div className="rounded-lg bg-transparent container shadow-sm mx-auto border-2 flex flex-col items-center border-transparent max-w-full py-4 gap-6 font-normal content-container">
+      {allFriendRequests?.pending && (
+        <h1 className="w-max">{`You have ${allFriendRequests.pending.length} Friend Request(s)!`}</h1>
+      )}
+      {allFriendRequests?.pending && (
         <FriendsDropBar
-          toggleValue={showFriendsListSubMenu}
-          setToggle={setShowFriendsListSubMenu}
-          array={accepted as IFriendRequest[]}
+          array={allFriendRequests.pending}
+          label={`(${allFriendRequests.pending.length}) Friend Requests`}
+          SubMenu={IncomingFriendRequest}
         />
       )}
+      {allFriendRequests && (
+        <FriendsDropBar
+          array={allFriendRequests.accepted}
+          label={"Friends"}
+          SubMenu={FriendsSubMenu}
+        />
+      )}
+
       {/* <div className="bg-white rounded-2xl w-full p-2 shadow-lg sm:p-6 mb-4">
         <div className="flex justify-between items-center">
           {" "}
@@ -83,7 +91,7 @@ function Friends() {
           handleClick={(e) => handleSendFriendRequest(e, friendInput)}
         />
       </form>
-      {allFriendRequests?.pending && (
+      {/* {allFriendRequests?.pending && (
         <div className="flex flex-col items-center">
           <h1 className="w-max">{`You have ${allFriendRequests.pending.length} Friend Request(s)`}</h1>
           <Button
@@ -99,7 +107,7 @@ function Friends() {
             </div>
           )}
         </div>
-      )}
+      )} */}
     </div>
   );
 }

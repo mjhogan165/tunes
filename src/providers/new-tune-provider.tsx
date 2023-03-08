@@ -13,13 +13,16 @@ import { searchTrack } from "../api-calls/search";
 import { useAuth, useRequiredUser } from "./auth-provider";
 
 interface NewTuneInterface {
-  handleClickPostNewTune: (e: React.SyntheticEvent, tuneObj: INewTune) => void;
+  handleClickPostNewTune: (
+    e: React.SyntheticEvent,
+    tuneObj: INewTune | null
+  ) => void;
   handleClickSearch: (e: React.SyntheticEvent, input: string) => void;
   searchResults: Array<INewTune> | null;
   handleClickTune: (newTune: INewTune) => void;
   songInput: string;
   setSongInput: React.Dispatch<React.SetStateAction<string>>;
-  selectedTune: INewTune;
+  selectedTune: INewTune | null;
   setCommentInput: React.Dispatch<React.SetStateAction<string>>;
   commentInput: string;
 }
@@ -27,7 +30,7 @@ const NewTuneContext = createContext({} as NewTuneInterface);
 
 function NewTuneProvider({ children }: childrenType) {
   const [token, setToken] = useState("");
-  const [selectedTune, setSelectedTune] = useState({} as INewTune);
+  const [selectedTune, setSelectedTune] = useState<INewTune | null>(null);
   const [songInput, setSongInput] = useState("");
   const [commentInput, setCommentInput] = useState("");
   const [searchResults, setSearchResults] = useState<null | Array<INewTune>>(
@@ -58,23 +61,27 @@ function NewTuneProvider({ children }: childrenType) {
 
   const handleClickPostNewTune = (
     e: React.SyntheticEvent,
-    tuneObj: INewTune
+    tuneObj: INewTune | null
   ) => {
     e.preventDefault();
-    createNewTune(tuneObj)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        return Promise.reject(response);
-      })
-      .catch((err) => console.error(err))
-      .finally(() => {
-        toast.success("Tune Posted!");
-        setSearchResults(null);
-        setSongInput("");
-        setCommentInput("");
-      });
+    if (tuneObj) {
+      createNewTune(tuneObj)
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          }
+          return Promise.reject(response);
+        })
+        .catch((err) => console.error(err))
+        .finally(() => {
+          toast.success("Tune Posted!");
+          setSearchResults(null);
+          setSongInput("");
+          setCommentInput("");
+        });
+    } else {
+      toast.error("Please select tune");
+    }
   };
 
   const handleClickSearch = async (e: React.SyntheticEvent, input: string) => {

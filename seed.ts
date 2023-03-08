@@ -18,7 +18,12 @@ function generateTunes() {
 function generateAccounts() {
   const inputArray = [];
   for (let i = 0; i < 10; i++) {
-    inputArray.push({ userName: `user${i}`, password: `pw${i}`, id: i });
+    inputArray.push({
+      userName: `user${i}`,
+      profileImg: faker.image.people(100, 100, true),
+      password: `pw${i}`,
+      id: i,
+    });
   }
   return inputArray;
 }

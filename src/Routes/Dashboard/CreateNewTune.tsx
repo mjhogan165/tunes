@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Button from "../../Componants/Button";
 import { useNewTune } from "../../providers/new-tune-provider";
 import SearchDropDown from "../../Componants/SearchDropDown";
+import FriendsDropBar from "./Friends/Componants/FriendsDropBar";
 function CreateNewTune() {
   const {
     handleClickPostNewTune,
@@ -13,7 +14,7 @@ function CreateNewTune() {
     commentInput,
     setCommentInput,
   } = useNewTune();
-
+  const selectedOrNull = selectedTune ? selectedTune : null;
   return (
     <div className="border-2 p-4 flex flex-col max-w-xl m-auto">
       <div>
@@ -48,14 +49,15 @@ function CreateNewTune() {
             btnType="submit"
             label="+ Post NewTune"
             handleClick={(e) =>
-              handleClickPostNewTune(e, {
-                artist: selectedTune.artist,
-                title: selectedTune.title,
-                id: selectedTune.id,
-                comment: commentInput,
-                createdBy: selectedTune.createdBy,
-                img: selectedTune.img,
-              })
+              // handleClickPostNewTune(e, {
+              //   artist: selectedTune.artist,
+              //   title: selectedTune.title,
+              //   id: selectedTune.id,
+              //   comment: commentInput,
+              //   createdBy: selectedTune.createdBy,
+              //   img: selectedTune.img,
+              // })
+              handleClickPostNewTune(e, selectedOrNull)
             }
           />
         </form>
