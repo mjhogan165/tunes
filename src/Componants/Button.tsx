@@ -2,7 +2,7 @@ import React from "react";
 type Button = {
   btnType: "button" | "submit" | "reset";
   label: string;
-  handleClick: (e: React.SyntheticEvent) => void;
+  handleClick: (e: React.SyntheticEvent, id?: number) => void;
 };
 function Button({ btnType, label, handleClick }: Button) {
   return (

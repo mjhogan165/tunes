@@ -56,9 +56,9 @@ function generateFriendRequests() {
     inputArray.push({
       status: status,
       //  sender: "user1",
-      sender: "user" + faker.random.numeric().toString(),
+      sender: "user" + i,
       // reciever: "user" + faker.random.numeric().toString(),
-      reciever: "user1",
+      reciever: "user" + (i + 1),
       // sender: faker.random.numeric().toString(),
       // reciever: faker.random.numeric().toString(),
       id: i,

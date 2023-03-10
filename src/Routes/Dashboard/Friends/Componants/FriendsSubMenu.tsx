@@ -4,11 +4,11 @@ import { useFriends } from "../../../../providers/friends-provider";
 import { returnFriend } from "../Friends";
 
 function FriendsSubMenu() {
-  const { allFriendRequests } = useFriends();
+  const { userFriendRequests } = useFriends();
   const user = useRequiredUser();
   return (
     <div>
-      {allFriendRequests?.accepted.map((request, index) => {
+      {userFriendRequests?.accepted.map((request, index) => {
         console.log("map");
         return <div key={index}>{returnFriend(request, user)}</div>;
       })}

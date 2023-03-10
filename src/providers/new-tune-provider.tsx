@@ -13,16 +13,13 @@ import { searchTrack } from "../api-calls/search";
 import { useAuth, useRequiredUser } from "./auth-provider";
 
 interface NewTuneInterface {
-  handleClickPostNewTune: (
-    e: React.SyntheticEvent,
-    tuneObj: INewTune | null
-  ) => void;
+  handleClickPostNewTune: (e: React.SyntheticEvent, tuneObj: INewTune) => void;
   handleClickSearch: (e: React.SyntheticEvent, input: string) => void;
   searchResults: Array<INewTune> | null;
   handleClickTune: (newTune: INewTune) => void;
   songInput: string;
   setSongInput: React.Dispatch<React.SetStateAction<string>>;
-  selectedTune: INewTune | null;
+  selectedTune: INewTune;
   setCommentInput: React.Dispatch<React.SetStateAction<string>>;
   commentInput: string;
 }
@@ -30,12 +27,15 @@ const NewTuneContext = createContext({} as NewTuneInterface);
 
 function NewTuneProvider({ children }: childrenType) {
   const [token, setToken] = useState("");
-  const [selectedTune, setSelectedTune] = useState<INewTune | null>(null);
+  const [selectedTune, setSelectedTune] = useState<INewTune>({
+    artist: "",
+    title: "",
+    id: "",
+    createdBy: "",
+  });
   const [songInput, setSongInput] = useState("");
   const [commentInput, setCommentInput] = useState("");
-  const [searchResults, setSearchResults] = useState<null | Array<INewTune>>(
-    null
-  );
+  const [searchResults, setSearchResults] = useState<INewTune[]>([]);
   console.log("Render: NewTunePRovider");
   const [refresh, setRefresh] = useState(false);
   const { userName } = useRequiredUser();
@@ -61,10 +61,11 @@ function NewTuneProvider({ children }: childrenType) {
 
   const handleClickPostNewTune = (
     e: React.SyntheticEvent,
-    tuneObj: INewTune | null
+    tuneObj: INewTune
   ) => {
     e.preventDefault();
     if (tuneObj) {
+      tuneObj.comment = commentInput;
       createNewTune(tuneObj)
         .then((response) => {
           if (response.ok) {
@@ -75,7 +76,7 @@ function NewTuneProvider({ children }: childrenType) {
         .catch((err) => console.error(err))
         .finally(() => {
           toast.success("Tune Posted!");
-          setSearchResults(null);
+          setSearchResults([]);
           setSongInput("");
           setCommentInput("");
         });

@@ -1,8 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import { useAuth } from "./providers/auth-provider";
-import NavLinkItem from "./Componants/NavLinkItem";
+import { useAuth } from "../../providers/auth-provider";
+import NavLinkItem from "../../Componants/NavLinkItem";
 import { useNavigate } from "react-router-dom";
 function NavList() {
   const activeClassName =
@@ -24,8 +24,6 @@ function NavList() {
     } else setShowMenuItems(false);
   };
   const profileImg = user?.profileImg ? user?.profileImg : "";
-  console.log(profileImg);
-  console.log(user);
 
   window.addEventListener("resize", handleResize);
   return (

@@ -9,70 +9,41 @@ import {
 import { getAccounts } from "../../../api-calls/get-accounts";
 import { useRequiredUser } from "../../../providers/auth-provider";
 import { User } from "../../../Interfaces/forms";
-import { getFriendRequests } from "../../../api-calls/get-friend-requests";
-import { IFriendRequestsSorted } from "../../../providers/friends-provider";
+import { IUserFriendRequests } from "../../../providers/friends-provider";
 import { NavLink } from "react-router-dom";
 import { toggle } from "../../../functions";
 import FriendsDropBar from "./Componants/FriendsDropBar";
 import FriendsSubMenu from "./Componants/FriendsSubMenu";
 import IncomingFriendRequest from "./Componants/IncomingFriendRequest";
 function Friends() {
-  const { handleSendFriendRequest, allFriendRequests } = useFriends();
+  const { handleSendFriendRequest, userFriendRequests } = useFriends();
   const [friendInput, setFriendInput] = useState("");
+  const [friendsList, setFriendsList] = useState<IFriendRequest[]>([]);
   const [showIncomingRequests, setShowIncomingRequests] = useState(false);
   const user = useRequiredUser();
-  console.log(allFriendRequests);
+  console.log({ allComponent: userFriendRequests });
+
+  // setFriendsList(userFriendRequests.accepted);
+  // const userFriendsList = userFriendRequests.accepted;
   return (
     <div className="rounded-lg bg-transparent container shadow-sm mx-auto border-2 flex flex-col items-center border-transparent max-w-full py-4 gap-6 font-normal content-container">
-      {allFriendRequests?.pending && (
-        <h1 className="w-max">{`You have ${allFriendRequests.pending.length} Friend Request(s)!`}</h1>
+      {userFriendRequests?.pending && (
+        <h1 className="w-max">{`You have ${userFriendRequests.pending.length} Friend Request(s)!`}</h1>
       )}
-      {allFriendRequests?.pending && (
+      {userFriendRequests.pending && (
         <FriendsDropBar
-          array={allFriendRequests.pending}
-          label={`(${allFriendRequests.pending.length}) Friend Requests`}
-          SubMenu={IncomingFriendRequest}
+          array={userFriendRequests.pending}
+          label={`(${userFriendRequests.pending.length}) Friend Requests`}
         />
       )}
-      {allFriendRequests && (
-        <FriendsDropBar
-          array={allFriendRequests.accepted}
-          label={"Friends"}
-          SubMenu={FriendsSubMenu}
-        />
-      )}
-
-      {/* <div className="bg-white rounded-2xl w-full p-2 shadow-lg sm:p-6 mb-4">
-        <div className="flex justify-between items-center">
-          {" "}
-          <h1 className="text-xl font-semibold my-4">Friends</h1>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-6 h-6 inline-block"
-            onClick={() =>
-              setShowFriendsListSubMenu(toggle(showFriendsListSubMenu))
-            }
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-            />
-          </svg>
+      {userFriendRequests && (
+        <div>
+          <h1>Your Friends:</h1>
+          {userFriendRequests.accepted.map((request, index) => {
+            return <div key={index}>{returnFriend(request, user)}</div>;
+          })}
         </div>
-        {showFriendsListSubMenu && (
-          <div>
-            {allFriendRequests?.accepted.map((request, index) => {
-              console.log("map");
-              return <div key={index}>{returnFriend(request, user)}</div>;
-            })}
-          </div>
-        )}
-      </div> */}
+      )}
       <form className="flex flex-col " action="">
         <h1 className="text-xl font-semibold my-4">Send Friend Request</h1>
         <UserInput

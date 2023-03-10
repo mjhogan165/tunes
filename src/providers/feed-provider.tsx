@@ -16,7 +16,7 @@ const FeedContext = createContext({} as FeedInterface);
 
 function FeedProvider({ children }: childrenType) {
   console.log("Render: FeedProvider");
-  const [tuneCards, setTuneCards] = useState([] as INewTune[]);
+  const [tuneCards, setTuneCards] = useState<INewTune[]>([]);
   const user = useRequiredUser();
   // const authUser = useAuthenticatedUser();
   // console.log(authUser);

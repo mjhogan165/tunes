@@ -5,9 +5,10 @@ import sendFriendRequest from "../api-calls/send-friend-request";
 import { useAuth } from "./auth-provider";
 import { findFriend } from "../functions";
 import { toast } from "react-hot-toast";
-import { getFriendRequests } from "../api-calls/get-friend-requests";
+import { getAllFriendRequests } from "../api-calls/get-friend-requests";
 import { User } from "../Interfaces/forms";
 import { useRequiredUser } from "./auth-provider";
+import patchFriendRequest from "../api-calls/patch-friend-request";
 
 // import { useAuthenticatedUser } from "../Routes/Dashboard/DashboardLayout";
 
@@ -15,59 +16,81 @@ const FriendsContext = createContext({} as FriendsContextInterface);
 
 interface FriendsContextInterface {
   handleSendFriendRequest: (e: React.SyntheticEvent, input: string) => void;
-  allFriendRequests: IFriendRequestsSorted | null;
+  userFriendRequests: IUserFriendRequests;
+  handleRequestResponse: (newStatus: string, request: IFriendRequest) => void;
 }
 
 export interface IFriendRequest {
   sender: string;
   reciever: string;
-  status: "accpeted" | "rejected" | "pending";
+  status: "accepted" | "rejected" | "pending";
   id?: number;
 }
-export interface IFriendRequestsSorted {
+export interface IUserFriendRequests {
   accepted: IFriendRequest[];
   rejected: IFriendRequest[];
   pending: IFriendRequest[];
 }
 function FriendsProvider({ children }: childrenType) {
   const { userName } = useRequiredUser();
+  const [refresh, setRefresh] = useState(true);
   console.log("Render: Friends Provider");
-  const [allFriendRequests, setAllFriendRequests] =
-    useState<IFriendRequestsSorted | null>(null);
-  // const [friendsList, setFriendsList] = useState<User[] | null>(null);
-  // const [incomingRequest, setIncomingRequest] = useState<IFriendRequest | null>(
-  //   null
-  // );
-
-  // let rejectedRequests
-  // let pendingRequests
+  const [userFriendRequests, setUserFriendRequests] =
+    useState<IUserFriendRequests>({
+      accepted: [],
+      rejected: [],
+      pending: [],
+    });
   useEffect(() => {
-    //get friend requests containing the user
     (async function sortFriendRequests() {
-      getFriendRequests()
+      getAllFriendRequests() //get All from API
         .then((response) => response.json())
-        .then((accounts) => {
-          const friendRequestObject: IFriendRequestsSorted = {
-            accepted: [],
-            rejected: [],
-            pending: [],
-          };
-          for (const acc of accounts) {
-            if (Object.values(acc).includes(userName)) {
-              if (acc.status === "accepted") {
-                friendRequestObject.accepted.push(acc);
-              } else if (acc.status === "rejected") {
-                friendRequestObject.rejected.push(acc);
-              } else {
-                friendRequestObject.pending.push(acc);
+        .then((requests) => {
+          console.log({ apiresponse: requests });
+          const userFriendRequests: IFriendRequest[] = requests.filter(
+            (request: IFriendRequest) =>
+              Object.values(request).includes(userName)
+          );
+          setUserFriendRequests({
+            accepted: userFriendRequests.filter(
+              (request) => request.status === "accepted"
+            ),
+            rejected: userFriendRequests.filter(
+              (request) => request.status === "rejected"
+            ),
+            pending: userFriendRequests.filter((request) => {
+              if (
+                request.status === "pending" &&
+                request.reciever === userName
+              ) {
+                return true;
               }
-            }
-          }
-          setAllFriendRequests(friendRequestObject);
+            }),
+          });
         });
     })();
-    // sort requests by status
-  }, []);
+  }, [refresh]);
+
+  const handleRequestResponse = (
+    newStatus: string,
+    request: IFriendRequest
+  ) => {
+    patchFriendRequest(newStatus, request)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+      })
+      .then(() => {
+        // setUserFriendRequests((prevState) => {
+        //   return {
+        //     ...prevState,
+        //     ["newStatus"]: prevState.accepted.push(parsed),
+        //   };
+        // });
+        setRefresh(!refresh);
+      });
+  };
 
   async function handleSendFriendRequest(
     e: React.SyntheticEvent,
@@ -98,7 +121,11 @@ function FriendsProvider({ children }: childrenType) {
   }
   return (
     <FriendsContext.Provider
-      value={{ handleSendFriendRequest, allFriendRequests }}
+      value={{
+        handleSendFriendRequest,
+        userFriendRequests,
+        handleRequestResponse,
+      }}
     >
       {children}
     </FriendsContext.Provider>

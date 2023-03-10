@@ -1,5 +1,5 @@
 import React from "react";
-import NavList from "../../NavList";
+import NavList from "./NavList";
 import { Outlet, useOutletContext } from "react-router-dom";
 import { useAuth, useRequiredUser } from "../../providers/auth-provider";
 import { Navigate } from "react-router-dom";

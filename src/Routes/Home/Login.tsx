@@ -46,8 +46,6 @@ function Login() {
           </p>
         </form>
       )}
-
-      <Outlet />
     </section>
   );
 }

@@ -2,7 +2,7 @@ import React from "react";
 import { useRef } from "react";
 import { INewTune } from "../Interfaces/feed";
 import { useNewTune } from "../providers/new-tune-provider";
-import DropDownItem from "./SearchSubMenu";
+import SearchSubMenu from "./SearchSubMenu";
 
 function SearchDropDown() {
   const { searchResults } = useNewTune();
@@ -10,7 +10,7 @@ function SearchDropDown() {
     return (
       <div className="rounded-sm max-w-md">
         {searchResults.map((result: INewTune, index) => {
-          return <DropDownItem key={index} result={result} />;
+          return <SearchSubMenu key={index} result={result} />;
         })}
       </div>
     );

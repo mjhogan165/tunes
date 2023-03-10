@@ -1,6 +1,6 @@
 import { API } from "../constants";
 
-export const getFriendRequests = function () {
+export const getAllFriendRequests = function () {
   return fetch(API + "friendRequests", {
     method: "GET",
   });

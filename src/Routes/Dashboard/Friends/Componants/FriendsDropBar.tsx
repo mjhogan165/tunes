@@ -5,13 +5,13 @@ import { useRequiredUser } from "../../../../providers/auth-provider";
 import { IFriendRequest } from "../../../../providers/friends-provider";
 import { returnFriend } from "../Friends";
 import Button from "../../../../Componants/Button";
+import IncomingFriendRequest from "./IncomingFriendRequest";
 
 type FriendsDropBarProps = {
-  array: IFriendRequest[] | null;
+  array: IFriendRequest[];
   label: string | JSX.Element;
-  SubMenu: JSX.Element;
 };
-function FriendsDropBar({ array, label, SubMenu }: FriendsDropBarProps) {
+function FriendsDropBar({ array, label }: FriendsDropBarProps) {
   const [showSubMenu, setShowSubMenu] = useState(false);
   return (
     <div className="bg-white rounded-2xl w-full p-2 shadow-lg sm:p-6 mb-4">
@@ -40,7 +40,7 @@ function FriendsDropBar({ array, label, SubMenu }: FriendsDropBarProps) {
           {array.map((request, index) => {
             console.log("map");
             return (
-              <div key={index}>{SubMenu}</div>
+              <IncomingFriendRequest request={request} key={index} />
 
               // <div
               //   key={index}
