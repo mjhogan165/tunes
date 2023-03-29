@@ -6,10 +6,12 @@ import { Toast } from "react-hot-toast";
 import { INewTune } from "../Interfaces/feed";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { User } from "../Interfaces/forms";
 // import { useAuthenticatedUser } from "../Routes/Dashboard/DashboardLayout";
 interface FeedInterface {
   tuneCards: INewTune[];
   setTuneCards: React.Dispatch<React.SetStateAction<INewTune[]>>;
+  user: User;
 }
 
 const FeedContext = createContext({} as FeedInterface);
@@ -30,7 +32,7 @@ function FeedProvider({ children }: childrenType) {
       });
   }, [user]);
   return (
-    <FeedContext.Provider value={{ tuneCards, setTuneCards }}>
+    <FeedContext.Provider value={{ tuneCards, setTuneCards, user }}>
       {children}
     </FeedContext.Provider>
   );

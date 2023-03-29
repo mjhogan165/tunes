@@ -7,7 +7,7 @@ import Button from "../../Componants/Button";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
-  const { user, handleClickLogin, isLoading } = useAuth();
+  const { handleClickLogin, isLoading } = useAuth();
   const [userNameInput, setUserNameInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
 
@@ -36,6 +36,7 @@ function Login() {
             handleClick={(event) => {
               handleClickLogin(event, userNameInput, passwordInput);
             }}
+            disabled={false}
           />
           <p>
             Not a member?

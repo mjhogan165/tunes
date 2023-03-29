@@ -92,7 +92,7 @@ function NewTuneProvider({ children }: childrenType) {
       .then((response) => {
         if (!response.ok) {
           toast.error(response.status + "Search failed: please try again");
-          setRefresh((prev) => !prev);
+          setRefresh(!refresh);
           throw new Error("API Error: Refresh Token");
         }
         // console.log({ response: response, status: response.statusText });

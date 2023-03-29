@@ -7,12 +7,13 @@ import { returnFriend } from "../Friends";
 import Button from "../../../../Componants/Button";
 import IncomingFriendRequest from "./IncomingFriendRequest";
 
-type FriendsDropBarProps = {
+type AllFriendsDropBarProps = {
   array: IFriendRequest[];
   label: string | JSX.Element;
 };
-function FriendsDropBar({ array, label }: FriendsDropBarProps) {
+function AllFriendsDropBar({ array, label }: AllFriendsDropBarProps) {
   const [showSubMenu, setShowSubMenu] = useState(false);
+  const user = useRequiredUser();
   return (
     <div className="w-full">
       <div className="flex justify-between items-center">
@@ -39,29 +40,7 @@ function FriendsDropBar({ array, label }: FriendsDropBarProps) {
         <div>
           {array.map((request, index) => {
             console.log("map");
-            return (
-              <IncomingFriendRequest request={request} key={index} />
-
-              // <div
-              //   key={index}
-              //   className="flex items-center justify-between box-border"
-              // >
-              //   <div>{returnFriend(request, user)}</div>
-              //   <div className="flex w-32">
-              //     <Button
-              //       btnType="button"
-              //       label="Accept"
-              //       handleClick={() => undefined}
-              //     />
-              //     <Button
-              //       btnType="button"
-              //       label="Decline"
-              //       handleClick={() => undefined}
-              //     />
-              //   </div>
-              // </div>
-              // <FriendRequest key={index} request={request} />
-            );
+            return <div key={index}>{returnFriend(request, user)}</div>;
           })}
         </div>
       )}
@@ -69,4 +48,4 @@ function FriendsDropBar({ array, label }: FriendsDropBarProps) {
   );
 }
 
-export default FriendsDropBar;
+export default AllFriendsDropBar;

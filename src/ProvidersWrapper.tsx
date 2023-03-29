@@ -7,11 +7,6 @@ import FriendsProvider from "./providers/friends-provider";
 import { Toaster } from "react-hot-toast";
 import { Navigate } from "react-router-dom";
 function ProvidersWrapper() {
-  const { user } = useAuth();
-  // if (!user) {
-  //   console.log({ user: user });
-  //   return <Navigate to="/login" replace />;
-  // } else
   console.log("Render: Provider wrapper");
   return (
     <AuthProvider>

@@ -15,7 +15,7 @@ function CreateNewTune() {
     setCommentInput,
   } = useNewTune();
   return (
-    <div className="border-2 p-4 flex flex-col max-w-xl m-auto">
+    <div className="bg-white rounded-2xl p-2 shadow-lg sm:p-6 mb-4 p-4 flex flex-col max-w-xl m-auto">
       <div>
         <form className="p-4 flex flex-col" action="">
           <label className="text-2xl py-4">Song:</label>
@@ -33,6 +33,7 @@ function CreateNewTune() {
             btnType="submit"
             label="Search"
             handleClick={(e) => handleClickSearch(e, songInput)}
+            disabled={false}
           />
 
           <label className="text-xl">Add a comment:</label>
@@ -48,6 +49,7 @@ function CreateNewTune() {
             btnType="submit"
             label="+ Post NewTune"
             handleClick={(e) => handleClickPostNewTune(e, selectedTune)}
+            disabled={false}
           />
         </form>
       </div>

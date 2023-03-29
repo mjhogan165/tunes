@@ -8,8 +8,8 @@ import { getTunes } from "../../api-calls/get-tunes";
 import { useLoaderData } from "react-router-dom";
 
 function Feed() {
-  const { tuneCards, setTuneCards } = useFeed();
-  const user = useRequiredUser();
+  const { tuneCards, setTuneCards, user } = useFeed();
+
   // const load = useLoaderData();
   // console.log(load);
 

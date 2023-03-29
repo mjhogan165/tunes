@@ -24,11 +24,13 @@ function IncomingFriendRequest({ request }: FriendRequestProps) {
             btnType={"submit"}
             label={"Accept"}
             handleClick={() => handleRequestResponse("accepted", request)}
+            disabled={false}
           />
           <Button
             btnType={"submit"}
             label={"Reject"}
             handleClick={() => console.log("void")}
+            disabled={false}
           />
         </div>
       </div>

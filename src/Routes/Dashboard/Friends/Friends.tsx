@@ -13,21 +13,26 @@ import { IUserFriendRequests } from "../../../providers/friends-provider";
 import { NavLink } from "react-router-dom";
 import { toggle } from "../../../functions";
 import FriendsDropBar from "./Componants/FriendsDropBar";
-import FriendsSubMenu from "./Componants/FriendsSubMenu";
 import IncomingFriendRequest from "./Componants/IncomingFriendRequest";
+import CheckMarkIcon from "../../../Componants/CheckMarkIcon";
+import AllFriendsDropBar from "./Componants/AllFriendsDropBar";
 function Friends() {
-  const { handleSendFriendRequest, userFriendRequests } = useFriends();
+  const {
+    handleSendFriendRequest,
+    userFriendRequests,
+    handleSearchFriend,
+    selectedSearchFriend,
+    user,
+  } = useFriends();
   const [friendInput, setFriendInput] = useState("");
-  const [friendsList, setFriendsList] = useState<IFriendRequest[]>([]);
+  const [friendsList, setFriendsList] = useState<IFriendRequest[]>(
+    userFriendRequests.accepted
+  );
   const [showIncomingRequests, setShowIncomingRequests] = useState(false);
-  const user = useRequiredUser();
-  console.log({ allComponent: userFriendRequests });
-
-  // setFriendsList(userFriendRequests.accepted);
-  // const userFriendsList = userFriendRequests.accepted;
+  const isDisabled = selectedSearchFriend ? false : true;
   return (
-    <div className="rounded-lg bg-transparent container shadow-sm mx-auto border-2 flex flex-col items-center border-transparent max-w-full py-4 gap-6 font-normal content-container">
-      {userFriendRequests?.pending && (
+    <div className="container bg-white rounded-2xl p-2 shadow-lg sm:p-6 mb-4 mx-auto flex flex-col items-center content-container">
+      {userFriendRequests.pending && (
         <h1 className="w-max">{`You have ${userFriendRequests.pending.length} Friend Request(s)!`}</h1>
       )}
       {userFriendRequests.pending && (
@@ -36,16 +41,8 @@ function Friends() {
           label={`(${userFriendRequests.pending.length}) Friend Requests`}
         />
       )}
-      {userFriendRequests && (
-        <div>
-          <h1>Your Friends:</h1>
-          {userFriendRequests.accepted.map((request, index) => {
-            return <div key={index}>{returnFriend(request, user)}</div>;
-          })}
-        </div>
-      )}
-      <form className="flex flex-col " action="">
-        <h1 className="text-xl font-semibold my-4">Send Friend Request</h1>
+      <form className="flex flex-col items-center " action="">
+        <h1 className="text-xl font-semibold my-2">Search for Friends</h1>
         <UserInput
           setInput={setFriendInput}
           name="sendFriendRequestInput"
@@ -53,15 +50,44 @@ function Friends() {
           id="sendFriendRequestInput"
           label="Enter Username (i.e user1)"
         />
-        <button
-          onClick={(e) => handleSendFriendRequest(e, friendInput)}
-        ></button>
-        <Button
-          btnType="submit"
-          label="Find Friend"
-          handleClick={(e) => handleSendFriendRequest(e, friendInput)}
-        />
+        {selectedSearchFriend && (
+          <div className="flex">
+            <CheckMarkIcon />
+            <h1>{`${friendInput} `}</h1>
+          </div>
+        )}
+        <div className="flex">
+          <Button
+            btnType="submit"
+            label="Search"
+            handleClick={(e) => handleSearchFriend(e, friendInput)}
+            disabled={false}
+          />
+          <Button
+            btnType="submit"
+            label="Send Request"
+            handleClick={(e) => handleSendFriendRequest(e)}
+            disabled={isDisabled}
+          />
+        </div>
       </form>
+      <AllFriendsDropBar
+        array={userFriendRequests.accepted}
+        label={`(${userFriendRequests.accepted.length}) All`}
+      />
+      <FriendsDropBar
+        array={userFriendRequests.pending}
+        label={`(${userFriendRequests.pending.length}) Pending`}
+      />
+      {/* {userFriendRequests && (
+        <div>
+          <h1>Your Friends:</h1>
+          {userFriendRequests.accepted.map((request, index) => {
+            return <div key={index}>{returnFriend(request, user)}</div>;
+          })}
+        </div>
+      )} */}
+
       {/* {allFriendRequests?.pending && (
         <div className="flex flex-col items-center">
           <h1 className="w-max">{`You have ${allFriendRequests.pending.length} Friend Request(s)`}</h1>

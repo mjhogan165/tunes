@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import { useAuth } from "../../providers/auth-provider";
+import { useAuth, useRequiredUser } from "../../providers/auth-provider";
 import NavLinkItem from "../../Componants/NavLinkItem";
 import { useNavigate } from "react-router-dom";
 function NavList() {
@@ -9,10 +9,10 @@ function NavList() {
     "underline decoration-indigo-400 font-semibold decoration-4 underline-offset-4";
   const activeClassNameSpecial =
     "text-xl decoration-indigo-400 decoration-4 font-medium underline-offset-4 underline";
-  const { logout, user } = useAuth();
+  const { logout } = useAuth();
   const [showMenuItems, setShowMenuItems] = useState(false);
   const [subMenu, setSubMenu] = useState();
-
+  const user = useRequiredUser();
   useEffect(() => {
     console.log("Render: Navlist");
     handleResize();
@@ -23,11 +23,11 @@ function NavList() {
       setShowMenuItems(true);
     } else setShowMenuItems(false);
   };
-  const profileImg = user?.profileImg ? user?.profileImg : "";
+  const profileImg = user.profileImg ? user.profileImg : "";
 
   window.addEventListener("resize", handleResize);
   return (
-    <nav className="mb-1">
+    <nav className=" mb-1">
       <div className="min-h-20 flex items-center justify-between md:justify-between my-2 text-right">
         <NavLink to="feed">
           <div className="w-14 h-14 object-cover overflow-hidden rounded-full">

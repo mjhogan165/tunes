@@ -1,1 +1,226 @@
-{"accounts":[{"userName":"user0","profileImg":"https://loremflickr.com/100/100/people?lock=22537","password":"pw0","id":0},{"userName":"user1","profileImg":"https://loremflickr.com/100/100/people?lock=37446","password":"pw1","id":1},{"userName":"user2","profileImg":"https://loremflickr.com/100/100/people?lock=43529","password":"pw2","id":2},{"userName":"user3","profileImg":"https://loremflickr.com/100/100/people?lock=70075","password":"pw3","id":3},{"userName":"user4","profileImg":"https://loremflickr.com/100/100/people?lock=69385","password":"pw4","id":4},{"userName":"user5","profileImg":"https://loremflickr.com/100/100/people?lock=51503","password":"pw5","id":5},{"userName":"user6","profileImg":"https://loremflickr.com/100/100/people?lock=18814","password":"pw6","id":6},{"userName":"user7","profileImg":"https://loremflickr.com/100/100/people?lock=27640","password":"pw7","id":7},{"userName":"user8","profileImg":"https://loremflickr.com/100/100/people?lock=68513","password":"pw8","id":8},{"userName":"user9","profileImg":"https://loremflickr.com/100/100/people?lock=25688","password":"pw9","id":9}],"tunes":[{"artist":"Jo Stage And Screen","title":"Travellin' Band","img":"https://loremflickr.com/100/100/abstract?lock=30115","createdBy":"user9","comment":"Nam expedita eum quidem a.\nConsequatur laudantium porro iusto culpa doloremque aspernatur tempore possimus.","id":0},{"artist":"Reynold Reggae","title":"Let's Groove","img":"https://loremflickr.com/100/100/abstract?lock=10846","createdBy":"user9","comment":"Pariatur perspiciatis impedit totam quas corrupti eveniet eveniet.\nIusto magnam sapiente laudantium atque nemo nisi aliquam placeat.","id":1}],"friendRequests":[{"status":"accepted","sender":"user0","reciever":"user1","id":0},{"status":"accepted","sender":"user1","reciever":"user2","id":1},{"status":"rejected","sender":"user2","reciever":"user3","id":2},{"status":"rejected","sender":"user3","reciever":"user4","id":3},{"status":"pending","sender":"user4","reciever":"user5","id":4},{"status":"pending","sender":"user5","reciever":"user6","id":5},{"status":"pending","sender":"user6","reciever":"user7","id":6},{"status":"pending","sender":"user7","reciever":"user8","id":7},{"status":"pending","sender":"user8","reciever":"user9","id":8},{"status":"pending","sender":"user9","reciever":"user10","id":9}]}
+{
+  "accounts": [
+    {
+      "userName": "user0",
+      "profileImg": "https://loremflickr.com/100/100/people?lock=22537",
+      "password": "pw0",
+      "id": 0
+    },
+    {
+      "userName": "user1",
+      "profileImg": "https://loremflickr.com/100/100/people?lock=37446",
+      "password": "pw1",
+      "id": 1
+    },
+    {
+      "userName": "user2",
+      "profileImg": "https://loremflickr.com/100/100/people?lock=43529",
+      "password": "pw2",
+      "id": 2
+    },
+    {
+      "userName": "user3",
+      "profileImg": "https://loremflickr.com/100/100/people?lock=70075",
+      "password": "pw3",
+      "id": 3
+    },
+    {
+      "userName": "user4",
+      "profileImg": "https://loremflickr.com/100/100/people?lock=69385",
+      "password": "pw4",
+      "id": 4
+    },
+    {
+      "userName": "user5",
+      "profileImg": "https://loremflickr.com/100/100/people?lock=51503",
+      "password": "pw5",
+      "id": 5
+    },
+    {
+      "userName": "user6",
+      "profileImg": "https://loremflickr.com/100/100/people?lock=18814",
+      "password": "pw6",
+      "id": 6
+    },
+    {
+      "userName": "user7",
+      "profileImg": "https://loremflickr.com/100/100/people?lock=27640",
+      "password": "pw7",
+      "id": 7
+    },
+    {
+      "userName": "user8",
+      "profileImg": "https://loremflickr.com/100/100/people?lock=68513",
+      "password": "pw8",
+      "id": 8
+    },
+    {
+      "userName": "user9",
+      "profileImg": "https://loremflickr.com/100/100/people?lock=25688",
+      "password": "pw9",
+      "id": 9
+    }
+  ],
+  "tunes": [
+    {
+      "artist": "Jo Stage And Screen",
+      "title": "Travellin' Band",
+      "img": "https://loremflickr.com/100/100/abstract?lock=30115",
+      "createdBy": "user9",
+      "comment": "Nam expedita eum quidem a.\nConsequatur laudantium porro iusto culpa doloremque aspernatur tempore possimus.",
+      "id": 0
+    },
+    {
+      "artist": "Reynold Reggae",
+      "title": "Let's Groove",
+      "img": "https://loremflickr.com/100/100/abstract?lock=10846",
+      "createdBy": "user9",
+      "comment": "Pariatur perspiciatis impedit totam quas corrupti eveniet eveniet.\nIusto magnam sapiente laudantium atque nemo nisi aliquam placeat.",
+      "id": 1
+    },
+    {
+      "id": "6TNkJPyBho8mQE6IziibHu",
+      "artist": "Nardo Wick",
+      "title": "Wicked Witch",
+      "comment": "this song sucks bro",
+      "createdBy": "user7",
+      "img": "https://i.scdn.co/image/ab67616d0000b27304791a385c035c1642c80b8f"
+    },
+    {
+      "id": "47BBI51FKFwOMlIiX6m8ya",
+      "artist": "Backstreet Boys",
+      "title": "I Want It That Way",
+      "comment": "yea yeah",
+      "createdBy": "user3",
+      "img": "https://i.scdn.co/image/ab67616d0000b2732160c02bc56f192df0f4986b"
+    }
+  ],
+  "friendRequests": [
+    {
+      "status": "accepted",
+      "sender": "user0",
+      "reciever": "user1",
+      "id": 0
+    },
+    {
+      "status": "accepted",
+      "sender": "user1",
+      "reciever": "user2",
+      "id": 1
+    },
+    {
+      "status": "rejected",
+      "sender": "user2",
+      "reciever": "user3",
+      "id": 2
+    },
+    {
+      "status": "rejected",
+      "sender": "user3",
+      "reciever": "user4",
+      "id": 3
+    },
+    {
+      "status": "pending",
+      "sender": "user4",
+      "reciever": "user5",
+      "id": 4
+    },
+    {
+      "status": "pending",
+      "sender": "user5",
+      "reciever": "user6",
+      "id": 5
+    },
+    {
+      "status": "accepted",
+      "sender": "user6",
+      "reciever": "user7",
+      "id": 6
+    },
+    {
+      "status": "pending",
+      "sender": "user7",
+      "reciever": "user8",
+      "id": 7
+    },
+    {
+      "status": "pending",
+      "sender": "user8",
+      "reciever": "user9",
+      "id": 8
+    },
+    {
+      "status": "pending",
+      "sender": "user9",
+      "reciever": "user10",
+      "id": 9
+    },
+    {
+      "sender": "user0",
+      "reciever": "user7",
+      "status": "accepted",
+      "id": 10
+    },
+    {
+      "sender": "user0",
+      "reciever": "user6",
+      "status": "accepted",
+      "id": 11
+    },
+    {
+      "sender": "user0",
+      "reciever": "user3",
+      "status": "accepted",
+      "id": 12
+    },
+    {
+      "sender": "user0",
+      "reciever": "user3",
+      "status": "accepted",
+      "id": 13
+    },
+    {
+      "sender": "user3",
+      "reciever": "user3",
+      "status": "accepted",
+      "id": 14
+    },
+    {
+      "sender": "user3",
+      "reciever": "user4",
+      "status": "pending",
+      "id": 15
+    },
+    {
+      "sender": "user3",
+      "reciever": "user2",
+      "status": "pending",
+      "id": 16
+    },
+    {
+      "sender": "user3",
+      "reciever": "user6",
+      "status": "pending",
+      "id": 17
+    },
+    {
+      "sender": "user3",
+      "reciever": "user3",
+      "status": "accepted",
+      "id": 18
+    },
+    {
+      "sender": "user3",
+      "reciever": "user3",
+      "status": "pending",
+      "id": 19
+    },
+    {
+      "sender": "user0",
+      "reciever": "user1",
+      "status": "accepted",
+      "id": 20
+    }
+  ]
+}

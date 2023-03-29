@@ -120,7 +120,6 @@ export const useAuth = () => {
 export const useRequiredUser = () => {
   const { user } = useAuth();
   if (!user) {
-    // return <Navigate to="/login" replace />;
     throw new Error("user not logged in error");
   }
   return user;

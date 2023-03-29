@@ -8,7 +8,6 @@ function HomePage() {
   if (user) {
     return <Navigate to="/dashboard" replace />;
   } else return <Navigate to="/" replace />;
-  return <div>cunt</div>;
 }
 
 export default HomePage;
