@@ -12,7 +12,7 @@ import { User } from "../../../Interfaces/forms";
 import { IUserFriendRequests } from "../../../providers/friends-provider";
 import { NavLink } from "react-router-dom";
 import { toggle } from "../../../functions";
-import FriendsDropBar from "./Componants/FriendsDropBar";
+import FriendRequestsDropBar from "./Componants/FriendRequestsDropBar";
 import IncomingFriendRequest from "./Componants/IncomingFriendRequest";
 import CheckMarkIcon from "../../../Componants/CheckMarkIcon";
 import AllFriendsDropBar from "./Componants/AllFriendsDropBar";
@@ -25,18 +25,18 @@ function Friends() {
     user,
   } = useFriends();
   const [friendInput, setFriendInput] = useState("");
-  const [friendsList, setFriendsList] = useState<IFriendRequest[]>(
-    userFriendRequests.accepted
-  );
-  const [showIncomingRequests, setShowIncomingRequests] = useState(false);
-  const isDisabled = selectedSearchFriend ? false : true;
+  // const [friendsList, setFriendsList] = useState<IFriendRequest[]>(
+  //   userFriendRequests.accepted
+  // );
+
+  const isBtnDisabled = selectedSearchFriend ? false : true;
   return (
     <div className="container bg-white rounded-2xl p-2 shadow-lg sm:p-6 mb-4 mx-auto flex flex-col items-center content-container">
-      {userFriendRequests.pending && (
+      {userFriendRequests.pending.length > 0 && (
         <h1 className="w-max">{`You have ${userFriendRequests.pending.length} Friend Request(s)!`}</h1>
       )}
       {userFriendRequests.pending && (
-        <FriendsDropBar
+        <FriendRequestsDropBar
           array={userFriendRequests.pending}
           label={`(${userFriendRequests.pending.length}) Friend Requests`}
         />
@@ -53,7 +53,7 @@ function Friends() {
         {selectedSearchFriend && (
           <div className="flex">
             <CheckMarkIcon />
-            <h1>{`${friendInput} `}</h1>
+            <h1>{`${selectedSearchFriend.userName} `}</h1>
           </div>
         )}
         <div className="flex">
@@ -67,7 +67,7 @@ function Friends() {
             btnType="submit"
             label="Send Request"
             handleClick={(e) => handleSendFriendRequest(e)}
-            disabled={isDisabled}
+            disabled={isBtnDisabled}
           />
         </div>
       </form>
@@ -75,36 +75,10 @@ function Friends() {
         array={userFriendRequests.accepted}
         label={`(${userFriendRequests.accepted.length}) All`}
       />
-      <FriendsDropBar
+      <FriendRequestsDropBar
         array={userFriendRequests.pending}
         label={`(${userFriendRequests.pending.length}) Pending`}
       />
-      {/* {userFriendRequests && (
-        <div>
-          <h1>Your Friends:</h1>
-          {userFriendRequests.accepted.map((request, index) => {
-            return <div key={index}>{returnFriend(request, user)}</div>;
-          })}
-        </div>
-      )} */}
-
-      {/* {allFriendRequests?.pending && (
-        <div className="flex flex-col items-center">
-          <h1 className="w-max">{`You have ${allFriendRequests.pending.length} Friend Request(s)`}</h1>
-          <Button
-            btnType="button"
-            label={"Click Here"}
-            handleClick={() => setShowIncomingRequests(true)}
-          />
-          {showIncomingRequests && (
-            <div className="">
-              {allFriendRequests?.pending.map((request, index) => {
-                return <FriendRequest key={index} request={request} />;
-              })}
-            </div>
-          )}
-        </div>
-      )} */}
     </div>
   );
 }

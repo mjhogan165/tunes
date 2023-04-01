@@ -2,7 +2,6 @@ import React, { useContext, useEffect } from "react";
 import { childrenType } from "../Interfaces/global";
 import { useState, createContext } from "react";
 import sendFriendRequest from "../api-calls/send-friend-request";
-import { useAuth } from "./auth-provider";
 import { findFriend } from "../functions";
 import { toast } from "react-hot-toast";
 import { getAllFriendRequests } from "../api-calls/get-friend-requests";
@@ -10,9 +9,9 @@ import { User } from "../Interfaces/forms";
 import { useRequiredUser } from "./auth-provider";
 import patchFriendRequest from "../api-calls/patch-friend-request";
 
-const FriendsContext = createContext({} as FriendsContextInterface);
+const FriendsContext = createContext({} as IFriendsContext);
 
-interface FriendsContextInterface {
+interface IFriendsContext {
   handleSendFriendRequest: (e: React.SyntheticEvent) => void;
   handleSearchFriend: (e: React.SyntheticEvent, input: string) => void;
   selectedSearchFriend: User | null;
@@ -73,6 +72,7 @@ function FriendsProvider({ children }: childrenType) {
   useEffect(() => {
     sortFriendRequests();
   }, []);
+
   const handleRequestResponse = (
     newStatus: string,
     request: IFriendRequest
@@ -93,7 +93,6 @@ function FriendsProvider({ children }: childrenType) {
     const result = await findFriend(input);
     if (!result) {
       toast.error("user not found");
-
       setSelectedSearchFriend(null);
     } else {
       toast.success("user found!");
@@ -103,16 +102,6 @@ function FriendsProvider({ children }: childrenType) {
 
   async function handleSendFriendRequest(e: React.SyntheticEvent) {
     e.preventDefault();
-    // const result = await findFriend(input.toLowerCase());
-    // console.log(result);
-    // if (!result) {
-    //   toast.error("user not found");
-    // } else {
-    // sendFriendRequest({
-    //   status: "pending",
-    //   sender: userName,
-    //   reciever: result.userName,
-    // })
     if (selectedSearchFriend) {
       sendFriendRequest({
         status: "pending",
@@ -124,12 +113,15 @@ function FriendsProvider({ children }: childrenType) {
             toast.error("Failed to send request");
           }
         })
+        .then(() => {
+          toast.success("request sent!");
+          setSelectedSearchFriend(null);
+        })
         .catch((err) => {
           toast.error(`${err}`);
-        })
-        .finally(() => toast.success("request sent!"));
+        });
     } else {
-      toast.error("Bro you gotta search for a friend first");
+      toast.error("Search for a friend first");
     }
   }
   return (

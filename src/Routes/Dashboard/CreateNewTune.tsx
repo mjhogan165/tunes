@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Button from "../../Componants/Button";
 import { useNewTune } from "../../providers/new-tune-provider";
 import SearchDropDown from "../../Componants/SearchDropDown";
-import FriendsDropBar from "./Friends/Componants/FriendsDropBar";
+import FriendsDropBar from "./Friends/Componants/FriendRequestsDropBar";
 function CreateNewTune() {
   const {
     handleClickPostNewTune,

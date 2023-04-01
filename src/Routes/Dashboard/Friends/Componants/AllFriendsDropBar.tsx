@@ -39,7 +39,6 @@ function AllFriendsDropBar({ array, label }: AllFriendsDropBarProps) {
       {showSubMenu && array && (
         <div>
           {array.map((request, index) => {
-            console.log("map");
             return <div key={index}>{returnFriend(request, user)}</div>;
           })}
         </div>

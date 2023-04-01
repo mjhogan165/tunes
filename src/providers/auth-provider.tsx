@@ -4,7 +4,6 @@ import { CreateUser, User } from "../Interfaces/forms";
 import { createAccount } from "../api-calls/create-account";
 import toast from "react-hot-toast";
 import { childrenType } from "../Interfaces/global";
-import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 interface AuthInterface {

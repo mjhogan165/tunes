@@ -1,6 +1,46 @@
 import { faker } from "@faker-js/faker";
 import { writeFileSync } from "fs";
-
+interface IRequest {
+  sender: string;
+  reciever: string;
+  id?: number;
+  status?: string;
+}
+function generateUniqueNumberPair() {
+  const numOne = faker.random
+    .numeric(1, { allowLeadingZeros: true })
+    .toString();
+  let numTwo;
+  do {
+    numTwo = faker.random.numeric(1, { allowLeadingZeros: true }).toString();
+  } while (numTwo === numOne);
+  return [numOne, numTwo];
+}
+function isExsistingRequest(
+  sender: string,
+  reciever: string,
+  list: IRequest[] | []
+) {
+  for (const request of list) {
+    if (sender === request.reciever && reciever === request.sender) {
+      console.log({
+        type: "reverse",
+        sender: sender,
+        reciever: reciever,
+        duplicate: request,
+      });
+      return true;
+    } else if (sender === request.sender && reciever === request.reciever) {
+      console.log({
+        type: "exact match",
+        sender: sender,
+        reciever: reciever,
+        duplicate: request,
+      });
+      return true;
+    }
+  }
+}
 function generateTunes() {
   const inputArray = [];
   for (let i = 0; i < 2; i++) {
@@ -28,43 +68,45 @@ function generateAccounts() {
   return inputArray;
 }
 function generateFriendRequests() {
-  const inputArray = [];
-  for (let i = 0; i < 10; i++) {
+  const requestList = [];
+  for (let i = 0; i < 100; i++) {
     let status = "";
-    // if (i % 2 === 0) {
-    //   status = "accepted";
-    // } else if (i === 5 || i === 9) {
-    //   status = "rejected";
-    // } else status = "pending";
     switch (true) {
-      case i === 0 || i === 1:
+      case i < 50:
         status = "accepted";
-
         break;
-      case i === 2 || i === 3:
+      case i < 60:
         status = "rejected";
         break;
-      case i === 4 || i === 5:
-        status = "pending";
-        break;
-
       default:
         status = "pending";
         break;
     }
 
-    inputArray.push({
-      status: status,
-      //  sender: "user1",
-      sender: "user" + i,
-      // reciever: "user" + faker.random.numeric().toString(),
-      reciever: "user" + (i + 1),
-      // sender: faker.random.numeric().toString(),
-      // reciever: faker.random.numeric().toString(),
-      id: i,
-    });
+    const numberPair = generateUniqueNumberPair();
+    const sender = "user" + numberPair[0];
+    const reciever = "user" + numberPair[1];
+    const isDuplicate = isExsistingRequest(sender, reciever, requestList);
+    if (!isDuplicate) {
+      const request = {
+        status: status,
+        sender: sender,
+        reciever: reciever,
+        id: i,
+      };
+      requestList.push(request);
+    } else {
+      console.log({
+        type: "OMITTED",
+        status: status,
+        sender: sender,
+        reciever: reciever,
+        id: i,
+      });
+    }
   }
-  return inputArray;
+  console.log(requestList);
+  return requestList;
 }
 
 const data = {

@@ -11,7 +11,7 @@ type FriendsDropBarProps = {
   array: IFriendRequest[];
   label: string | JSX.Element;
 };
-function FriendsDropBar({ array, label }: FriendsDropBarProps) {
+function FriendRequestsDropBar({ array, label }: FriendsDropBarProps) {
   const [showSubMenu, setShowSubMenu] = useState(false);
   return (
     <div className="w-full">
@@ -69,4 +69,4 @@ function FriendsDropBar({ array, label }: FriendsDropBarProps) {
   );
 }
 
-export default FriendsDropBar;
+export default FriendRequestsDropBar;
