@@ -1,5 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { writeFileSync } from "fs";
+import { IFriendRequest } from "./src/providers/friends-provider";
 interface IRequest {
   sender: string;
   reciever: string;
@@ -16,31 +17,7 @@ function generateUniqueNumberPair() {
   } while (numTwo === numOne);
   return [numOne, numTwo];
 }
-function isExsistingRequest(
-  sender: string,
-  reciever: string,
-  list: IRequest[] | []
-) {
-  for (const request of list) {
-    if (sender === request.reciever && reciever === request.sender) {
-      console.log({
-        type: "reverse",
-        sender: sender,
-        reciever: reciever,
-        duplicate: request,
-      });
-      return true;
-    } else if (sender === request.sender && reciever === request.reciever) {
-      console.log({
-        type: "exact match",
-        sender: sender,
-        reciever: reciever,
-        duplicate: request,
-      });
-      return true;
-    }
-  }
-}
+
 function generateTunes() {
   const inputArray = [];
   for (let i = 0; i < 2; i++) {
@@ -67,15 +44,40 @@ function generateAccounts() {
   }
   return inputArray;
 }
+
+function generateUniqueNames(checkArray: IRequest[]) {
+  let alreadySent = [];
+  let numberPair = [];
+  let sender = "";
+  let reciever = "";
+  let breakInfiniteLoop = 0;
+  do {
+    numberPair = generateUniqueNumberPair();
+    sender = "user" + numberPair[0];
+    reciever = "user" + numberPair[1];
+    alreadySent = checkArray.filter(function (request) {
+      if (sender == request.sender && reciever === request.reciever) {
+        return true;
+      } else return false;
+    });
+    breakInfiniteLoop++;
+    if (breakInfiniteLoop > 5) {
+      break;
+    }
+  } while (alreadySent.length > 0);
+
+  return { sender: sender, reciever: reciever };
+}
+
 function generateFriendRequests() {
-  const requestList = [];
-  for (let i = 0; i < 100; i++) {
+  const requestArray: IRequest[] = [];
+  for (let i = 0; i < 50; i++) {
     let status = "";
     switch (true) {
-      case i < 50:
+      case i < 25:
         status = "accepted";
         break;
-      case i < 60:
+      case i < 30:
         status = "rejected";
         break;
       default:
@@ -83,30 +85,18 @@ function generateFriendRequests() {
         break;
     }
 
-    const numberPair = generateUniqueNumberPair();
-    const sender = "user" + numberPair[0];
-    const reciever = "user" + numberPair[1];
-    const isDuplicate = isExsistingRequest(sender, reciever, requestList);
-    if (!isDuplicate) {
-      const request = {
-        status: status,
-        sender: sender,
-        reciever: reciever,
-        id: i,
-      };
-      requestList.push(request);
-    } else {
-      console.log({
-        type: "OMITTED",
-        status: status,
-        sender: sender,
-        reciever: reciever,
-        id: i,
-      });
-    }
+    const uniqueNames = generateUniqueNames(requestArray);
+
+    const request = {
+      status: status,
+      sender: uniqueNames.sender,
+      reciever: uniqueNames.reciever,
+      id: i,
+    };
+    requestArray.push(request);
   }
-  console.log(requestList);
-  return requestList;
+  console.log({ requestArray: requestArray, lngth: requestArray.length });
+  return requestArray;
 }
 
 const data = {
