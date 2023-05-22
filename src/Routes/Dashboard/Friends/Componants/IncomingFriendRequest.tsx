@@ -19,7 +19,7 @@ function IncomingFriendRequest({ request }: FriendRequestProps) {
     <div>
       <div className="rounded-lg bg-white container shadow-sm mx-auto text-center mb-4 border-2 flex flex-col border-transparent max-w-lg p-6 gap-6 font-normal">
         <h1>{`${request.sender} wants to be your friend`}</h1>
-        <div className="flex">
+        <div className="flex justify-center">
           <Button
             btnType={"submit"}
             label={"Accept"}
