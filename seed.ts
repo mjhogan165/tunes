@@ -71,7 +71,21 @@ function generateUniqueReceiver(sender: User) {
     return receiver;
   } else return sender;
 }
-
+const checkDuplicates = (
+  requests: IFriendRequest[],
+  sender: string,
+  receiver: string
+) => {
+  return requests.find((request) => {
+    const values = Object.values(request);
+    console.log(values);
+    const isDupe = values.includes(sender) && values.includes(receiver);
+    if (isDupe) {
+      console.log({ msg: "DUPE FOUND", dupe: request });
+    }
+    return isDupe;
+  });
+};
 function generateFriendRequests(accounts: User[], requestsPerPerson: number) {
   const requestArray: IFriendRequest[] = [];
   for (const account of accounts) {
@@ -81,18 +95,26 @@ function generateFriendRequests(accounts: User[], requestsPerPerson: number) {
       eligibleReceivers.push(receiver);
     }
     for (let index = 0; index < requestsPerPerson; index++) {
-      requestArray.push(
-        createRequest({
-          status: generateRandomStatus(),
-          sender: account.userName,
-          receiver: eligibleReceivers[index].userName,
-        }) as IFriendRequest
-      );
+      const sender = account.userName;
+      const receiver = eligibleReceivers[index].userName;
+      const request = createRequest({
+        status: generateRandomStatus(),
+        sender: sender,
+        receiver: receiver,
+      }) as IFriendRequest;
+      if (requestArray.length > 0) {
+        console.log("IS > 0");
+        if (!checkDuplicates(requestArray, sender, receiver)) {
+          requestArray.push(request);
+        }
+      } else requestArray.push(request);
     }
+
     //************** */
     //you should go through this project and pass around the User object instead of the userName string that way you can easily get anything you want from it++++++ */
     //************** */
   }
+
   console.log(requestArray);
   console.log(requestArray.length);
   return requestArray;
