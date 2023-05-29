@@ -11,7 +11,6 @@ function Feed() {
   const { tuneCards, setTuneCards, user } = useFeed();
 
   // const load = useLoaderData();
-  // console.log(load);
 
   useEffect(() => {
     getTunes()
@@ -19,9 +18,14 @@ function Feed() {
         if (!response.ok) {
           console.log("ERROR IN FEED");
           throw new Response("Bad Request", { status: 400 });
-        } else return response.json();
+        } else {
+          console.log("Feed API call");
+          return response.json();
+        }
       })
-      .then((parsedArray) => setTuneCards(parsedArray));
+      .then((parsedArray) => {
+        setTuneCards(parsedArray);
+      });
   }, [user]);
   return (
     <div className="m-auto content-container">

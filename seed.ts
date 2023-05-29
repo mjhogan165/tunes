@@ -1,22 +1,7 @@
 import { faker } from "@faker-js/faker";
 import { writeFileSync } from "fs";
 import { IFriendRequest } from "./src/providers/friends-provider";
-interface IRequest {
-  sender: string;
-  reciever: string;
-  id?: number;
-  status?: string;
-}
-function generateUniqueNumberPair() {
-  const numOne = faker.random
-    .numeric(1, { allowLeadingZeros: true })
-    .toString();
-  let numTwo;
-  do {
-    numTwo = faker.random.numeric(1, { allowLeadingZeros: true }).toString();
-  } while (numTwo === numOne);
-  return [numOne, numTwo];
-}
+import { User } from "./src/Interfaces/forms";
 
 function generateTunes() {
   const inputArray = [];
@@ -33,7 +18,7 @@ function generateTunes() {
   return inputArray;
 }
 function generateAccounts() {
-  const inputArray = [];
+  const inputArray: User[] = [];
   for (let i = 0; i < 10; i++) {
     inputArray.push({
       userName: `user${i}`,
@@ -45,64 +30,80 @@ function generateAccounts() {
   return inputArray;
 }
 
-function generateUniqueNames(checkArray: IRequest[]) {
-  let alreadySent = [];
-  let numberPair = [];
-  let sender = "";
-  let reciever = "";
-  let breakInfiniteLoop = 0;
-  do {
-    numberPair = generateUniqueNumberPair();
-    sender = "user" + numberPair[0];
-    reciever = "user" + numberPair[1];
-    alreadySent = checkArray.filter(function (request) {
-      if (sender == request.sender && reciever === request.reciever) {
-        return true;
-      } else return false;
-    });
-    breakInfiniteLoop++;
-    if (breakInfiniteLoop > 5) {
-      break;
-    }
-  } while (alreadySent.length > 0);
-
-  return { sender: sender, reciever: reciever };
+function generateRandomInt(limit: number) {
+  return Math.floor(Math.random() * (limit - 0) + 0);
 }
 
-function generateFriendRequests() {
-  const requestArray: IRequest[] = [];
-  for (let i = 0; i < 50; i++) {
-    let status = "";
-    switch (true) {
-      case i < 25:
-        status = "accepted";
-        break;
-      case i < 30:
-        status = "rejected";
-        break;
-      default:
-        status = "pending";
-        break;
-    }
-
-    const uniqueNames = generateUniqueNames(requestArray);
-
-    const request = {
-      status: status,
-      sender: uniqueNames.sender,
-      reciever: uniqueNames.reciever,
-      id: i,
-    };
-    requestArray.push(request);
+function generateRandomStatus(): "accepted" | "rejected" | "pending" {
+  const num = generateRandomInt(3);
+  switch (true) {
+    case num === 0:
+      return "accepted";
+    case num === 1:
+      return "rejected";
+    case num === 2:
+      return "pending";
+    default:
+      return "accepted";
   }
-  console.log({ requestArray: requestArray, lngth: requestArray.length });
+}
+
+function generateUniqueId(omit: number) {
+  let randomId: number = generateRandomInt(accounts.length);
+  return randomId === omit ? (randomId += 1) : randomId;
+}
+function createRequest(config: IFriendRequest): {
+  status: string;
+  sender: string;
+  receiver: string;
+} {
+  return {
+    status: config.status,
+    sender: config.sender,
+    receiver: config.receiver,
+  };
+}
+
+function generateUniqueReceiver(sender: User) {
+  const receiverId = generateUniqueId(sender.id);
+  const receiver = accounts.find((account) => account.id === receiverId);
+  if (receiver) {
+    return receiver;
+  } else return sender;
+}
+
+function generateFriendRequests(accounts: User[], requestsPerPerson: number) {
+  const requestArray: IFriendRequest[] = [];
+  for (const account of accounts) {
+    const eligibleReceivers: User[] = [];
+    for (let index = 0; index < requestsPerPerson; index++) {
+      const receiver = generateUniqueReceiver(account);
+      eligibleReceivers.push(receiver);
+    }
+    for (let index = 0; index < requestsPerPerson; index++) {
+      requestArray.push(
+        createRequest({
+          status: generateRandomStatus(),
+          sender: account.userName,
+          receiver: eligibleReceivers[index].userName,
+        }) as IFriendRequest
+      );
+    }
+    //************** */
+    //you should go through this project and pass around the User object instead of the userName string that way you can easily get anything you want from it++++++ */
+    //************** */
+  }
+  console.log(requestArray);
+  console.log(requestArray.length);
   return requestArray;
 }
 
+const accounts = generateAccounts();
+const friendRequests = generateFriendRequests(accounts, 5);
 const data = {
-  accounts: generateAccounts(),
+  accounts: accounts,
   tunes: generateTunes(),
-  friendRequests: generateFriendRequests(),
+  friendRequests: friendRequests,
 };
 
 writeFileSync("db.json", JSON.stringify(data));

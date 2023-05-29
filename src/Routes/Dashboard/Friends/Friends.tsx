@@ -85,7 +85,7 @@ function Friends() {
 export function returnFriend(friendRequest: IFriendRequest, currentUser: User) {
   return friendRequest.sender.toLowerCase() ===
     currentUser.userName.toLowerCase()
-    ? friendRequest.reciever
+    ? friendRequest.receiver
     : friendRequest.sender;
 }
 

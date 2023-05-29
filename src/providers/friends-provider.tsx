@@ -22,7 +22,7 @@ interface IFriendsContext {
 
 export interface IFriendRequest {
   sender: string;
-  reciever: string;
+  receiver: string;
   status: "accepted" | "rejected" | "pending";
   id?: number;
 }
@@ -62,7 +62,7 @@ function FriendsProvider({ children }: childrenType) {
             (request) => request.status === "rejected"
           ),
           pending: userFriendRequests.filter((request) => {
-            if (request.status === "pending" && request.reciever === userName) {
+            if (request.status === "pending" && request.receiver === userName) {
               return true;
             }
           }),
@@ -106,7 +106,7 @@ function FriendsProvider({ children }: childrenType) {
       sendFriendRequest({
         status: "pending",
         sender: userName,
-        reciever: selectedSearchFriend.userName,
+        receiver: selectedSearchFriend.userName,
       })
         .then((requestObj) => {
           if (!requestObj.ok) {

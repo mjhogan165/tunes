@@ -20,10 +20,12 @@ function FeedProvider({ children }: childrenType) {
   // const authUser = useAuthenticatedUser();
   // console.log(authUser);
   useEffect(() => {
-    console.log("Called: useEffect getTunes");
     getTunes()
       .then((response) => response.json())
-      .then((parsedArray) => setTuneCards(parsedArray))
+      .then((parsedArray) => {
+        console.log("Feed PROVIDERS call");
+        setTuneCards(parsedArray);
+      })
       .catch((err) => {
         console.log("damn it messed up");
       });

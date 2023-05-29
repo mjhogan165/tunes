@@ -31,7 +31,7 @@ export interface User {
   userName: string;
   password: string;
   profileImg?: string;
-  id: string;
+  id: number;
 }
 
 type AuthState = "loading" | "logged-in" | "logged-out";

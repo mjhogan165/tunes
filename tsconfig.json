@@ -16,6 +16,6 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src", "seed.ts", "src/Interfaces/.ts"],
+  "include": ["src", "seed.ts", "src/Interfaces/.ts", "seed-functions.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
