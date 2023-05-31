@@ -12,7 +12,7 @@ type AllFriendsDropBarProps = {
   label: string | JSX.Element;
 };
 function AllFriendsDropBar({ array, label }: AllFriendsDropBarProps) {
-  const [showSubMenu, setShowSubMenu] = useState(false);
+  const [showSubMenu, setShowSubMenu] = useState(true);
   const user = useRequiredUser();
   return (
     <div className="w-full">
@@ -36,13 +36,13 @@ function AllFriendsDropBar({ array, label }: AllFriendsDropBarProps) {
           />
         </svg>
       </div>
-      {showSubMenu && array && (
+      {/* {showSubMenu && array && (
         <div>
           {array.map((request, index) => {
             return <div key={index}>{returnFriend(request, user)}</div>;
           })}
         </div>
-      )}
+      )} */}
     </div>
   );
 }
