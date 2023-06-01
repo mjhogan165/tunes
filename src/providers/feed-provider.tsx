@@ -14,7 +14,7 @@ interface IFeed {
 const FeedContext = createContext({} as IFeed);
 
 function FeedProvider({ children }: childrenType) {
-  console.log("Render: FeedProvider");
+  // console.log("Render: FeedProvider");
   const [tuneCards, setTuneCards] = useState<INewTune[]>([]);
   const user = useRequiredUser();
   // const authUser = useAuthenticatedUser();
@@ -23,7 +23,7 @@ function FeedProvider({ children }: childrenType) {
     getTunes()
       .then((response) => response.json())
       .then((parsedArray) => {
-        console.log("Feed PROVIDERS call");
+        // console.log("Feed PROVIDERS call");
         setTuneCards(parsedArray);
       })
       .catch((err) => {

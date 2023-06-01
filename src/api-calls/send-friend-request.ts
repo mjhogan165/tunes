@@ -2,7 +2,7 @@ import React from "react";
 import { API } from "../constants";
 import { IFriendRequest } from "../providers/friends-provider";
 
-function sendFriendRequest({ sender, receiver, status }: IFriendRequest) {
+function sendFriendRequest(request: IFriendRequest) {
   // return fetch(API + "friendRequests", {
   //   method: "POST",
   // headers: {
@@ -20,9 +20,9 @@ function sendFriendRequest({ sender, receiver, status }: IFriendRequest) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      sender: sender,
-      receiver: receiver,
-      status: status,
+      sender: request.sender,
+      receiver: request.receiver,
+      status: request.status,
     }),
   });
 }

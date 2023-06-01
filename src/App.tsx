@@ -6,7 +6,7 @@ import "./index.css";
 import HomeLayout from "./Routes/Home/HomeLayout";
 import Login from "./Routes/Home/Login";
 import Feed from "./Routes/Dashboard/Feed";
-import Friends from "./Routes/Dashboard/Friends/Friends";
+import Friends from "./Routes/Dashboard/Friends/FriendsContainer";
 import CreateNewTune from "./Routes/Dashboard/CreateNewTune";
 import AuthProvider from "./providers/auth-provider";
 import CreateAccount from "./Routes/Home/CreateUser";
@@ -16,11 +16,9 @@ import NewTuneProvider from "./providers/new-tune-provider";
 import ErrorPage from "./Routes/ErrorPage";
 import ProvidersWrapper from "./ProvidersWrapper";
 import { getTunes } from "./api-calls/get-tunes";
-import AllFriendsList from "./Routes/Dashboard/Friends/Componants/AllFriendsList";
-import IncomingFriendRequest from "./Routes/Dashboard/Friends/Componants/IncomingFriendRequest";
-import SentFriendsList from "./Routes/Dashboard/Friends/Componants/SentFriendsList";
-import IncomingFriendsList from "./Routes/Dashboard/Friends/Componants/IncomingFriendsList";
-
+import AllFriendsList from "./Routes/Dashboard/Friends/AllFriends";
+import PendingFriends from "./Routes/Dashboard/Friends/PendingFriends";
+import SearchFriend from "./Routes/Dashboard/Friends/SearchFriends";
 const router = createBrowserRouter([
   {
     element: <ProvidersWrapper />,
@@ -32,10 +30,6 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
         // loader: getTunes,
         children: [
-          // {
-          //   path: "/",
-          //   element: <HomePage />,
-          // },
           {
             index: true,
             element: <Login />,
@@ -73,12 +67,12 @@ const router = createBrowserRouter([
                 element: <AllFriendsList />,
               },
               {
-                path: "incoming",
-                element: <IncomingFriendsList />,
+                path: "pending",
+                element: <PendingFriends />,
               },
               {
-                path: "sent",
-                element: <SentFriendsList />,
+                path: "search",
+                element: <SearchFriend />,
               },
             ],
           },

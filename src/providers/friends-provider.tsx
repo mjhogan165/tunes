@@ -8,6 +8,7 @@ import { getAllFriendRequests } from "../api-calls/get-friend-requests";
 import { User } from "../Interfaces/forms";
 import { useRequiredUser } from "./auth-provider";
 import patchFriendRequest from "../api-calls/patch-friend-request";
+import { toggle } from "../functions";
 
 const FriendsContext = createContext({} as IFriendsContext);
 
@@ -18,6 +19,10 @@ interface IFriendsContext {
   userFriendRequests: IUserFriendRequests;
   handleRequestResponse: (newStatus: string, request: IFriendRequest) => void;
   user: User;
+  previousSearchValue: null | string;
+  friendInput: string;
+  setFriendInput: React.Dispatch<React.SetStateAction<string>>;
+  isSendBtnDisabled: boolean;
 }
 
 export interface IFriendRequest {
@@ -31,13 +36,18 @@ export interface IUserFriendRequests {
   rejected: IFriendRequest[];
   pending: IFriendRequest[];
 }
+
 function FriendsProvider({ children }: childrenType) {
   const { userName } = useRequiredUser();
+  const user = useRequiredUser();
+  const [friendInput, setFriendInput] = useState("");
+  const [isSendBtnDisabled, setIsSendBtnDisabled] = useState(true);
   const [selectedSearchFriend, setSelectedSearchFriend] = useState<User | null>(
     null
   );
-  const user = useRequiredUser();
-  console.log("Render: Friends Provider");
+  const [previousSearchValue, setpreviousSearchValue] = useState<null | string>(
+    ""
+  );
   const [userFriendRequests, setUserFriendRequests] =
     useState<IUserFriendRequests>({
       accepted: [],
@@ -50,7 +60,7 @@ function FriendsProvider({ children }: childrenType) {
     getAllFriendRequests() //get All from API
       .then((response) => response.json())
       .then((requests) => {
-        console.log({ apiresponse: requests });
+        // console.log({ apiresponse: requests });
         const userFriendRequests: IFriendRequest[] = requests.filter(
           (request: IFriendRequest) => Object.values(request).includes(userName)
         );
@@ -62,12 +72,13 @@ function FriendsProvider({ children }: childrenType) {
             (request) => request.status === "rejected"
           ),
           pending: userFriendRequests.filter((request) => {
-            if (request.status === "pending" && request.receiver === userName) {
+            if (request.status === "pending") {
               return true;
             }
           }),
         });
-      });
+      })
+      .then((e) => console.log(userFriendRequests));
   }
   useEffect(() => {
     sortFriendRequests();
@@ -79,47 +90,73 @@ function FriendsProvider({ children }: childrenType) {
   ) => {
     patchFriendRequest(newStatus, request)
       .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
+        console.log({ response: response });
+        return response.json();
       })
       .then(() => {
+        toast.success("friend request accepted!");
         sortFriendRequests();
       });
   };
 
   async function handleSearchFriend(e: React.SyntheticEvent, input: string) {
     e.preventDefault();
+    setpreviousSearchValue(input);
     const result = await findFriend(input);
     if (!result) {
       toast.error("user not found");
       setSelectedSearchFriend(null);
+      setFriendInput("");
     } else {
       toast.success("user found!");
       setSelectedSearchFriend(result);
+      setIsSendBtnDisabled(false);
     }
   }
-
-  async function handleSendFriendRequest(e: React.SyntheticEvent) {
+  const alreadySent = (
+    currentRequest: IFriendRequest,
+    pending: IFriendRequest[]
+  ) => {
+    const alreadySent = pending.map((request) => {
+      request.sender === user.userName;
+    });
+    console.log({ isreceiver: alreadySent });
+    return alreadySent.length > 0;
+  };
+  function handleSendFriendRequest(e: React.SyntheticEvent) {
     e.preventDefault();
     if (selectedSearchFriend) {
-      sendFriendRequest({
-        status: "pending",
-        sender: userName,
-        receiver: selectedSearchFriend.userName,
-      })
-        .then((requestObj) => {
-          if (!requestObj.ok) {
-            toast.error("Failed to send request");
-          }
+      const isAlreadySent = alreadySent(
+        {
+          sender: userName,
+          receiver: selectedSearchFriend.userName,
+          status: "pending",
+        },
+        userFriendRequests.pending
+      );
+      if (isAlreadySent) {
+        toast.error("request already exsists");
+      } else
+        sendFriendRequest({
+          sender: userName,
+          receiver: selectedSearchFriend.userName,
+          status: "pending",
         })
-        .then(() => {
-          toast.success("request sent!");
-          setSelectedSearchFriend(null);
-        })
-        .catch((err) => {
-          toast.error(`${err}`);
-        });
+          .then((requestObj) => {
+            if (!requestObj.ok) {
+              toast.error("Failed to send request");
+              // console.log(requestObj);
+            }
+          })
+          .then(() => {
+            toast.success("request sent!");
+            setSelectedSearchFriend(null);
+            setIsSendBtnDisabled(true);
+            setFriendInput("");
+          })
+          .catch((err) => {
+            toast.error(`${err}`);
+          });
     } else {
       toast.error("Search for a friend first");
     }
@@ -133,6 +170,10 @@ function FriendsProvider({ children }: childrenType) {
         handleSearchFriend,
         user,
         selectedSearchFriend,
+        previousSearchValue,
+        friendInput,
+        setFriendInput,
+        isSendBtnDisabled,
       }}
     >
       {children}

@@ -56,11 +56,13 @@ function createRequest(config: IFriendRequest): {
   status: string;
   sender: string;
   receiver: string;
+  id: number | undefined;
 } {
   return {
     status: config.status,
     sender: config.sender,
     receiver: config.receiver,
+    id: config.id,
   };
 }
 
@@ -71,23 +73,37 @@ function generateUniqueReceiver(sender: User) {
     return receiver;
   } else return sender;
 }
-const checkDuplicates = (
+const isDuplicateRequest = (
   requests: IFriendRequest[],
   sender: string,
   receiver: string
 ) => {
-  return requests.find((request) => {
+  console.log("CHECK");
+  let isDupe = false;
+  for (const request of requests) {
     const values = Object.values(request);
-    console.log(values);
-    const isDupe = values.includes(sender) && values.includes(receiver);
-    if (isDupe) {
-      console.log({ msg: "DUPE FOUND", dupe: request });
-    }
-    return isDupe;
-  });
+    const hasSender = values.includes(sender);
+    const hasReceiver = values.includes(receiver);
+    if (hasSender && hasReceiver) {
+      isDupe = true;
+      console.log("DUPE");
+      console.log(request);
+    } else continue;
+  }
+  return isDupe;
+  // const find = values.some((request) => {
+  //   if (request.sender === sender || request.sender === receiver) {
+  //     if (request.receiver === sender || request.receiver === receiver) {
+  //       console.log({ dupemsg: "DUPE FOUND", dupe: { request } });
+  //       return true;
+  //     }
+  //   } else return false;
+  // });
+  // return find;
 };
 function generateFriendRequests(accounts: User[], requestsPerPerson: number) {
   const requestArray: IFriendRequest[] = [];
+  let idCount = 0;
   for (const account of accounts) {
     const eligibleReceivers: User[] = [];
     for (let index = 0; index < requestsPerPerson; index++) {
@@ -101,27 +117,25 @@ function generateFriendRequests(accounts: User[], requestsPerPerson: number) {
         status: generateRandomStatus(),
         sender: sender,
         receiver: receiver,
+        id: idCount,
       }) as IFriendRequest;
-      if (requestArray.length > 0) {
-        console.log("IS > 0");
-        if (!checkDuplicates(requestArray, sender, receiver)) {
-          requestArray.push(request);
-        }
-      } else requestArray.push(request);
+      if (!isDuplicateRequest(requestArray, sender, receiver)) {
+        requestArray.push(request);
+        idCount++;
+      }
     }
 
     //************** */
     //you should go through this project and pass around the User object instead of the userName string that way you can easily get anything you want from it++++++ */
     //************** */
   }
-
   console.log(requestArray);
   console.log(requestArray.length);
   return requestArray;
 }
 
 const accounts = generateAccounts();
-const friendRequests = generateFriendRequests(accounts, 5);
+const friendRequests = generateFriendRequests(accounts, 7);
 const data = {
   accounts: accounts,
   tunes: generateTunes(),

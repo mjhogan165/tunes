@@ -4,7 +4,7 @@ import { childrenType } from "../Interfaces/global";
 import createNewTune from "../api-calls/create-newtune";
 import { INewTune } from "../Interfaces/feed";
 import { toast } from "react-hot-toast";
-import getToken from "../api-calls/gets-token";
+import getToken from "../api-calls/get-token";
 const client_id = "e9b1abef9cd84cecb883434c4d6de44b";
 const redirect_uri = "http://localhost:5173/Home/Redirect";
 const client_secret = "e0f968f004f54c22ad052f3e3a634326";
@@ -36,7 +36,7 @@ function NewTuneProvider({ children }: childrenType) {
   const [songInput, setSongInput] = useState("");
   const [commentInput, setCommentInput] = useState("");
   const [searchResults, setSearchResults] = useState<INewTune[]>([]);
-  console.log("Render: NewTunePRovider");
+  // console.log("Render: NewTunePRovider");
   const [refresh, setRefresh] = useState(false);
   const { userName } = useRequiredUser();
   useEffect(() => {

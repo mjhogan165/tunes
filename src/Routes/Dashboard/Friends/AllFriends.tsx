@@ -1,9 +1,8 @@
 import React from "react";
-import AllFriendsDropBar from "./AllFriendsDropBar";
-import { useFriends } from "../../../../providers/friends-provider";
+import { useFriends } from "../../../providers/friends-provider";
 import { useOutletContext } from "react-router-dom";
-import { User } from "../../../../Interfaces/forms";
-import { useUserFriends } from "../Friends";
+import { User } from "../../../Interfaces/forms";
+import { useUserFriends } from "./FriendsContainer";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
@@ -19,13 +18,19 @@ export default function AllFriendsList() {
     selectedSearchFriend,
     user,
   } = useFriends();
-  const { userFriends } = useUserFriends();
-
+  const { userFriendAccounts } = useUserFriends();
+  console.log({
+    msg: "ALLFRIENDSLIST",
+    userFriendRequests: userFriendRequests,
+  });
   return (
     <div className="flex w-full flex-col">
-      {userFriends.map((array: User, index: number) => {
+      {userFriendAccounts.map((array: User, index: number) => {
         return (
-          <div className="flex justify-around p-2 border-b-2" key={index}>
+          <div
+            className="flex justify-around p-2 border-b-2 items-center"
+            key={index}
+          >
             <img
               className="w-14 h-14 object-cover overflow-hidden rounded-full"
               src={array.profileImg}
@@ -33,7 +38,7 @@ export default function AllFriendsList() {
             <div className="flex items-center justify-center">
               <div className="w-min h-min">{array.userName}</div>
             </div>
-            <FontAwesomeIcon icon={faCircleCheck} />
+            <FontAwesomeIcon icon={faCircleCheck} className="text-green-600" />
           </div>
         );
       })}

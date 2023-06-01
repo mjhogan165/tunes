@@ -1,1 +1,294 @@
-{"accounts":[{"userName":"user0","profileImg":"https://loremflickr.com/100/100/people?lock=68729","password":"pw0","id":0},{"userName":"user1","profileImg":"https://loremflickr.com/100/100/people?lock=53897","password":"pw1","id":1},{"userName":"user2","profileImg":"https://loremflickr.com/100/100/people?lock=45058","password":"pw2","id":2},{"userName":"user3","profileImg":"https://loremflickr.com/100/100/people?lock=34130","password":"pw3","id":3},{"userName":"user4","profileImg":"https://loremflickr.com/100/100/people?lock=50492","password":"pw4","id":4},{"userName":"user5","profileImg":"https://loremflickr.com/100/100/people?lock=13241","password":"pw5","id":5},{"userName":"user6","profileImg":"https://loremflickr.com/100/100/people?lock=58541","password":"pw6","id":6},{"userName":"user7","profileImg":"https://loremflickr.com/100/100/people?lock=88474","password":"pw7","id":7},{"userName":"user8","profileImg":"https://loremflickr.com/100/100/people?lock=58414","password":"pw8","id":8},{"userName":"user9","profileImg":"https://loremflickr.com/100/100/people?lock=60791","password":"pw9","id":9}],"tunes":[{"artist":"Eleonore World","title":"Ironic","img":"https://loremflickr.com/100/100/abstract?lock=93434","createdBy":"user7","comment":"Consectetur minus molestias asperiores velit quas optio consequuntur.\nQuibusdam est consequatur necessitatibus fuga debitis ducimus optio.","id":0},{"artist":"Coby World","title":"On Bended Knee","img":"https://loremflickr.com/100/100/abstract?lock=89274","createdBy":"user7","comment":"Deserunt voluptates aut quae dignissimos cum earum optio optio.\nExpedita maxime quos odit eligendi accusantium voluptas reiciendis vel.","id":1}],"friendRequests":[{"status":"accepted","sender":"user0","receiver":"user4"},{"status":"pending","sender":"user0","receiver":"user1"},{"status":"pending","sender":"user0","receiver":"user2"},{"status":"pending","sender":"user0","receiver":"user8"},{"status":"rejected","sender":"user1","receiver":"user7"},{"status":"pending","sender":"user1","receiver":"user3"},{"status":"accepted","sender":"user1","receiver":"user8"},{"status":"rejected","sender":"user1","receiver":"user2"},{"status":"rejected","sender":"user2","receiver":"user4"},{"status":"accepted","sender":"user2","receiver":"user7"},{"status":"pending","sender":"user2","receiver":"user3"},{"status":"rejected","sender":"user3","receiver":"user4"},{"status":"rejected","sender":"user3","receiver":"user8"},{"status":"pending","sender":"user4","receiver":"user9"},{"status":"pending","sender":"user4","receiver":"user8"},{"status":"accepted","sender":"user4","receiver":"user7"},{"status":"accepted","sender":"user5","receiver":"user4"},{"status":"pending","sender":"user5","receiver":"user6"},{"status":"accepted","sender":"user5","receiver":"user8"},{"status":"accepted","sender":"user5","receiver":"user2"},{"status":"accepted","sender":"user6","receiver":"user1"},{"status":"accepted","sender":"user6","receiver":"user4"},{"status":"pending","sender":"user6","receiver":"user0"},{"status":"pending","sender":"user6","receiver":"user8"},{"status":"accepted","sender":"user7","receiver":"user8"},{"status":"pending","sender":"user7","receiver":"user5"},{"status":"rejected","sender":"user7","receiver":"user0"},{"status":"pending","sender":"user8","receiver":"user2"},{"status":"accepted","sender":"user9","receiver":"user7"},{"status":"pending","sender":"user9","receiver":"user8"},{"status":"pending","sender":"user9","receiver":"user1"}]}
+{
+  "accounts": [
+    {
+      "userName": "user0",
+      "profileImg": "https://loremflickr.com/100/100/people?lock=30321",
+      "password": "pw0",
+      "id": 0
+    },
+    {
+      "userName": "user1",
+      "profileImg": "https://loremflickr.com/100/100/people?lock=28167",
+      "password": "pw1",
+      "id": 1
+    },
+    {
+      "userName": "user2",
+      "profileImg": "https://loremflickr.com/100/100/people?lock=68649",
+      "password": "pw2",
+      "id": 2
+    },
+    {
+      "userName": "user3",
+      "profileImg": "https://loremflickr.com/100/100/people?lock=11963",
+      "password": "pw3",
+      "id": 3
+    },
+    {
+      "userName": "user4",
+      "profileImg": "https://loremflickr.com/100/100/people?lock=32716",
+      "password": "pw4",
+      "id": 4
+    },
+    {
+      "userName": "user5",
+      "profileImg": "https://loremflickr.com/100/100/people?lock=28665",
+      "password": "pw5",
+      "id": 5
+    },
+    {
+      "userName": "user6",
+      "profileImg": "https://loremflickr.com/100/100/people?lock=61543",
+      "password": "pw6",
+      "id": 6
+    },
+    {
+      "userName": "user7",
+      "profileImg": "https://loremflickr.com/100/100/people?lock=89503",
+      "password": "pw7",
+      "id": 7
+    },
+    {
+      "userName": "user8",
+      "profileImg": "https://loremflickr.com/100/100/people?lock=85962",
+      "password": "pw8",
+      "id": 8
+    },
+    {
+      "userName": "user9",
+      "profileImg": "https://loremflickr.com/100/100/people?lock=84704",
+      "password": "pw9",
+      "id": 9
+    }
+  ],
+  "tunes": [
+    {
+      "artist": "Carolyn Electronic",
+      "title": "It's Too Late",
+      "img": "https://loremflickr.com/100/100/abstract?lock=89701",
+      "createdBy": "user9",
+      "comment": "Delectus maxime reiciendis libero reiciendis ut nam dicta.\nOdio quaerat esse fugiat non natus cupiditate possimus.",
+      "id": 0
+    },
+    {
+      "artist": "Rudolph Stage And Screen",
+      "title": "She Loves You",
+      "img": "https://loremflickr.com/100/100/abstract?lock=98871",
+      "createdBy": "user2",
+      "comment": "Architecto at magnam dolorum quidem voluptatibus.\nDoloremque fugit numquam debitis modi.",
+      "id": 1
+    }
+  ],
+  "friendRequests": [
+    {
+      "status": "accepted",
+      "sender": "user0",
+      "receiver": "user1",
+      "id": 0
+    },
+    {
+      "status": "pending",
+      "sender": "user0",
+      "receiver": "user4",
+      "id": 1
+    },
+    {
+      "status": "pending",
+      "sender": "user0",
+      "receiver": "user8",
+      "id": 2
+    },
+    {
+      "status": "pending",
+      "sender": "user0",
+      "receiver": "user2",
+      "id": 3
+    },
+    {
+      "status": "pending",
+      "sender": "user0",
+      "receiver": "user6",
+      "id": 4
+    },
+    {
+      "status": "accepted",
+      "sender": "user1",
+      "receiver": "user3",
+      "id": 5
+    },
+    {
+      "status": "rejected",
+      "sender": "user1",
+      "receiver": "user7",
+      "id": 6
+    },
+    {
+      "status": "accepted",
+      "sender": "user2",
+      "receiver": "user1",
+      "id": 7
+    },
+    {
+      "status": "pending",
+      "sender": "user2",
+      "receiver": "user6",
+      "id": 8
+    },
+    {
+      "status": "rejected",
+      "sender": "user2",
+      "receiver": "user3",
+      "id": 9
+    },
+    {
+      "status": "rejected",
+      "sender": "user3",
+      "receiver": "user5",
+      "id": 10
+    },
+    {
+      "status": "accepted",
+      "sender": "user3",
+      "receiver": "user6",
+      "id": 11
+    },
+    {
+      "status": "accepted",
+      "sender": "user3",
+      "receiver": "user9",
+      "id": 12
+    },
+    {
+      "status": "accepted",
+      "sender": "user3",
+      "receiver": "user0",
+      "id": 13
+    },
+    {
+      "status": "accepted",
+      "sender": "user4",
+      "receiver": "user6",
+      "id": 14
+    },
+    {
+      "status": "accepted",
+      "sender": "user4",
+      "receiver": "user8",
+      "id": 15
+    },
+    {
+      "status": "pending",
+      "sender": "user4",
+      "receiver": "user5",
+      "id": 16
+    },
+    {
+      "status": "rejected",
+      "sender": "user4",
+      "receiver": "user7",
+      "id": 17
+    },
+    {
+      "status": "accepted",
+      "sender": "user4",
+      "receiver": "user1",
+      "id": 18
+    },
+    {
+      "status": "pending",
+      "sender": "user5",
+      "receiver": "user9",
+      "id": 19
+    },
+    {
+      "status": "accepted",
+      "sender": "user5",
+      "receiver": "user2",
+      "id": 20
+    },
+    {
+      "status": "accepted",
+      "sender": "user5",
+      "receiver": "user0",
+      "id": 21
+    },
+    {
+      "status": "accepted",
+      "sender": "user5",
+      "receiver": "user1",
+      "id": 22
+    },
+    {
+      "status": "rejected",
+      "sender": "user5",
+      "receiver": "user6",
+      "id": 23
+    },
+    {
+      "status": "pending",
+      "sender": "user6",
+      "receiver": "user7",
+      "id": 24
+    },
+    {
+      "status": "accepted",
+      "sender": "user6",
+      "receiver": "user9",
+      "id": 25
+    },
+    {
+      "status": "accepted",
+      "sender": "user7",
+      "receiver": "user2",
+      "id": 26
+    },
+    {
+      "status": "accepted",
+      "sender": "user7",
+      "receiver": "user8",
+      "id": 27
+    },
+    {
+      "status": "accepted",
+      "sender": "user8",
+      "receiver": "user1",
+      "id": 28
+    },
+    {
+      "status": "pending",
+      "sender": "user8",
+      "receiver": "user9",
+      "id": 29
+    },
+    {
+      "status": "rejected",
+      "sender": "user8",
+      "receiver": "user2",
+      "id": 30
+    },
+    {
+      "status": "pending",
+      "sender": "user9",
+      "receiver": "user0",
+      "id": 31
+    },
+    {
+      "status": "rejected",
+      "sender": "user9",
+      "receiver": "user1",
+      "id": 32
+    },
+    {
+      "status": "rejected",
+      "sender": "user9",
+      "receiver": "user7",
+      "id": 33
+    },
+    {
+      "status": "accepted",
+      "sender": "user9",
+      "receiver": "user2",
+      "id": 34
+    }
+  ]
+}

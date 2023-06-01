@@ -7,6 +7,7 @@ const client_secret = "e0f968f004f54c22ad052f3e3a634326";
 const url = "https://accounts.spotify.com/api/token";
 
 function getToken() {
+  console.log("GET TOKEN()");
   return fetch(url, {
     method: "POST",
     headers: {

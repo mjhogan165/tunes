@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "../../Componants/Button";
 import { useNewTune } from "../../providers/new-tune-provider";
 import SearchDropDown from "../../Componants/SearchDropDown";
-import FriendsDropBar from "./Friends/Componants/FriendRequestsDropBar";
 function CreateNewTune() {
   const {
     handleClickPostNewTune,
@@ -14,11 +13,20 @@ function CreateNewTune() {
     commentInput,
     setCommentInput,
   } = useNewTune();
+  useEffect(() => {
+    console.log("CREATE");
+  }, []);
+
   return (
-    <div className="bg-white rounded-2xl p-2 shadow-lg sm:p-6 mb-4 p-4 flex flex-col max-w-xl m-auto">
+    <div className="bg-white rounded-2xl shadow-lg sm:p-6 mb-4 p-4 flex flex-col max-w-xl m-auto">
       <div>
         <form className="p-4 flex flex-col" action="">
-          <label className="text-2xl py-4">Song:</label>
+          <div className="flex items-center flex-wrap justify-start">
+            <label className="text-xl font-medium py-4 pr-2">Song:</label>
+            {/* <span className="text-lg ">{selectedTune.title} </span> */}
+            <span className="text-lg ">{selectedTune.title} </span>
+          </div>
+
           <input
             className="border-2 p-2"
             placeholder="Search..."
@@ -36,7 +44,7 @@ function CreateNewTune() {
             disabled={false}
           />
 
-          <label className="text-xl">Add a comment:</label>
+          <label className="text-lg">Add a comment:</label>
           <textarea
             className="border-2 h-28 p-1"
             maxLength={140}
