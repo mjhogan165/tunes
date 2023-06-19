@@ -1,28 +1,10 @@
 import React from "react";
-import { useFriends } from "../../../providers/friends-provider";
-import { useOutletContext } from "react-router-dom";
-import { User } from "../../../Interfaces/forms";
-import { useUserFriends } from "./FriendsContainer";
-
+import { useFriends } from "../../../../providers/friends-provider";
+import { User } from "../../../../Interfaces/user";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { IconDefinition } from "@fortawesome/free-regular-svg-icons";
-import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 export default function AllFriendsList() {
-  const {
-    handleSendFriendRequest,
-    userFriendRequests,
-    handleSearchFriend,
-    selectedSearchFriend,
-    user,
-  } = useFriends();
-  const { userFriendAccounts } = useUserFriends();
-  console.log({
-    msg: "ALLFRIENDSLIST",
-    userFriendRequests: userFriendRequests,
-  });
+  const { userFriendAccounts } = useFriends();
   return (
     <div className="flex w-full flex-col">
       {userFriendAccounts.map((array: User, index: number) => {

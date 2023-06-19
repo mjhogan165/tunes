@@ -11,4 +11,5 @@ export interface INewTune {
   comment?: string;
   id: string;
   createdBy: string;
+  tagged?: string;
 }

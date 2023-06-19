@@ -1,7 +1,7 @@
 import React from "react";
 import NavList from "./NavList";
-import { Outlet, useOutletContext } from "react-router-dom";
-import { useAuth, useRequiredUser } from "../../providers/auth-provider";
+import { Outlet } from "react-router-dom";
+import { useAuth } from "../../providers/auth-provider";
 import { Navigate } from "react-router-dom";
 import FeedProvider from "../../providers/feed-provider";
 import NewTuneProvider from "../../providers/new-tune-provider";
@@ -14,13 +14,13 @@ function DashboardLayout() {
     return (
       <div className="max-w-6xl mx-auto overflow-auto">
         <NavList />
-        <FeedProvider>
-          <NewTuneProvider>
-            <FriendsProvider>
+        <FriendsProvider>
+          <FeedProvider>
+            <NewTuneProvider>
               <Outlet />
-            </FriendsProvider>
-          </NewTuneProvider>
-        </FeedProvider>
+            </NewTuneProvider>
+          </FeedProvider>
+        </FriendsProvider>
       </div>
     );
   } else return <Navigate to="/" replace />;

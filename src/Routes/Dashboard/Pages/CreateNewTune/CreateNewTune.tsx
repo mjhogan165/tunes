@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
-import Button from "../../Componants/Button";
-import { useNewTune } from "../../providers/new-tune-provider";
-import SearchDropDown from "../../Componants/SearchDropDown";
+import React from "react";
+import Button from "../../../../Componants/Button";
+import { useNewTune } from "../../../../providers/new-tune-provider";
+import SearchTuneDropDown from "../../../../Componants/SearchTuneDropDown";
+import { returnFriend } from "../Friends/FriendsContainer";
+import { useFriends } from "../../../../providers/friends-provider";
 function CreateNewTune() {
   const {
     handleClickPostNewTune,
@@ -12,10 +14,13 @@ function CreateNewTune() {
     songInput,
     commentInput,
     setCommentInput,
+    handleChangeTagged,
+    selectTaggedValue,
   } = useNewTune();
-  useEffect(() => {
-    console.log("CREATE");
-  }, []);
+  const { userFriendRequests, user } = useFriends();
+  const friendUserNames = userFriendRequests.accepted.map((request) => {
+    return returnFriend(request, user);
+  });
 
   return (
     <div className="bg-white rounded-2xl shadow-lg sm:p-6 mb-4 p-4 flex flex-col max-w-xl m-auto">
@@ -23,7 +28,6 @@ function CreateNewTune() {
         <form className="p-4 flex flex-col" action="">
           <div className="flex items-center flex-wrap justify-start">
             <label className="text-xl font-medium py-4 pr-2">Song:</label>
-            {/* <span className="text-lg ">{selectedTune.title} </span> */}
             <span className="text-lg ">{selectedTune.title} </span>
           </div>
 
@@ -36,7 +40,7 @@ function CreateNewTune() {
             value={songInput}
             onChange={(e) => setSongInput(e.target.value)}
           />
-          {searchResults && <SearchDropDown />}
+          {searchResults && <SearchTuneDropDown />}
           <Button
             btnType="submit"
             label="Search"
@@ -53,6 +57,22 @@ function CreateNewTune() {
             value={commentInput}
             onChange={(e) => setCommentInput(e.target.value)}
           />
+
+          <label className="flex justify-center items-center p-4 text-lg">
+            Tag a Friend!
+            <select
+              className="mx-4 rounded-md border-2 p-1 text-base"
+              value={selectTaggedValue}
+              onChange={handleChangeTagged}
+            >
+              {<option value={""}>-</option>}
+              {friendUserNames.map((option, index) => (
+                <option key={index} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </label>
           <Button
             btnType="submit"
             label="+ Post NewTune"

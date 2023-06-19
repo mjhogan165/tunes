@@ -1,5 +1,5 @@
 import { API } from "../constants";
-import { CreateUser } from "../Interfaces/forms";
+import { CreateUser } from "../Interfaces/user";
 
 export const createAccount = function ({
   createUserName,

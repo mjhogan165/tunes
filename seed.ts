@@ -1,17 +1,18 @@
 import { faker } from "@faker-js/faker";
 import { writeFileSync } from "fs";
 import { IFriendRequest } from "./src/providers/friends-provider";
-import { User } from "./src/Interfaces/forms";
+import { User } from "./src/Interfaces/user";
 
 function generateTunes() {
   const inputArray = [];
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < 30; i++) {
     inputArray.push({
       artist: `${faker.name.firstName()} ${faker.music.genre()}`,
       title: faker.music.songName(),
       img: faker.image.abstract(100, 100, true),
       createdBy: "user" + faker.random.numeric(),
       comment: faker.lorem.lines(2),
+      tagged: "user" + faker.random.numeric(),
       id: i,
     });
   }
@@ -48,7 +49,7 @@ function generateRandomStatus(): "accepted" | "rejected" | "pending" {
   }
 }
 
-function generateUniqueId(omit: number) {
+function generateIdWithout(omit: number) {
   let randomId: number = generateRandomInt(accounts.length);
   return randomId === omit ? (randomId += 1) : randomId;
 }
@@ -66,19 +67,22 @@ function createRequest(config: IFriendRequest): {
   };
 }
 
-function generateUniqueReceiver(sender: User) {
-  const receiverId = generateUniqueId(sender.id);
-  const receiver = accounts.find((account) => account.id === receiverId);
+function generateUniqueReceiver(potentialSender: User) {
+  const potentialReceiverId = generateIdWithout(potentialSender.id);
+  const receiver = accounts.find(
+    (account) => account.id === potentialReceiverId
+  );
   if (receiver) {
     return receiver;
-  } else return sender;
+  } else {
+    return potentialSender;
+  }
 }
 const isDuplicateRequest = (
   requests: IFriendRequest[],
   sender: string,
   receiver: string
 ) => {
-  console.log("CHECK");
   let isDupe = false;
   for (const request of requests) {
     const values = Object.values(request);
@@ -86,20 +90,11 @@ const isDuplicateRequest = (
     const hasReceiver = values.includes(receiver);
     if (hasSender && hasReceiver) {
       isDupe = true;
-      console.log("DUPE");
-      console.log(request);
-    } else continue;
+    } else {
+      continue;
+    }
   }
   return isDupe;
-  // const find = values.some((request) => {
-  //   if (request.sender === sender || request.sender === receiver) {
-  //     if (request.receiver === sender || request.receiver === receiver) {
-  //       console.log({ dupemsg: "DUPE FOUND", dupe: { request } });
-  //       return true;
-  //     }
-  //   } else return false;
-  // });
-  // return find;
 };
 function generateFriendRequests(accounts: User[], requestsPerPerson: number) {
   const requestArray: IFriendRequest[] = [];
@@ -145,3 +140,5 @@ const data = {
 writeFileSync("db.json", JSON.stringify(data));
 
 // index.js
+// maybe make a list of all accounts, pick random ones, and pop them off to make requests.
+// or maybe just make random friend requests with possible duplicates and add themt o a set

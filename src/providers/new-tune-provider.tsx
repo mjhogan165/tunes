@@ -5,12 +5,12 @@ import createNewTune from "../api-calls/create-newtune";
 import { INewTune } from "../Interfaces/feed";
 import { toast } from "react-hot-toast";
 import getToken from "../api-calls/get-token";
-const client_id = "e9b1abef9cd84cecb883434c4d6de44b";
-const redirect_uri = "http://localhost:5173/Home/Redirect";
-const client_secret = "e0f968f004f54c22ad052f3e3a634326";
-const url = "https://accounts.spotify.com/api/token";
+// const client_id = "e9b1abef9cd84cecb883434c4d6de44b";
+// const redirect_uri = "http://localhost:5173/Home/Redirect";
+// const client_secret = "e0f968f004f54c22ad052f3e3a634326";
+// const url = "https://accounts.spotify.com/api/token";
 import { searchTrack } from "../api-calls/search";
-import { useAuth, useRequiredUser } from "./auth-provider";
+import { useRequiredUser } from "./auth-provider";
 
 interface NewTuneInterface {
   handleClickPostNewTune: (e: React.SyntheticEvent, tuneObj: INewTune) => void;
@@ -22,6 +22,9 @@ interface NewTuneInterface {
   selectedTune: INewTune;
   setCommentInput: React.Dispatch<React.SetStateAction<string>>;
   commentInput: string;
+  handleChangeTagged: (e: React.SyntheticEvent) => void;
+  setSelectTaggedValue: React.Dispatch<React.SetStateAction<string>>;
+  selectTaggedValue: string;
 }
 const NewTuneContext = createContext({} as NewTuneInterface);
 
@@ -32,12 +35,13 @@ function NewTuneProvider({ children }: childrenType) {
     title: "",
     id: "",
     createdBy: "",
+    tagged: "",
   });
   const [songInput, setSongInput] = useState("");
   const [commentInput, setCommentInput] = useState("");
   const [searchResults, setSearchResults] = useState<INewTune[]>([]);
-  // console.log("Render: NewTunePRovider");
   const [refresh, setRefresh] = useState(false);
+  const [selectTaggedValue, setSelectTaggedValue] = useState("");
   const { userName } = useRequiredUser();
   useEffect(() => {
     const ifToken = localStorage.getItem("token");
@@ -48,17 +52,16 @@ function NewTuneProvider({ children }: childrenType) {
         .then((result) => result.json())
         .then((token) => {
           setToken(token.access_token);
-          // console.log("getToken()");
-          console.log({
-            tokenResponse: token.access_token,
-            type: typeof token.access_token,
-          });
           localStorage.setItem("token", token.access_token);
           return token;
         });
     }
   }, [refresh]);
-
+  const handleChangeTagged = (event: React.SyntheticEvent) => {
+    event.preventDefault();
+    const target = event.target as HTMLSelectElement;
+    setSelectTaggedValue(target.value);
+  };
   const handleClickPostNewTune = (
     e: React.SyntheticEvent,
     tuneObj: INewTune
@@ -66,6 +69,7 @@ function NewTuneProvider({ children }: childrenType) {
     e.preventDefault();
     if (tuneObj) {
       tuneObj.comment = commentInput;
+      tuneObj.tagged = selectTaggedValue;
       createNewTune(tuneObj)
         .then((response) => {
           if (response.ok) {
@@ -73,7 +77,7 @@ function NewTuneProvider({ children }: childrenType) {
           }
           return Promise.reject(response);
         })
-        .catch((err) => console.error(err))
+        .catch((err) => toast.error(err))
         .finally(() => {
           toast.success("Tune Posted!");
           setSearchResults([]);
@@ -95,11 +99,9 @@ function NewTuneProvider({ children }: childrenType) {
           setRefresh(!refresh);
           throw new Error("API Error: Refresh Token");
         }
-        // console.log({ response: response, status: response.statusText });
         return response.json();
       })
       .then((trackObj) => {
-        console.log({ response: trackObj });
         const filteredResponse = [];
         for (const elm of trackObj.tracks.items) {
           filteredResponse.push({
@@ -114,9 +116,8 @@ function NewTuneProvider({ children }: childrenType) {
       })
       .then((filteredResponse) => {
         setSearchResults(filteredResponse);
-        console.log({ filtered: filteredResponse });
       })
-      .catch((error) => console.log(error));
+      .catch((error) => toast.error(error));
 
     // const response = TEST_RESPONSE.tracks.items;
     // const filteredResponse = [];
@@ -131,6 +132,7 @@ function NewTuneProvider({ children }: childrenType) {
   };
   const handleClickTune = (newTune: INewTune) => {
     setSelectedTune(newTune);
+    setSearchResults([]);
     setSongInput(`${newTune.artist}: ${newTune.title}`);
   };
 
@@ -146,6 +148,9 @@ function NewTuneProvider({ children }: childrenType) {
         songInput,
         setCommentInput,
         commentInput,
+        handleChangeTagged,
+        setSelectTaggedValue,
+        selectTaggedValue,
       }}
     >
       {children}

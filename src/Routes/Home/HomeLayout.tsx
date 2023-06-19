@@ -7,11 +7,7 @@ function HomeLayout() {
   const { isLoading, user } = useAuth();
   if (user) {
     return <Navigate to="/dashboard/feed" replace />;
-  }
-  // else {
-  //   return <Navigate to="/" />
-  // }
-  else
+  } else
     return (
       <div>
         <section className="flex content-between justify-center gap-6 items-center">

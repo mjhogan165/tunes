@@ -3,35 +3,40 @@ import { getTunes } from "../api-calls/get-tunes";
 import { childrenType } from "../Interfaces/global";
 import { useRequiredUser } from "./auth-provider";
 import { INewTune } from "../Interfaces/feed";
-import { User } from "../Interfaces/forms";
-// import { useAuthenticatedUser } from "../Routes/Dashboard/DashboardLayout";
+import { toast } from "react-hot-toast";
+import { User } from "../Interfaces/user";
+
 interface IFeed {
   tuneCards: INewTune[];
   setTuneCards: React.Dispatch<React.SetStateAction<INewTune[]>>;
   user: User;
+  taggedCards: INewTune[];
 }
 
 const FeedContext = createContext({} as IFeed);
 
 function FeedProvider({ children }: childrenType) {
-  // console.log("Render: FeedProvider");
   const [tuneCards, setTuneCards] = useState<INewTune[]>([]);
+  const [taggedCards, setTaggedCards] = useState<INewTune[]>([]);
   const user = useRequiredUser();
-  // const authUser = useAuthenticatedUser();
-  // console.log(authUser);
   useEffect(() => {
     getTunes()
       .then((response) => response.json())
       .then((parsedArray) => {
-        // console.log("Feed PROVIDERS call");
+        const tagged = parsedArray.filter((card: INewTune) => {
+          return user.userName === card.tagged;
+        });
+        setTaggedCards(tagged);
         setTuneCards(parsedArray);
       })
       .catch((err) => {
-        console.log("damn it messed up");
+        toast.error(err);
       });
   }, [user]);
   return (
-    <FeedContext.Provider value={{ tuneCards, setTuneCards, user }}>
+    <FeedContext.Provider
+      value={{ tuneCards, setTuneCards, user, taggedCards }}
+    >
       {children}
     </FeedContext.Provider>
   );

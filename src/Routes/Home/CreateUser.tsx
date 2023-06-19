@@ -4,7 +4,7 @@ import CreateUserInput from "../../Componants/CreateUserInput";
 import { useAuth } from "../../providers/auth-provider";
 import Button from "../../Componants/Button";
 import { Navigate } from "react-router-dom";
-import { CreateUser } from "../../Interfaces/forms";
+import { CreateUser } from "../../Interfaces/user";
 
 function CreateAccount() {
   const { handleClickCreateAccount, user } = useAuth();

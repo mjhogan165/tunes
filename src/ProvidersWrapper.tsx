@@ -7,7 +7,7 @@ import FriendsProvider from "./providers/friends-provider";
 import { Toaster } from "react-hot-toast";
 import { Navigate } from "react-router-dom";
 function ProvidersWrapper() {
-  console.log("Render: Provider wrapper");
+  // console.log("Render: Provider wrapper");
   return (
     <AuthProvider>
       <Toaster />

@@ -2,16 +2,14 @@ import React from "react";
 import { INewTune } from "../Interfaces/feed";
 import { useNewTune } from "../providers/new-tune-provider";
 
-type SearchSubMenu = {
+type SearchTuneSubMenu = {
   result: INewTune;
 };
 
-function SearchSubMenu({ result }: SearchSubMenu) {
+function SearchTuneSubMenu({ result }: SearchTuneSubMenu) {
   const { artist, title, id } = result;
   const { handleClickTune, selectedTune } = useNewTune();
   const isSelected = selectedTune === result;
-  // const highlight = isSelected? "bg-indigo-400" : ''
-
   return (
     <div
       onClick={() => handleClickTune(result)}
@@ -25,4 +23,4 @@ function SearchSubMenu({ result }: SearchSubMenu) {
   );
 }
 
-export default SearchSubMenu;
+export default SearchTuneSubMenu;

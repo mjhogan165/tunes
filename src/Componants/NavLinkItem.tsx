@@ -1,6 +1,5 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type NavLinkProps = {
   label: string;
@@ -11,7 +10,6 @@ type NavLinkProps = {
 };
 
 function NavLinkItem({ label, to, onClick }: NavLinkProps) {
-  const activeClassName = "underline";
   const activeStyle = {
     textDecoration: "underline",
   };

@@ -1,5 +1,4 @@
 import { Dispatch, SetStateAction } from "react";
-import { Url } from "url";
 
 export interface UserInputProps {
   name: string;
@@ -10,6 +9,7 @@ export interface UserInputProps {
   setUserNameInput?: React.Dispatch<React.SetStateAction<string>>;
   setPasswordInput?: React.Dispatch<React.SetStateAction<string>>;
   setInput: React.Dispatch<React.SetStateAction<string>>;
+  input?: string;
 }
 
 export interface CreateUserInputProps {
@@ -33,5 +33,3 @@ export interface User {
   profileImg?: string;
   id: number;
 }
-
-type AuthState = "loading" | "logged-in" | "logged-out";

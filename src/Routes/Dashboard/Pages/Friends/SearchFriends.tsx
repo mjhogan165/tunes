@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import UserInput from "../../../Componants/UserInput";
-import { useFriends } from "../../../providers/friends-provider";
-import CheckMarkIcon from "../../../Componants/CheckMarkIcon";
-import Button from "../../../Componants/Button";
+import UserInput from "../../../../Componants/UserInput";
+import { useFriends } from "../../../../providers/friends-provider";
+import CheckMarkIcon from "../../../../Componants/CheckMarkIcon";
+import Button from "../../../../Componants/Button";
 
 export default function SearchFriend() {
   const {
@@ -26,6 +26,7 @@ export default function SearchFriend() {
           setInput={setFriendInput}
           name="sendFriendRequestInput"
           type="text"
+          input={friendInput}
           id="sendFriendRequestInput"
           label="Enter Username (i.e user1)"
         />

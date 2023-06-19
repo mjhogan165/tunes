@@ -4,9 +4,10 @@ import { INewTune } from "../Interfaces/feed";
 interface ICardProps {
   key: number;
   tune: INewTune;
+  tagged?: string;
 }
 function FeedCard({ tune }: ICardProps) {
-  const { artist, title, id, comment, img, createdBy } = tune;
+  const { artist, title, id, comment, img, createdBy, tagged } = tune;
   return (
     <div className="bg-white rounded-2xl p-2 shadow-lg sm:p-6 mb-4">
       <i className="fa-solid fa-user inline p-2 border-2 rounded-full mr-2"></i>
@@ -20,6 +21,9 @@ function FeedCard({ tune }: ICardProps) {
           <h2 className="text-lg font-bold">{artist}</h2>
           <h3 className="text-base font-semibold">{title}</h3>
         </div>
+      </div>
+      <div className="">
+        {tagged && <span className="text-gray-600 pl-3">#{tagged}</span>}
       </div>
     </div>
   );

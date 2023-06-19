@@ -1,22 +1,21 @@
 import React from "react";
-import { useState, useEffect } from "react";
-import { getAccounts } from "../../../api-calls/get-accounts";
-import UserInput from "../../../Componants/UserInput";
-import Button from "../../../Componants/Button";
+import { useEffect } from "react";
+import { getAccounts } from "../../../../api-calls/get-accounts";
 import {
   IFriendRequest,
   useFriends,
-} from "../../../providers/friends-provider";
-import { useRequiredUser } from "../../../providers/auth-provider";
-import { User } from "../../../Interfaces/forms";
-import { IUserFriendRequests } from "../../../providers/friends-provider";
+} from "../../../../providers/friends-provider";
+import { User } from "../../../../Interfaces/user";
 import { NavLink, Outlet, useOutletContext } from "react-router-dom";
-import { toggle } from "../../../functions";
-import CheckMarkIcon from "../../../Componants/CheckMarkIcon";
 
 function Friends() {
-  const { userFriendRequests, user } = useFriends();
-  const [userFriendAccounts, setUserFriendAccounts] = useState<User[]>([]);
+  const {
+    userFriendRequests,
+    setUserFriendAccounts,
+    userFriendAccounts,
+    user,
+  } = useFriends();
+
   const activeClassName =
     "underline decoration-indigo-400 font-semibold decoration-4 underline-offset-4";
   const activeClassNameSpecial =
@@ -25,7 +24,7 @@ function Friends() {
   const friendUserNames = userFriendRequests.accepted.map((request) => {
     return returnFriend(request, user);
   });
-  // console.log({ accepted: userFriendRequests.accepted });
+
   useEffect(() => {
     getAccounts()
       .then((response) => response.json())

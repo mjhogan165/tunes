@@ -9,6 +9,7 @@ function createNewTune({
   img,
   artist,
   title,
+  tagged,
 }: INewTune) {
   return fetch(API + "tunes", {
     method: "POST",
@@ -22,6 +23,7 @@ function createNewTune({
       comment: comment,
       createdBy: createdBy,
       img: img,
+      tagged: tagged,
     }),
   });
 }

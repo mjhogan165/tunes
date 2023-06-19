@@ -5,20 +5,15 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import HomeLayout from "./Routes/Home/HomeLayout";
 import Login from "./Routes/Home/Login";
-import Feed from "./Routes/Dashboard/Feed";
-import Friends from "./Routes/Dashboard/Friends/FriendsContainer";
-import CreateNewTune from "./Routes/Dashboard/CreateNewTune";
-import AuthProvider from "./providers/auth-provider";
+import Feed from "./Routes/Dashboard/Pages/Feed/Feed";
+import Friends from "./Routes/Dashboard/Pages/Friends/FriendsContainer";
+import CreateNewTune from "./Routes/Dashboard/Pages/CreateNewTune/CreateNewTune";
 import CreateAccount from "./Routes/Home/CreateUser";
-import { Toaster } from "react-hot-toast";
-import FeedProvider from "./providers/feed-provider";
-import NewTuneProvider from "./providers/new-tune-provider";
 import ErrorPage from "./Routes/ErrorPage";
 import ProvidersWrapper from "./ProvidersWrapper";
-import { getTunes } from "./api-calls/get-tunes";
-import AllFriendsList from "./Routes/Dashboard/Friends/AllFriends";
-import PendingFriends from "./Routes/Dashboard/Friends/PendingFriends";
-import SearchFriend from "./Routes/Dashboard/Friends/SearchFriends";
+import AllFriendsList from "./Routes/Dashboard/Pages/Friends/AllFriends";
+import PendingFriends from "./Routes/Dashboard/Pages/Friends/PendingFriends";
+import SearchFriend from "./Routes/Dashboard/Pages/Friends/SearchFriends";
 const router = createBrowserRouter([
   {
     element: <ProvidersWrapper />,
@@ -28,7 +23,6 @@ const router = createBrowserRouter([
         path: "/",
         element: <HomeLayout />,
         errorElement: <ErrorPage />,
-        // loader: getTunes,
         children: [
           {
             index: true,
@@ -50,13 +44,11 @@ const router = createBrowserRouter([
           {
             path: "feed",
             element: <Feed />,
-            // loader: getTunes,
             errorElement: <ErrorPage />,
           },
           {
             path: "friends",
             element: <Friends />,
-            errorElement: <ErrorPage />,
             children: [
               {
                 index: true,

@@ -1,6 +1,6 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
 import { getAccounts } from "../api-calls/get-accounts";
-import { CreateUser, User } from "../Interfaces/forms";
+import { CreateUser, User } from "../Interfaces/user";
 import { createAccount } from "../api-calls/create-account";
 import toast from "react-hot-toast";
 import { childrenType } from "../Interfaces/global";
@@ -62,10 +62,8 @@ function AuthProvider({ children }: childrenType) {
           toast.error("username not found");
         } else if (foundUser.password === passwordInput) {
           toast.success("Success!");
-          console.log("localstorage");
           localStorage.setItem("user", JSON.stringify(foundUser));
           setUser(foundUser);
-          console.log("NAVIGATING TO DASHBOARD");
           navigate("/dashboard");
         } else toast.error("invalid password");
       })
@@ -112,10 +110,6 @@ export const useAuth = () => {
   return useContext(AuthContext);
 };
 
-// export const useMaybeUser = () => {
-//   const { user } = useAuth();
-//   return user;
-// };
 export const useRequiredUser = () => {
   const { user } = useAuth();
   if (!user) {
@@ -125,11 +119,3 @@ export const useRequiredUser = () => {
 };
 
 export default AuthProvider;
-
-// function find<T>(array: T[], callback: (el: T) => any) {
-//   for (const element of array) {
-//     if (callback(element)) {
-//       return element;
-//     }
-//   }
-// }

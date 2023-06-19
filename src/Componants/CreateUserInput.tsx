@@ -1,5 +1,5 @@
 import React from "react";
-import { CreateUserInputProps } from "../Interfaces/forms";
+import { CreateUserInputProps } from "../Interfaces/user";
 
 function CreateUserInput({
   type,

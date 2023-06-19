@@ -29,13 +29,14 @@ function NavList() {
   return (
     <nav className=" mb-1">
       <div className="min-h-20 flex items-center justify-between md:justify-between my-2 text-right">
-        <NavLink to="feed">
+        <NavLink className="flex flex-col items-center" to="feed">
           <div className="w-14 h-14 object-cover overflow-hidden rounded-full">
             <img className="w-full h-full" src={`${profileImg}`} alt="" />
           </div>
           {profileImg === "" && (
             <i className="fa-solid fa-user inline p-2 border-2 rounded-full fa-xl bg-white"></i>
           )}
+          <div>{user.userName}</div>
         </NavLink>
         <NavLink to="Feed">
           <svg
