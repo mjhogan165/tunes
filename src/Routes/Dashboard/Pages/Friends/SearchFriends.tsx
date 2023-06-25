@@ -5,6 +5,7 @@ import CheckMarkIcon from "../../../../Componants/CheckMarkIcon";
 import Button from "../../../../Componants/Button";
 
 export default function SearchFriend() {
+  console.log("Render: SearchFriends");
   const {
     handleSendFriendRequest,
     userFriendRequests,

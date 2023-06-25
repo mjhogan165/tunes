@@ -7,14 +7,26 @@ interface errors {
 }
 export default function ErrorPage() {
   const error: any = useRouteError();
-  console.log("render error");
+  let displayMessage = "";
+  // console.log("render error");
   // if (error.error.message) {
   //   console.log(error.error.message);
   //   message = error.error.message;
   // }
   // console.error(error.message);
-  console.log(error.message);
+  console.log("errorobjectbelow");
   console.log({ error });
+
+  if (error.name === "SyntaxError") {
+    displayMessage = "Syntax defaultError yo";
+  }
+  switch (true) {
+    case error:
+      break;
+
+    default:
+      break;
+  }
 
   // console.error((err) => console.log(err));
   return (
@@ -22,7 +34,8 @@ export default function ErrorPage() {
       <h1>Oops!</h1>
       <p>An unexpected error has totally occurred!!!.</p>
       <p>
-        <i>{error.message + " "}</i>
+        {/* <i>{error.message}</i> */}
+        <i>{displayMessage}</i>
       </p>
     </div>
   );

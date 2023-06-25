@@ -7,6 +7,7 @@ import Button from "../../../../Componants/Button";
 import { useRequiredUser } from "../../../../providers/auth-provider";
 
 export default function IncomingFriendsList() {
+  console.log("Render: PendingFriends");
   const { userFriendRequests } = useFriends();
   const user = useRequiredUser();
   const { handleRequestResponse } = useFriends();

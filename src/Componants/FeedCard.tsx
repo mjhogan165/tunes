@@ -7,7 +7,7 @@ interface ICardProps {
   tagged?: string;
 }
 function FeedCard({ tune }: ICardProps) {
-  const { artist, title, id, comment, img, createdBy, tagged } = tune;
+  const { artist, title, comment, img, createdBy, tagged } = tune;
   return (
     <div className="bg-white rounded-2xl p-2 shadow-lg sm:p-6 mb-4">
       <i className="fa-solid fa-user inline p-2 border-2 rounded-full mr-2"></i>

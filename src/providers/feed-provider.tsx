@@ -19,6 +19,7 @@ function FeedProvider({ children }: childrenType) {
   const [tuneCards, setTuneCards] = useState<INewTune[]>([]);
   const [taggedCards, setTaggedCards] = useState<INewTune[]>([]);
   const user = useRequiredUser();
+  console.log("Render: *FeedProvider");
   useEffect(() => {
     getTunes()
       .then((response) => response.json())

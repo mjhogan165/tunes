@@ -5,6 +5,7 @@ import { useAuth, useRequiredUser } from "../../providers/auth-provider";
 import NavLinkItem from "../../Componants/NavLinkItem";
 import { useNavigate } from "react-router-dom";
 function NavList() {
+  console.log("Render: Navlist");
   const activeClassName =
     "underline decoration-indigo-400 font-semibold decoration-4 underline-offset-4";
   const activeClassNameSpecial =
@@ -14,7 +15,6 @@ function NavList() {
   const [subMenu, setSubMenu] = useState();
   const user = useRequiredUser();
   useEffect(() => {
-    console.log("Render: Navlist");
     handleResize();
   }, []);
 

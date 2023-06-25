@@ -28,13 +28,39 @@ function AuthProvider({ children }: childrenType) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
+  console.log("Render: *AuthProvider");
+
   useEffect(() => {
+    console.log("AuthProvider useEffect");
     const maybeUser = localStorage.getItem("user");
     if (maybeUser) {
-      setUser(JSON.parse(maybeUser));
-    } else setUser(null);
+      const parsedUser: User = JSON.parse(maybeUser);
+      getAccounts()
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          }
+          return Promise.reject(response);
+        })
+        .then((accounts) => {
+          setIsLoading(false);
+          const foundUser: User = accounts.find(
+            (elm: User) => elm.userName === parsedUser.userName
+          );
+          if (foundUser) {
+            setUser(foundUser);
+          }
+        })
+        .catch((err) => {
+          toast.error(err.toString());
+        })
+        .finally(() => setIsLoading(false));
+      // setUser(JSON.parse(maybeUser));
+    } else {
+      setUser(null);
+    }
   }, []);
-
+  console.log("after UE");
   const logout = () => {
     setUser(null);
     localStorage.removeItem("user");
@@ -46,6 +72,11 @@ function AuthProvider({ children }: childrenType) {
   ) => {
     e.preventDefault();
     setIsLoading(true);
+    // const maybeUser = localStorage.getItem("user");
+    // if (maybeUser) {
+    //   console.log("somethings there");
+    //   localStorage.removeItem("user");
+    // }
     getAccounts()
       .then((response) => {
         if (response.ok) {

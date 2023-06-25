@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { NavLink, Link, Outlet } from "react-router-dom";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import UserInput from "../../Componants/UserInput";
 import { useAuth } from "../../providers/auth-provider";
-import { Navigate } from "react-router-dom";
 import Button from "../../Componants/Button";
-import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 function Login() {
   const { handleClickLogin, isLoading } = useAuth();
   const [userNameInput, setUserNameInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
+  console.log("Render: LoginPage");
 
   return (
     <section className="rounded-lg bg-white container shadow-sm mx-auto my-6 border-2 flex flex-col items-center border-transparent max-w-lg p-6 gap-6 font-normal">

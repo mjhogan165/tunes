@@ -5,10 +5,6 @@ import createNewTune from "../api-calls/create-newtune";
 import { INewTune } from "../Interfaces/feed";
 import { toast } from "react-hot-toast";
 import getToken from "../api-calls/get-token";
-// const client_id = "e9b1abef9cd84cecb883434c4d6de44b";
-// const redirect_uri = "http://localhost:5173/Home/Redirect";
-// const client_secret = "e0f968f004f54c22ad052f3e3a634326";
-// const url = "https://accounts.spotify.com/api/token";
 import { searchTrack } from "../api-calls/search";
 import { useRequiredUser } from "./auth-provider";
 
@@ -29,6 +25,7 @@ interface NewTuneInterface {
 const NewTuneContext = createContext({} as NewTuneInterface);
 
 function NewTuneProvider({ children }: childrenType) {
+  console.log("Render: *NewTuneProvider");
   const [token, setToken] = useState("");
   const [selectedTune, setSelectedTune] = useState<INewTune>({
     artist: "",
@@ -118,17 +115,6 @@ function NewTuneProvider({ children }: childrenType) {
         setSearchResults(filteredResponse);
       })
       .catch((error) => toast.error(error));
-
-    // const response = TEST_RESPONSE.tracks.items;
-    // const filteredResponse = [];
-    // for (const elm of response) {
-    //   filteredResponse.push({
-    //     artist: elm.artists[0].name,
-    //     title: elm.name,
-    //     id: elm.id,
-    //   });
-    // }
-    // setSearchResults(filteredResponse);
   };
   const handleClickTune = (newTune: INewTune) => {
     setSelectedTune(newTune);

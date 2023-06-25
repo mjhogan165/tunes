@@ -4,6 +4,7 @@ import { User } from "../../../../Interfaces/user";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 export default function AllFriendsList() {
+  console.log("Render: AllFriends");
   const { userFriendAccounts } = useFriends();
   return (
     <div className="flex w-full flex-col">

@@ -10,13 +10,13 @@ import Friends from "./Routes/Dashboard/Pages/Friends/FriendsContainer";
 import CreateNewTune from "./Routes/Dashboard/Pages/CreateNewTune/CreateNewTune";
 import CreateAccount from "./Routes/Home/CreateUser";
 import ErrorPage from "./Routes/ErrorPage";
-import ProvidersWrapper from "./ProvidersWrapper";
+import AuthWrapper from "./AuthWrapper";
 import AllFriendsList from "./Routes/Dashboard/Pages/Friends/AllFriends";
 import PendingFriends from "./Routes/Dashboard/Pages/Friends/PendingFriends";
 import SearchFriend from "./Routes/Dashboard/Pages/Friends/SearchFriends";
 const router = createBrowserRouter([
   {
-    element: <ProvidersWrapper />,
+    element: <AuthWrapper />,
     errorElement: <ErrorPage />,
     children: [
       {
@@ -29,7 +29,7 @@ const router = createBrowserRouter([
             element: <Login />,
             errorElement: <ErrorPage />,
           },
-          { path: "/create-account", index: true, element: <CreateAccount /> },
+          { path: "/create-account", element: <CreateAccount /> },
         ],
       },
       {

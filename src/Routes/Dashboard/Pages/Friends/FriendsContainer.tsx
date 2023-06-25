@@ -9,6 +9,7 @@ import { User } from "../../../../Interfaces/user";
 import { NavLink, Outlet, useOutletContext } from "react-router-dom";
 
 function Friends() {
+  console.log("Render: FriendsContainer");
   const {
     userFriendRequests,
     setUserFriendAccounts,
@@ -29,13 +30,13 @@ function Friends() {
     getAccounts()
       .then((response) => response.json())
       .then((accounts) => {
-        console.log({ accounts: accounts });
+        // console.log({ accounts: accounts });
         return accounts.filter((account: User) => {
           return friendUserNames.includes(account.userName);
         });
       })
       .then((friends) => {
-        console.log({ friends: friends });
+        // console.log({ friends: friends });
         setUserFriendAccounts(friends);
       })
       .catch((err) => console.log(err));

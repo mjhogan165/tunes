@@ -36,17 +36,11 @@ function CreateAccount() {
         id="confirm-password"
         label="Confirm Password"
       />{" "}
-      {/* <button
-        className="bg-indigo-400 border-2 rounded-md p-2 my-4 w-40 text-center"
-        type="submit"
-        onClick={(e) => handleClickCreateAccount(e, createUser)}
-      >
-        Create Account
-      </button> */}
       <Button
         btnType="submit"
         label="Create Account"
         handleClick={(e) => handleClickCreateAccount(e, createUser)}
+        disabled={false}
       />
       {user && <Navigate to="/" replace={true} />}
     </form>
