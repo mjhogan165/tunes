@@ -2,6 +2,7 @@ import React from "react";
 import { SPOT_BASE } from "../constants";
 
 export function searchTrack(input: string, token: string) {
+  console.log("searchTrack()");
   console.log({
     searchtoken: token,
     searchTrackFunction: "called",

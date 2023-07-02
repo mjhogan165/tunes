@@ -45,3 +45,6 @@ export async function findFriend(input: string) {
 export function toggle(bool: boolean) {
   return !bool;
 }
+export const isValidInput = (input: string) => {
+  return input.trim().length > 0;
+};

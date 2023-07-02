@@ -7,6 +7,8 @@ import { toast } from "react-hot-toast";
 import getToken from "../api-calls/get-token";
 import { searchTrack } from "../api-calls/search";
 import { useRequiredUser } from "./auth-provider";
+import { toggle } from "../functions";
+import { isValidInput } from "../functions";
 
 interface NewTuneInterface {
   handleClickPostNewTune: (e: React.SyntheticEvent, tuneObj: INewTune) => void;
@@ -21,11 +23,14 @@ interface NewTuneInterface {
   handleChangeTagged: (e: React.SyntheticEvent) => void;
   setSelectTaggedValue: React.Dispatch<React.SetStateAction<string>>;
   selectTaggedValue: string;
+  handleInputChange: (name: string, input: string) => void;
+  isSearchBtnDisabled: boolean;
 }
 const NewTuneContext = createContext({} as NewTuneInterface);
 
 function NewTuneProvider({ children }: childrenType) {
   console.log("Render: *NewTuneProvider");
+
   const [token, setToken] = useState("");
   const [selectedTune, setSelectedTune] = useState<INewTune>({
     artist: "",
@@ -40,20 +45,64 @@ function NewTuneProvider({ children }: childrenType) {
   const [refresh, setRefresh] = useState(false);
   const [selectTaggedValue, setSelectTaggedValue] = useState("");
   const { userName } = useRequiredUser();
+  const [isSearchBtnDisabled, setIsSearchBtnDisabled] = useState(false);
+  console.log({ token: token });
+  // useEffect(() => {
+  //   const ifToken = localStorage.getItem("token");
+  //   if (ifToken && !refresh) {
+  //     setToken(ifToken);
+  //   } else {
+  //     getToken()
+  //       .then((result) => result.json())
+  //       .then((token) => {
+  //         setToken(token.access_token);
+  //         localStorage.setItem("token", token.access_token);
+  //         return token;
+  //       })
+  //       .catch((val) => console.log(val));
+  //   }
+  // }, [refresh]);
+  // const ifRefresh = localStorage.getItem("refresh");
+  // if (ifRefresh === "true") {
+  //   setRefresh(true);
+  // }
   useEffect(() => {
+    // const buf = Buffer.from("abc");
+    // const buf = Buffer.from(testOne + ":" + testTwo).toString("base64");
+    // console.log({ buffer: buf });
+    console.log("newtune useEffect");
     const ifToken = localStorage.getItem("token");
     if (ifToken && !refresh) {
       setToken(ifToken);
     } else {
       getToken()
+        .then((response) => {
+          if (!response.ok) {
+            console.log({ response: response });
+            return Promise.reject(response);
+          } else return response;
+        })
         .then((result) => result.json())
-        .then((token) => {
-          setToken(token.access_token);
-          localStorage.setItem("token", token.access_token);
-          return token;
-        });
+        .then((newToken) => {
+          console.log("set");
+          setToken(newToken.access_token);
+          localStorage.setItem("token", newToken.access_token);
+          return newToken;
+        })
+        .catch((val) => {
+          console.log("Caught in gettoken()");
+          console.log({ err: val });
+        })
+        .finally(() =>
+          setTimeout(() => {
+            //setRefresh to TRUE
+            //put it in local storage
+            console.log("delay");
+          }, 6000)
+        );
     }
   }, [refresh]);
+
   const handleChangeTagged = (event: React.SyntheticEvent) => {
     event.preventDefault();
     const target = event.target as HTMLSelectElement;
@@ -86,37 +135,78 @@ function NewTuneProvider({ children }: childrenType) {
     }
   };
 
+  const handleInputChange = (name: string, input: string) => {
+    switch (true) {
+      case name === "search-song":
+        console.log("handleing change");
+        setSongInput(input);
+        if (!isValidInput(input)) {
+          setIsSearchBtnDisabled(true);
+          setSelectedTune({
+            artist: "",
+            title: "",
+            id: "",
+            createdBy: "",
+            tagged: "",
+          });
+        } else if (isSearchBtnDisabled) {
+          setIsSearchBtnDisabled(toggle(isSearchBtnDisabled));
+        }
+
+        break;
+
+      default:
+        break;
+    }
+  };
+
   const handleClickSearch = async (e: React.SyntheticEvent, input: string) => {
     e.preventDefault();
 
-    searchTrack(input, token)
-      .then((response) => {
-        if (!response.ok) {
-          toast.error(response.status + "Search failed: please try again");
-          setRefresh(!refresh);
-          throw new Error("API Error: Refresh Token");
-        }
-        return response.json();
-      })
-      .then((trackObj) => {
-        const filteredResponse = [];
-        for (const elm of trackObj.tracks.items) {
-          filteredResponse.push({
-            artist: elm.artists[0].name,
-            title: elm.name,
-            id: elm.id,
-            img: elm.album.images[0].url,
-            createdBy: userName,
-          });
-        }
-        return filteredResponse;
-      })
-      .then((filteredResponse) => {
-        setSearchResults(filteredResponse);
-      })
-      .catch((error) => toast.error(error));
+    console.log(isValidInput(input));
+    if (isValidInput(input)) {
+      searchTrack(input, token)
+        .then((response) => {
+          console.log(response);
+          if (!response.ok) {
+            console.log("not ok");
+            toast.error(
+              response.status + " Session Timed out: please try again"
+            );
+            console.log("after toast");
+            if (!refresh) {
+              setRefresh(true);
+            }
+            return Promise.reject(response);
+            // setRefresh(!refresh);
+            // throw new Error("API Error: Refresh Token");
+          }
+          return response.json();
+        })
+        .then((trackObj) => {
+          const filteredResponse = [];
+          for (const elm of trackObj.tracks.items) {
+            filteredResponse.push({
+              artist: elm.artists[0].name,
+              title: elm.name,
+              id: elm.id,
+              img: elm.album.images[0].url,
+              createdBy: userName,
+            });
+          }
+          return filteredResponse;
+        })
+        .then((filteredResponse) => {
+          setSearchResults(filteredResponse);
+        })
+        .catch((error) => {
+          console.log("CAUGHT");
+          console.log(error);
+        });
+    }
   };
   const handleClickTune = (newTune: INewTune) => {
+    setIsSearchBtnDisabled(true);
     setSelectedTune(newTune);
     setSearchResults([]);
     setSongInput(`${newTune.artist}: ${newTune.title}`);
@@ -137,6 +227,8 @@ function NewTuneProvider({ children }: childrenType) {
         handleChangeTagged,
         setSelectTaggedValue,
         selectTaggedValue,
+        handleInputChange,
+        isSearchBtnDisabled,
       }}
     >
       {children}

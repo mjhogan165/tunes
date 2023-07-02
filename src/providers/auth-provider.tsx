@@ -144,6 +144,7 @@ export const useAuth = () => {
 export const useRequiredUser = () => {
   const { user } = useAuth();
   if (!user) {
+    console.log("ERROROROROR");
     throw new Error("user not logged in error");
   }
   return user;

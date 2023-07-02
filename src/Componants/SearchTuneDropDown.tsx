@@ -5,6 +5,7 @@ import SearchTuneSubMenu from "./SearchTuneSubMenu";
 
 function SearchTuneDropDown() {
   const { searchResults } = useNewTune();
+  console.log("searchtuneDrop");
   if (searchResults) {
     return (
       <div className="rounded-sm max-w-md">
