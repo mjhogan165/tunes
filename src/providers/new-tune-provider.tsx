@@ -9,6 +9,7 @@ import { searchTrack } from "../api-calls/search";
 import { useRequiredUser } from "./auth-provider";
 import { toggle } from "../functions";
 import { isValidInput } from "../functions";
+import moment from "moment";
 
 interface NewTuneInterface {
   handleClickPostNewTune: (e: React.SyntheticEvent, tuneObj: INewTune) => void;
@@ -42,10 +43,12 @@ function NewTuneProvider({ children }: childrenType) {
   const [songInput, setSongInput] = useState("");
   const [commentInput, setCommentInput] = useState("");
   const [searchResults, setSearchResults] = useState<INewTune[]>([]);
+  const [timeTokenFetched, setTimeTokenFetched] = useState("");
   const [refresh, setRefresh] = useState(false);
   const [selectTaggedValue, setSelectTaggedValue] = useState("");
   const { userName } = useRequiredUser();
   const [isSearchBtnDisabled, setIsSearchBtnDisabled] = useState(false);
+
   console.log({ token: token });
   // useEffect(() => {
   //   const ifToken = localStorage.getItem("token");
@@ -62,17 +65,19 @@ function NewTuneProvider({ children }: childrenType) {
   //       .catch((val) => console.log(val));
   //   }
   // }, [refresh]);
-  // const ifRefresh = localStorage.getItem("refresh");
-  // if (ifRefresh === "true") {
-  //   setRefresh(true);
-  // }
+
+  const checkRefresh = (timeFetchedStr: string) => {
+    const now = moment();
+    const timeFetchedObj = moment(timeFetchedStr);
+    const hourLater = moment(timeFetchedObj).add(1, "hours");
+    return moment(now).isAfter(hourLater);
+  };
+
   useEffect(() => {
-    // const buf = Buffer.from("abc");
-    // const buf = Buffer.from(testOne + ":" + testTwo).toString("base64");
-    // console.log({ buffer: buf });
     console.log("newtune useEffect");
     const ifToken = localStorage.getItem("token");
     if (ifToken && !refresh) {
+      console.log("SETTING TOKEN");
       setToken(ifToken);
     } else {
       getToken()
@@ -80,7 +85,13 @@ function NewTuneProvider({ children }: childrenType) {
           if (!response.ok) {
             console.log({ response: response });
             return Promise.reject(response);
-          } else return response;
+          } else {
+            //log timeFetched
+            console.log("LOGGING TIME FETCHED");
+            const timeToken = moment().format();
+            localStorage.setItem("timeTokenFetched", timeToken);
+          }
+          return response;
         })
         .then((result) => result.json())
         .then((newToken) => {
@@ -92,14 +103,7 @@ function NewTuneProvider({ children }: childrenType) {
         .catch((val) => {
           console.log("Caught in gettoken()");
           console.log({ err: val });
-        })
-        .finally(() =>
-          setTimeout(() => {
-            //setRefresh to TRUE
-            //put it in local storage
-            console.log("delay");
-          }, 6000)
-        );
+        });
     }
   }, [refresh]);
 
@@ -138,7 +142,6 @@ function NewTuneProvider({ children }: childrenType) {
   const handleInputChange = (name: string, input: string) => {
     switch (true) {
       case name === "search-song":
-        console.log("handleing change");
         setSongInput(input);
         if (!isValidInput(input)) {
           setIsSearchBtnDisabled(true);
@@ -163,7 +166,16 @@ function NewTuneProvider({ children }: childrenType) {
   const handleClickSearch = async (e: React.SyntheticEvent, input: string) => {
     e.preventDefault();
 
-    console.log(isValidInput(input));
+    const maybeTimeTokenFetched = localStorage.getItem("timeTokenFetched");
+    console.log({ maybeTimeTokenFetched: maybeTimeTokenFetched });
+    if (maybeTimeTokenFetched) {
+      const needsRefresh = checkRefresh(maybeTimeTokenFetched);
+      console.log("CLICKSEARCH");
+      console.log({ needsRefresh: needsRefresh });
+      if (needsRefresh) {
+        setRefresh(needsRefresh);
+      }
+    }
     if (isValidInput(input)) {
       searchTrack(input, token)
         .then((response) => {
@@ -174,12 +186,7 @@ function NewTuneProvider({ children }: childrenType) {
               response.status + " Session Timed out: please try again"
             );
             console.log("after toast");
-            if (!refresh) {
-              setRefresh(true);
-            }
             return Promise.reject(response);
-            // setRefresh(!refresh);
-            // throw new Error("API Error: Refresh Token");
           }
           return response.json();
         })
