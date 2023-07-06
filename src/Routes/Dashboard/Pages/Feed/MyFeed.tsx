@@ -6,6 +6,7 @@ import { INewTune } from "../../../../Interfaces/feed";
 import { useAuth, useRequiredUser } from "../../../../providers/auth-provider";
 import { getTunes } from "../../../../api-calls/get-tunes";
 import { useLoaderData } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import {
   IFriendRequest,
   useFriends,
@@ -48,11 +49,14 @@ function Feed() {
   // setTaggedCards([]);
   // console.log({ taggedCards: taggedCards });
   return (
-    <div className="m-auto content-container">
-      {taggedCards.map((tune: INewTune, index: number) => {
-        return <FeedCard key={index} tune={tune} />;
-      })}
+    <div>
+      <div className="m-auto content-container">
+        {taggedCards.map((tune: INewTune, index: number) => {
+          return <FeedCard key={index} tune={tune} />;
+        })}
+      </div>
     </div>
+
     // <div className="m-auto content-container"></div>
   );
   // );

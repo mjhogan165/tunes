@@ -3,9 +3,10 @@ import { writeFileSync } from "fs";
 import { IFriendRequest } from "./src/providers/friends-provider";
 import { User } from "./src/Interfaces/user";
 
-function generateAccounts() {
+const accounts = generateAccounts(10);
+function generateAccounts(maxAccounts: number) {
   const inputArray: User[] = [];
-  for (let i = 0; i < 30; i++) {
+  for (let i = 0; i < maxAccounts; i++) {
     inputArray.push({
       userName: `user${i}`,
       profileImg: faker.image.people(100, 100, true),
@@ -64,98 +65,90 @@ function generateRandomInt(limit: number) {
   return Math.floor(Math.random() * (limit - 0) + 0);
 }
 
-function generateRandomStatus(): "accepted" | "rejected" | "pending" {
-  const num = generateRandomInt(3);
-  switch (true) {
-    case num === 0:
-      return "accepted";
-    case num === 1:
-      return "rejected";
-    case num === 2:
-      return "pending";
-    default:
-      return "accepted";
-  }
-}
-
-function generateIdWithout(omit: number) {
-  let randomId: number = generateRandomInt(accounts.length);
-  return randomId === omit ? (randomId += 1) : randomId;
-}
-
-function generateRandomReceiver(potentialSender: User) {
-  const potentialReceiverId = generateIdWithout(potentialSender.id);
-  const receiver = accounts.find(
-    (account) => account.id === potentialReceiverId
-  );
-  if (receiver) {
-    return receiver;
-  } else {
-    return potentialSender;
-  }
-}
-const isDuplicateRequest = (
-  requests: IFriendRequest[],
-  sender: string,
-  receiver: string
-) => {
-  let isDupe = false;
-  for (const request of requests) {
-    const values = Object.values(request);
-    const hasSender = values.includes(sender);
-    const hasReceiver = values.includes(receiver);
-    if (hasSender && hasReceiver) {
-      isDupe = true;
-    } else {
-      continue;
+const generateAllUniquePairs = (array: User[], start: number) => {
+  const allCombos = [];
+  for (let i = start; i <= array.length; i++) {
+    const current = "user" + i;
+    const iPlusOne = i + 1;
+    for (let n = iPlusOne; n <= array.length; n++) {
+      const otherUser = "user" + n;
+      allCombos.push([current, otherUser]);
     }
   }
-  return isDupe;
+  return allCombos;
 };
+let allPossiblePairs = generateAllUniquePairs(accounts, 0);
 
-//everyone is friends with user0 and is tagged in a post
-function generateFriendRequests(accounts: User[], requestsPerPerson: number) {
+function generateFriendRequests(numberPerUser: number) {
   const requestArray: IFriendRequest[] = [];
   let idCount = 0;
-  for (const account of accounts) {
-    const eligibleReceivers: User[] = [];
-    for (let index = 0; index < requestsPerPerson; index++) {
-      const receiver = generateRandomReceiver(account);
-      eligibleReceivers.push(receiver);
-    }
-    for (let index = 0; index < requestsPerPerson; index++) {
-      const sender = account.userName;
-      const receiver = eligibleReceivers[index].userName;
-      const request: IFriendRequest = {
-        status: generateRandomStatus(),
-        sender: sender,
-        receiver: receiver,
-        id: idCount,
-      };
-      const defaultFriend: IFriendRequest = {
+  for (let index = 0; index < accounts.length; index++) {
+    const currentUser = accounts[index].userName;
+    //get array of possibilities for user
+    const hasUser = allPossiblePairs.filter((pair) => {
+      const values = Object.values(pair);
+      return values.includes(currentUser);
+    });
+    //create x number of requests
+    for (let subIndex = 0; subIndex < numberPerUser; subIndex++) {
+      const randomInt = generateRandomInt(hasUser.length);
+      const randomPair = hasUser[randomInt];
+      //update hasUSer
+      hasUser.splice(randomInt, 1);
+      const reciever =
+        randomPair[0] === currentUser ? randomPair[1] : randomPair[0];
+      requestArray.push({
         status: "accepted",
-        sender: sender,
-        receiver: "user0",
-        id: idCount + 1,
-      };
-      if (!isDuplicateRequest(requestArray, sender, receiver)) {
-        requestArray.push(request);
-        requestArray.push(defaultFriend);
-        idCount += 2;
-      } else idCount += 1;
+        sender: currentUser,
+        receiver: reciever,
+        id: idCount,
+      });
+      idCount++;
+      //remove pair from allPossible Pairs
+      allPossiblePairs = allPossiblePairs.filter((pair) => {
+        if (pair.includes(randomPair[0])) {
+          if (pair.includes(randomPair[1])) {
+            return false;
+          }
+        }
+        return true;
+      });
     }
   }
-  console.log(requestArray);
-  console.log(requestArray.length);
+
+  for (let index = 0; index < allPossiblePairs.length; index++) {
+    const users = allPossiblePairs[index];
+    if (index % 2 === 0) {
+      requestArray.push({
+        status: "pending",
+        sender: users[0],
+        receiver: users[1],
+        id: idCount,
+      });
+      idCount++;
+    } else {
+      requestArray.push({
+        status: "rejected",
+        sender: users[0],
+        receiver: users[1],
+        id: idCount,
+      });
+      idCount++;
+    }
+  }
+
   return requestArray;
 }
-
-const accounts = generateAccounts();
-const friendRequests = generateFriendRequests(accounts, 20);
+const totalRequests = generateFriendRequests(3);
+// console.log({
+//   allpossiblepairs: allPossiblePairs.length,
+//   totalRequests: totalRequests,
+//   totalRequestsLength: totalRequests.length,
+// });
 const data = {
   accounts: accounts,
   tunes: generateTunes(),
-  friendRequests: friendRequests,
+  friendRequests: totalRequests,
 };
 
 writeFileSync("db.json", JSON.stringify(data));

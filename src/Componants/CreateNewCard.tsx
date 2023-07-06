@@ -42,7 +42,7 @@ function CreateNewCard({ tune }: ICardProps) {
         {/* <span className="text-lg font-semibold">{createdBy}</span> */}
         <p className="text-base p-2 break-words">{comment}</p>
         <div className="border-2 border-transparent flex gap-4 items-center w-full justify-start p-2 rounded-2xl ">
-          <div className="basis-32 h-32 flex-none overflow-hidden rounded-2xl bg-gray-100">
+          <div className="basis-32 h-32 flex-none overflow-hidden rounded-2xl bg-gray-100 shadow-lg">
             {img && (
               <img className="object-cover w-full" src={img} alt="imagePH" />
             )}

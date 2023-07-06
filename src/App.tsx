@@ -5,7 +5,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import HomeLayout from "./Routes/Home/HomeLayout";
 import Login from "./Routes/Home/Login";
-import Feed from "./Routes/Dashboard/Pages/Feed/Feed";
+import Feed from "./Routes/Dashboard/Pages/Feed/MyFeed";
 import Friends from "./Routes/Dashboard/Pages/Friends/FriendsContainer";
 import CreateNewTune from "./Routes/Dashboard/Pages/CreateNewTune/CreateNewTune";
 import CreateAccount from "./Routes/Home/CreateUser";
@@ -14,6 +14,9 @@ import AuthWrapper from "./AuthWrapper";
 import AllFriendsList from "./Routes/Dashboard/Pages/Friends/AllFriends";
 import PendingFriends from "./Routes/Dashboard/Pages/Friends/PendingFriends";
 import SearchFriend from "./Routes/Dashboard/Pages/Friends/SearchFriends";
+import MyPosts from "./Routes/Dashboard/Pages/Feed/MyPosts";
+import MyFeed from "./Routes/Dashboard/Pages/Feed/MyFeed";
+import FeedContainer from "./Routes/Dashboard/Pages/Feed/FeedContainer";
 const router = createBrowserRouter([
   {
     element: <AuthWrapper />,
@@ -43,8 +46,23 @@ const router = createBrowserRouter([
           },
           {
             path: "feed",
-            element: <Feed />,
+            element: <FeedContainer />,
             errorElement: <ErrorPage />,
+            children: [
+              {
+                index: true,
+                element: <MyFeed />,
+              },
+              {
+                path: "myfeed",
+                element: <MyFeed />,
+              },
+              {
+                path: "myposts",
+                element: <MyPosts />,
+                errorElement: <ErrorPage />,
+              },
+            ],
           },
           {
             path: "friends",

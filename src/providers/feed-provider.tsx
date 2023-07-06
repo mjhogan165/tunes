@@ -11,6 +11,9 @@ interface IFeed {
   setTuneCards: React.Dispatch<React.SetStateAction<INewTune[]>>;
   user: User;
   taggedCards: INewTune[];
+  postedCards: INewTune[];
+  setRefreshCards: React.Dispatch<React.SetStateAction<boolean>>;
+  refreshCards: boolean;
 }
 
 const FeedContext = createContext({} as IFeed);
@@ -18,6 +21,8 @@ const FeedContext = createContext({} as IFeed);
 function FeedProvider({ children }: childrenType) {
   const [tuneCards, setTuneCards] = useState<INewTune[]>([]);
   const [taggedCards, setTaggedCards] = useState<INewTune[]>([]);
+  const [postedCards, setPostedCards] = useState<INewTune[]>([]);
+  const [refreshCards, setRefreshCards] = useState(false);
   const user = useRequiredUser();
   console.log("Render: *FeedProvider");
   useEffect(() => {
@@ -27,16 +32,28 @@ function FeedProvider({ children }: childrenType) {
         const tagged = parsedArray.filter((card: INewTune) => {
           return user.userName === card.tagged;
         });
+        const posted = parsedArray.filter((card: INewTune) => {
+          return user.userName === card.createdBy;
+        });
         setTaggedCards(tagged);
+        setPostedCards(posted);
         setTuneCards(parsedArray);
       })
       .catch((err) => {
         toast.error(err);
       });
-  }, [user]);
+  }, [user, refreshCards]);
   return (
     <FeedContext.Provider
-      value={{ tuneCards, setTuneCards, user, taggedCards }}
+      value={{
+        tuneCards,
+        setTuneCards,
+        user,
+        taggedCards,
+        postedCards,
+        setRefreshCards,
+        refreshCards,
+      }}
     >
       {children}
     </FeedContext.Provider>

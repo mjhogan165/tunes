@@ -21,10 +21,10 @@ function FeedCard({ tune }: ICardProps) {
       <span className="text-lg font-semibold">{createdBy}</span>
       <p className="text-base p-2 break-words">{comment}</p>
       <div className="border-2 border-transparent flex gap-4 items-center w-full justify-start p-2 rounded-2xl ">
-        <div className="w-24 md:w-32 overflow-hidden rounded-2xl bg-gray-50">
-          {/* {img && (
-            <img className="object-cover w-full" src={img} alt="imagePH" />
-          )} */}
+        <div className="w-24 md:w-32 overflow-hidden shadow-lg rounded-2xl bg-gray-50">
+          {img && (
+            <img className="object-cover w-full " src={img} alt="imagePH" />
+          )}
         </div>
         <div className="flex-col">
           <h2 className="text-lg font-bold">{artist}</h2>

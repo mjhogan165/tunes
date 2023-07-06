@@ -1,4 +1,5 @@
 import { getAccounts } from "./api-calls/get-accounts";
+import moment from "moment";
 export const findExsistingUser = (
   userNameInput: string,
   passwordInput: string,
@@ -47,4 +48,11 @@ export function toggle(bool: boolean) {
 }
 export const isValidInput = (input: string) => {
   return input.trim().length > 0;
+};
+
+export const checkRefresh = (timeFetchedStr: string) => {
+  const now = moment();
+  const timeFetchedObj = moment(timeFetchedStr);
+  const hourLater = moment(timeFetchedObj).add(1, "hours");
+  return moment(now).isAfter(hourLater);
 };

@@ -76,7 +76,7 @@ function NavList() {
           setTimeout(() => setShowMenuItems(!showMenuItems), 100);
         }}
       /> */}
-      <div className="flex justify-around py-2 text-base">
+      <div className="flex justify-around py-2 text-base border-b-2 border-solid border-b-gray-300/50">
         <NavLink
           to="feed"
           className={({ isActive }) => (isActive ? activeClassName : undefined)}

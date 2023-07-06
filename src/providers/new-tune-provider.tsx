@@ -8,17 +8,21 @@ import getToken from "../api-calls/get-token";
 import { searchTrack } from "../api-calls/search";
 import { useRequiredUser } from "./auth-provider";
 import { toggle } from "../functions";
-import { isValidInput } from "../functions";
+import { isValidInput, checkRefresh } from "../functions";
 import moment from "moment";
+import { useFeed } from "./feed-provider";
 
 interface NewTuneInterface {
-  handleClickPostNewTune: (e: React.SyntheticEvent, tuneObj: INewTune) => void;
+  handleClickPostNewTune: (
+    e: React.SyntheticEvent,
+    tuneObj: INewTune | null
+  ) => void;
   handleClickSearch: (e: React.SyntheticEvent, input: string) => void;
   searchResults: Array<INewTune> | null;
   handleClickTune: (newTune: INewTune) => void;
   songInput: string;
   setSongInput: React.Dispatch<React.SetStateAction<string>>;
-  selectedTune: INewTune;
+  selectedTune: INewTune | null;
   setCommentInput: React.Dispatch<React.SetStateAction<string>>;
   commentInput: string;
   handleChangeTagged: (e: React.SyntheticEvent) => void;
@@ -31,15 +35,8 @@ const NewTuneContext = createContext({} as NewTuneInterface);
 
 function NewTuneProvider({ children }: childrenType) {
   console.log("Render: *NewTuneProvider");
-
   const [token, setToken] = useState("");
-  const [selectedTune, setSelectedTune] = useState<INewTune>({
-    artist: "",
-    title: "",
-    id: "",
-    createdBy: "",
-    tagged: "",
-  });
+  const [selectedTune, setSelectedTune] = useState<INewTune | null>(null);
   const [songInput, setSongInput] = useState("");
   const [commentInput, setCommentInput] = useState("");
   const [searchResults, setSearchResults] = useState<INewTune[]>([]);
@@ -49,34 +46,11 @@ function NewTuneProvider({ children }: childrenType) {
   const { userName } = useRequiredUser();
   const [isSearchBtnDisabled, setIsSearchBtnDisabled] = useState(false);
 
-  console.log({ token: token });
-  // useEffect(() => {
-  //   const ifToken = localStorage.getItem("token");
-  //   if (ifToken && !refresh) {
-  //     setToken(ifToken);
-  //   } else {
-  //     getToken()
-  //       .then((result) => result.json())
-  //       .then((token) => {
-  //         setToken(token.access_token);
-  //         localStorage.setItem("token", token.access_token);
-  //         return token;
-  //       })
-  //       .catch((val) => console.log(val));
-  //   }
-  // }, [refresh]);
-
-  const checkRefresh = (timeFetchedStr: string) => {
-    const now = moment();
-    const timeFetchedObj = moment(timeFetchedStr);
-    const hourLater = moment(timeFetchedObj).add(1, "hours");
-    return moment(now).isAfter(hourLater);
-  };
-
+  const ifToken = localStorage.getItem("token");
+  const { setRefreshCards, refreshCards } = useFeed();
   useEffect(() => {
     console.log("newtune useEffect");
-    const ifToken = localStorage.getItem("token");
-    if (ifToken && !refresh) {
+    if (ifToken) {
       console.log("SETTING TOKEN");
       setToken(ifToken);
     } else {
@@ -114,9 +88,10 @@ function NewTuneProvider({ children }: childrenType) {
   };
   const handleClickPostNewTune = (
     e: React.SyntheticEvent,
-    tuneObj: INewTune
+    tuneObj: INewTune | null
   ) => {
     e.preventDefault();
+    console.log(tuneObj);
     if (tuneObj) {
       tuneObj.comment = commentInput;
       tuneObj.tagged = selectTaggedValue;
@@ -133,6 +108,11 @@ function NewTuneProvider({ children }: childrenType) {
           setSearchResults([]);
           setSongInput("");
           setCommentInput("");
+          setRefreshCards(toggle(refreshCards));
+          setSelectedTune(null);
+          toast("Good Job!", {
+            icon: "👏",
+          });
         });
     } else {
       toast.error("Please select tune");
@@ -173,43 +153,43 @@ function NewTuneProvider({ children }: childrenType) {
       console.log("CLICKSEARCH");
       console.log({ needsRefresh: needsRefresh });
       if (needsRefresh) {
-        setRefresh(needsRefresh);
+        setRefresh(toggle(needsRefresh));
       }
     }
+
     if (isValidInput(input)) {
-      searchTrack(input, token)
-        .then((response) => {
-          console.log(response);
-          if (!response.ok) {
-            console.log("not ok");
-            toast.error(
-              response.status + " Session Timed out: please try again"
-            );
-            console.log("after toast");
-            return Promise.reject(response);
-          }
-          return response.json();
-        })
-        .then((trackObj) => {
-          const filteredResponse = [];
-          for (const elm of trackObj.tracks.items) {
-            filteredResponse.push({
-              artist: elm.artists[0].name,
-              title: elm.name,
-              id: elm.id,
-              img: elm.album.images[0].url,
-              createdBy: userName,
-            });
-          }
-          return filteredResponse;
-        })
-        .then((filteredResponse) => {
-          setSearchResults(filteredResponse);
-        })
-        .catch((error) => {
-          console.log("CAUGHT");
-          console.log(error);
-        });
+      console.log("isvalid");
+      if (token) {
+        searchTrack(input, token)
+          .then((response) => {
+            console.log(response);
+            if (!response.ok) {
+              toast.error(response.status + " Search failed please try again");
+              return Promise.reject(response);
+            }
+            return response.json();
+          })
+          .then((trackObj) => {
+            const filteredResponse = [];
+            for (const elm of trackObj.tracks.items) {
+              filteredResponse.push({
+                artist: elm.artists[0].name,
+                title: elm.name,
+                id: elm.id,
+                img: elm.album.images[0].url,
+                createdBy: userName,
+              });
+            }
+            return filteredResponse;
+          })
+          .then((filteredResponse) => {
+            setSearchResults(filteredResponse);
+          })
+          .catch((error) => {
+            console.log("CAUGHT");
+            console.log(error);
+          });
+      }
     }
   };
   const handleClickTune = (newTune: INewTune) => {
