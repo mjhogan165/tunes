@@ -40,32 +40,31 @@ function NewTuneProvider({ children }: childrenType) {
   const [songInput, setSongInput] = useState("");
   const [commentInput, setCommentInput] = useState("");
   const [searchResults, setSearchResults] = useState<INewTune[]>([]);
-  const [timeTokenFetched, setTimeTokenFetched] = useState("");
-  const [refresh, setRefresh] = useState(false);
   const [selectTaggedValue, setSelectTaggedValue] = useState("");
   const { userName } = useRequiredUser();
   const [isSearchBtnDisabled, setIsSearchBtnDisabled] = useState(false);
 
   const ifToken = localStorage.getItem("token");
   const { setRefreshCards, refreshCards } = useFeed();
-  useEffect(() => {
-    console.log("newtune useEffect");
+
+  const getAndSetToken = () => {
     if (ifToken) {
-      console.log("SETTING TOKEN");
+      console.log("SETTING TOKEN STATE");
       setToken(ifToken);
+      return true;
     } else {
       getToken()
         .then((response) => {
+          let retriesAttempted = 0;
           if (!response.ok) {
             console.log({ response: response });
-            return Promise.reject(response);
+            if (response.status > 399) {
+              retriesAttempted++;
+              return getToken(retriesAttempted);
+            } else return response;
           } else {
-            //log timeFetched
-            console.log("LOGGING TIME FETCHED");
-            const timeToken = moment().format();
-            localStorage.setItem("timeTokenFetched", timeToken);
+            return response;
           }
-          return response;
         })
         .then((result) => result.json())
         .then((newToken) => {
@@ -78,8 +77,13 @@ function NewTuneProvider({ children }: childrenType) {
           console.log("Caught in gettoken()");
           console.log({ err: val });
         });
+      return false;
     }
-  }, [refresh]);
+  };
+  useEffect(() => {
+    console.log("newtune useEffect");
+    getAndSetToken();
+  }, []);
 
   const handleChangeTagged = (event: React.SyntheticEvent) => {
     event.preventDefault();
@@ -135,63 +139,49 @@ function NewTuneProvider({ children }: childrenType) {
         } else if (isSearchBtnDisabled) {
           setIsSearchBtnDisabled(toggle(isSearchBtnDisabled));
         }
-
         break;
-
       default:
         break;
     }
   };
 
   const handleClickSearch = async (e: React.SyntheticEvent, input: string) => {
+    const hasToken = localStorage.getItem("token");
     e.preventDefault();
-
-    const maybeTimeTokenFetched = localStorage.getItem("timeTokenFetched");
-    console.log({ maybeTimeTokenFetched: maybeTimeTokenFetched });
-    if (maybeTimeTokenFetched) {
-      const needsRefresh = checkRefresh(maybeTimeTokenFetched);
-      console.log("CLICKSEARCH");
-      console.log({ needsRefresh: needsRefresh });
-      if (needsRefresh) {
-        setRefresh(toggle(needsRefresh));
-      }
-    }
-
-    if (isValidInput(input)) {
-      console.log("isvalid");
-      if (token) {
-        searchTrack(input, token)
-          .then((response) => {
-            console.log(response);
-            if (!response.ok) {
-              toast.error(response.status + " Search failed please try again");
-              return Promise.reject(response);
-            }
-            return response.json();
-          })
-          .then((trackObj) => {
-            const filteredResponse = [];
-            for (const elm of trackObj.tracks.items) {
-              filteredResponse.push({
-                artist: elm.artists[0].name,
-                title: elm.name,
-                id: elm.id,
-                img: elm.album.images[0].url,
-                createdBy: userName,
-              });
-            }
-            return filteredResponse;
-          })
-          .then((filteredResponse) => {
-            setSearchResults(filteredResponse);
-          })
-          .catch((error) => {
-            console.log("CAUGHT");
-            console.log(error);
-          });
-      }
+    const is = await getAndSetToken();
+    if (is) {
+      searchTrack(input, token)
+        .then((response) => {
+          console.log(response);
+          if (!response.ok) {
+            toast.error(response.status + " Search failed please try again");
+            return Promise.reject(response);
+          }
+          return response.json();
+        })
+        .then((trackObj) => {
+          const filteredResponse = [];
+          for (const elm of trackObj.tracks.items) {
+            filteredResponse.push({
+              artist: elm.artists[0].name,
+              title: elm.name,
+              id: elm.id,
+              img: elm.album.images[0].url,
+              createdBy: userName,
+            });
+          }
+          return filteredResponse;
+        })
+        .then((filteredResponse) => {
+          setSearchResults(filteredResponse);
+        })
+        .catch((error) => {
+          console.log("CAUGHT");
+          console.log(error);
+        });
     }
   };
+
   const handleClickTune = (newTune: INewTune) => {
     setIsSearchBtnDisabled(true);
     setSelectedTune(newTune);
