@@ -39,7 +39,6 @@ export interface IUserFriendRequests {
 }
 
 function FriendsProvider({ children }: childrenType) {
-  console.log("Render: *FriendsProvider");
   const { userName } = useRequiredUser();
   const user = useRequiredUser();
   const [friendInput, setFriendInput] = useState("");

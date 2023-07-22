@@ -4,8 +4,8 @@ import { childrenType } from "../Interfaces/global";
 import createNewTune from "../api-calls/create-newtune";
 import { INewTune } from "../Interfaces/feed";
 import { toast } from "react-hot-toast";
-import getToken from "../api-calls/get-token";
-import { searchTrack } from "../api-calls/search";
+import fetchToken from "../api-calls/fetch-token";
+import { fetchTrack } from "../api-calls/fetchTrack";
 import { useRequiredUser } from "./auth-provider";
 import { toggle } from "../functions";
 import { isValidInput, checkRefresh } from "../functions";
@@ -34,7 +34,6 @@ interface NewTuneInterface {
 const NewTuneContext = createContext({} as NewTuneInterface);
 
 function NewTuneProvider({ children }: childrenType) {
-  console.log("Render: *NewTuneProvider");
   const [token, setToken] = useState("");
   const [selectedTune, setSelectedTune] = useState<INewTune | null>(null);
   const [songInput, setSongInput] = useState("");
@@ -44,46 +43,11 @@ function NewTuneProvider({ children }: childrenType) {
   const { userName } = useRequiredUser();
   const [isSearchBtnDisabled, setIsSearchBtnDisabled] = useState(false);
 
-  const ifToken = localStorage.getItem("token");
   const { setRefreshCards, refreshCards } = useFeed();
 
-  const getAndSetToken = () => {
-    if (ifToken) {
-      console.log("SETTING TOKEN STATE");
-      setToken(ifToken);
-      return true;
-    } else {
-      getToken()
-        .then((response) => {
-          let retriesAttempted = 0;
-          if (!response.ok) {
-            console.log({ response: response });
-            if (response.status > 399) {
-              retriesAttempted++;
-              return getToken(retriesAttempted);
-            } else return response;
-          } else {
-            return response;
-          }
-        })
-        .then((result) => result.json())
-        .then((newToken) => {
-          console.log("set");
-          setToken(newToken.access_token);
-          localStorage.setItem("token", newToken.access_token);
-          return newToken;
-        })
-        .catch((val) => {
-          console.log("Caught in gettoken()");
-          console.log({ err: val });
-        });
-      return false;
-    }
-  };
-  useEffect(() => {
-    console.log("newtune useEffect");
-    getAndSetToken();
-  }, []);
+  // .then((response) => {
+  //   if (!response.ok) {} else return response }).then(response => response.json())
+  // const ifToken = localStorage.getItem("token");
 
   const handleChangeTagged = (event: React.SyntheticEvent) => {
     event.preventDefault();
@@ -104,7 +68,7 @@ function NewTuneProvider({ children }: childrenType) {
           if (response.ok) {
             return response.json();
           }
-          return Promise.reject(response);
+          return response;
         })
         .catch((err) => toast.error(err))
         .finally(() => {
@@ -145,41 +109,82 @@ function NewTuneProvider({ children }: childrenType) {
     }
   };
 
-  const handleClickSearch = async (e: React.SyntheticEvent, input: string) => {
-    const hasToken = localStorage.getItem("token");
-    e.preventDefault();
-    const is = await getAndSetToken();
-    if (is) {
-      searchTrack(input, token)
-        .then((response) => {
-          console.log(response);
-          if (!response.ok) {
-            toast.error(response.status + " Search failed please try again");
-            return Promise.reject(response);
-          }
-          return response.json();
-        })
-        .then((trackObj) => {
-          const filteredResponse = [];
-          for (const elm of trackObj.tracks.items) {
-            filteredResponse.push({
-              artist: elm.artists[0].name,
-              title: elm.name,
-              id: elm.id,
-              img: elm.album.images[0].url,
-              createdBy: userName,
+  const getAndSetToken = () => {
+    return fetchToken()
+      .then((response) => {
+        if (!response.ok) {
+          console.log({ response: response });
+        } else {
+          return response;
+        }
+      })
+      .then((result) => result.json())
+      .then((newToken) => {
+        localStorage.setItem("token", newToken.access_token);
+      })
+      .catch((val) => {
+        console.log({ err: val });
+      });
+  };
+
+  const searchTrack = async (input: string, token: string) => {
+    let retriesAttempted = 0;
+    return fetchTrack(input, token)
+      .then((response) => {
+        console.log(response);
+        if (!response.ok) {
+          //token fails
+          console.log({ FailedResponse: response });
+          retriesAttempted++;
+          fetchToken()
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error("failed to get token");
+              } else return response;
+            })
+            .then((newToken) => {
+              localStorage.setItem("token", newToken.access_token);
+              setToken(newToken);
+              fetchTrack(input, newToken);
             });
-          }
-          return filteredResponse;
-        })
-        .then((filteredResponse) => {
-          setSearchResults(filteredResponse);
-        })
-        .catch((error) => {
-          console.log("CAUGHT");
-          console.log(error);
-        });
+        }
+        return response;
+      })
+      .then((response) => response.json())
+      .then((trackObj) => {
+        const filteredResponse = [];
+        for (const elm of trackObj.tracks.items) {
+          filteredResponse.push({
+            artist: elm.artists[0].name,
+            title: elm.name,
+            id: elm.id,
+            img: elm.album.images[0].url,
+            createdBy: userName,
+          });
+        }
+        return filteredResponse;
+      })
+      .then((filteredResponse) => {
+        setSearchResults(filteredResponse);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleClickSearch = async (e: React.SyntheticEvent, input: string) => {
+    e.preventDefault();
+    if (ifToken) {
+      searchTrack(input, ifToken);
     }
+    // else {
+    //   getAndSetToken().then((res) => {
+    //     const newToken = localStorage.getItem("token");
+    //     if (newToken) {
+    //       searchTrack(input, newToken);
+    //     } else throw new Error("Empty storage value");
+    //   });
+    // }
   };
 
   const handleClickTune = (newTune: INewTune) => {

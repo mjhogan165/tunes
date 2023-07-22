@@ -13,7 +13,6 @@ import {
 } from "../../../../providers/friends-provider";
 
 function Feed() {
-  console.log("Render: Feed");
   const { tuneCards, setTuneCards, user, taggedCards } = useFeed();
   const { userFriendRequests } = useFriends();
   // const [taggedCards, setTaggedCards] = useState<INewTune[]>([]);

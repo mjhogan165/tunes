@@ -36,8 +36,8 @@ const params = new URLSearchParams({
 //     "Basic " + Buffer.from(client_id + ":" + client_secret).toString(),
 // });
 
-function getToken(retriesAttempted = 0): Promise<any> {
-  console.log(`GET TOKEN() Attempt: ${retriesAttempted} with params`);
+function fetchToken(retriesAttempted = 0): Promise<any> {
+  console.log(`FetchToken() Attempt: ${retriesAttempted} with params`);
   if (retriesAttempted > 3) {
     throw new Error("too many attempts");
   }
@@ -48,4 +48,4 @@ function getToken(retriesAttempted = 0): Promise<any> {
   });
 }
 
-export default getToken;
+export default fetchToken;
