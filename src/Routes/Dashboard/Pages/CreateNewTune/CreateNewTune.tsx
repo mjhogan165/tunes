@@ -38,19 +38,17 @@ function CreateNewTune() {
         <div className="flex flex-col bg-white rounded-2xl p-4 shadow-lg mb-4">
           <div className="flex items-center flex-wrap justify-start">
             <label className="text-lg font-bold mb-2"> 1. Search:</label>
-            {/* <span className="text-base font-semibold ">
-              {selectedTune.title}{" "}
-            </span> */}
+            <input
+              className="border-2 p-2 w-full"
+              placeholder="Title or Artist..."
+              type="search"
+              name=""
+              id=""
+              value={songInput}
+              onChange={(e) => handleInputChange("search-song", e.target.value)}
+            />
           </div>
-          <input
-            className="border-2 p-2 w-full"
-            placeholder="Title or Artist..."
-            type="search"
-            name=""
-            id=""
-            value={songInput}
-            onChange={(e) => handleInputChange("search-song", e.target.value)}
-          />
+
           {searchResults && <SearchTuneDropDown />}
           <Button
             btnType="submit"

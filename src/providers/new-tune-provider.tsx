@@ -44,16 +44,53 @@ function NewTuneProvider({ children }: childrenType) {
   const [isSearchBtnDisabled, setIsSearchBtnDisabled] = useState(false);
 
   const { setRefreshCards, refreshCards } = useFeed();
+  const ifToken = localStorage.getItem("token");
+  useEffect(() => {
+    const interval = setInterval(() => {
+      refreshToken();
+    }, 60 * 60 * 1000 * 0.9);
+    if (!ifToken) {
+      refreshToken();
+    }
+    // setInterval(() => {
+    //   console.log("function()");
+    // });
+    // setInterval(() => {
+    //   console.log("function(1)");
+    // }, 1000);
+    // setInterval(() => {
+    //   console.log("function(2)");
+    // }, 2000);
+    // setInterval(() => {
+    //   console.log("function(6)");
+    // }, 6000);
+  }, []);
 
-  // .then((response) => {
-  //   if (!response.ok) {} else return response }).then(response => response.json())
-  // const ifToken = localStorage.getItem("token");
+  const refreshToken = () => {
+    return fetchToken()
+      .then((response) => {
+        if (!response.ok) {
+          console.log({ response: response });
+        } else {
+          return response;
+        }
+      })
+      .then((result) => result.json())
+      .then((newToken) => {
+        setToken(newToken);
+        localStorage.setItem("token", newToken.access_token);
+      })
+      .catch((val) => {
+        console.log({ err: val });
+      });
+  };
 
   const handleChangeTagged = (event: React.SyntheticEvent) => {
     event.preventDefault();
     const target = event.target as HTMLSelectElement;
     setSelectTaggedValue(target.value);
   };
+
   const handleClickPostNewTune = (
     e: React.SyntheticEvent,
     tuneObj: INewTune | null
@@ -107,24 +144,6 @@ function NewTuneProvider({ children }: childrenType) {
       default:
         break;
     }
-  };
-
-  const getAndSetToken = () => {
-    return fetchToken()
-      .then((response) => {
-        if (!response.ok) {
-          console.log({ response: response });
-        } else {
-          return response;
-        }
-      })
-      .then((result) => result.json())
-      .then((newToken) => {
-        localStorage.setItem("token", newToken.access_token);
-      })
-      .catch((val) => {
-        console.log({ err: val });
-      });
   };
 
   const searchTrack = async (input: string, token: string) => {
