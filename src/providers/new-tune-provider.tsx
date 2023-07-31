@@ -52,18 +52,6 @@ function NewTuneProvider({ children }: childrenType) {
     if (!ifToken) {
       refreshToken();
     }
-    // setInterval(() => {
-    //   console.log("function()");
-    // });
-    // setInterval(() => {
-    //   console.log("function(1)");
-    // }, 1000);
-    // setInterval(() => {
-    //   console.log("function(2)");
-    // }, 2000);
-    // setInterval(() => {
-    //   console.log("function(6)");
-    // }, 6000);
   }, []);
 
   const refreshToken = () => {
@@ -103,21 +91,18 @@ function NewTuneProvider({ children }: childrenType) {
       createNewTune(tuneObj)
         .then((response) => {
           if (response.ok) {
+            console.log(response);
             return response.json();
           }
           return response;
         })
         .catch((err) => toast.error(err))
         .finally(() => {
-          toast.success("Tune Posted!");
           setSearchResults([]);
           setSongInput("");
           setCommentInput("");
-          setRefreshCards(toggle(refreshCards));
+          setRefreshCards(!refreshCards);
           setSelectedTune(null);
-          toast("Good Job!", {
-            icon: "👏",
-          });
         });
     } else {
       toast.error("Please select tune");
@@ -196,14 +181,6 @@ function NewTuneProvider({ children }: childrenType) {
     if (ifToken) {
       searchTrack(input, ifToken);
     }
-    // else {
-    //   getAndSetToken().then((res) => {
-    //     const newToken = localStorage.getItem("token");
-    //     if (newToken) {
-    //       searchTrack(input, newToken);
-    //     } else throw new Error("Empty storage value");
-    //   });
-    // }
   };
 
   const handleClickTune = (newTune: INewTune) => {
