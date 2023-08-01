@@ -8,12 +8,7 @@ import NewTuneProvider from "../../providers/new-tune-provider";
 import FriendsProvider from "../../providers/friends-provider";
 
 function DashboardLayout() {
-  console.log("Render: DashboardLayout");
-
   const { user } = useAuth();
-  // const ReqUser = useRequiredUser();
-
-  console.log(user);
   if (user) {
     return (
       <div className="max-w-6xl mx-auto overflow-auto">

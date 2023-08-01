@@ -3,7 +3,7 @@ import { writeFileSync } from "fs";
 import { IFriendRequest } from "./src/providers/friends-provider";
 import { User } from "./src/Interfaces/user";
 
-const accounts = generateAccounts(10);
+const accounts = generateAccounts(15);
 function generateAccounts(maxAccounts: number) {
   const inputArray: User[] = [];
   for (let i = 0; i < maxAccounts; i++) {
@@ -37,9 +37,9 @@ function generateTunes() {
     const account = accounts[index];
     inputArray.push(returnDefaultTune(account.userName, index));
   }
-  for (let index = accounts.length; index < accounts.length + 30; index++) {
-    const num1 = generateRandomInt(30);
-    let num2 = generateRandomInt(30);
+  for (let index = accounts.length; index < accounts.length + 75; index++) {
+    const num1 = generateRandomInt(accounts.length);
+    let num2 = generateRandomInt(accounts.length);
     if (num1 === num2) {
       num2 = num1 + 1;
     }
@@ -84,16 +84,13 @@ function generateFriendRequests(numberPerUser: number) {
   let idCount = 0;
   for (let index = 0; index < accounts.length; index++) {
     const currentUser = accounts[index].userName;
-    //get array of possibilities for user
     const hasUser = allPossiblePairs.filter((pair) => {
       const values = Object.values(pair);
       return values.includes(currentUser);
     });
-    //create x number of requests
     for (let subIndex = 0; subIndex < numberPerUser; subIndex++) {
       const randomInt = generateRandomInt(hasUser.length);
       const randomPair = hasUser[randomInt];
-      //update hasUSer
       hasUser.splice(randomInt, 1);
       const reciever =
         randomPair[0] === currentUser ? randomPair[1] : randomPair[0];
@@ -104,7 +101,6 @@ function generateFriendRequests(numberPerUser: number) {
         id: idCount,
       });
       idCount++;
-      //remove pair from allPossible Pairs
       allPossiblePairs = allPossiblePairs.filter((pair) => {
         if (pair.includes(randomPair[0])) {
           if (pair.includes(randomPair[1])) {
@@ -136,30 +132,13 @@ function generateFriendRequests(numberPerUser: number) {
       idCount++;
     }
   }
-
   return requestArray;
 }
 const totalRequests = generateFriendRequests(3);
-// console.log({
-//   allpossiblepairs: allPossiblePairs.length,
-//   totalRequests: totalRequests,
-//   totalRequestsLength: totalRequests.length,
-// });
 const data = {
   accounts: accounts,
   tunes: generateTunes(),
   friendRequests: totalRequests,
 };
 
-// router.render = (req, res) => {
-//   res.status(500).jsonp({
-//     error: "error message here",
-//   });
-// };
-// const
-// server.use(middlewares);
-// server.use(router);
-// server.listen(3000, () => {
-//   console.log("JSON Server is running");
-// });
 writeFileSync("db.json", JSON.stringify(data));

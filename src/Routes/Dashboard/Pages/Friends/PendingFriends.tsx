@@ -7,7 +7,6 @@ import Button from "../../../../Componants/Button";
 import { useRequiredUser } from "../../../../providers/auth-provider";
 
 export default function IncomingFriendsList() {
-  console.log("Render: PendingFriends");
   const { userFriendRequests } = useFriends();
   const user = useRequiredUser();
   const { handleRequestResponse } = useFriends();
@@ -25,7 +24,6 @@ export default function IncomingFriendsList() {
       }
     }
   );
-
   return (
     <div>
       {
@@ -45,7 +43,7 @@ export default function IncomingFriendsList() {
               <Button
                 btnType={"submit"}
                 label={"Reject"}
-                handleClick={() => console.log("void")}
+                handleClick={() => handleRequestResponse("rejected", request)}
                 disabled={false}
               />
             </div>

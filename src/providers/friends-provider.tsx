@@ -49,7 +49,6 @@ function FriendsProvider({ children }: childrenType) {
   const [previousSearchValue, setpreviousSearchValue] = useState<null | string>(
     ""
   );
-  // console.log({ user: user });
   const [userFriendRequests, setUserFriendRequests] =
     useState<IUserFriendRequests>({
       accepted: [],
@@ -93,7 +92,11 @@ function FriendsProvider({ children }: childrenType) {
         return response.json();
       })
       .then(() => {
-        toast.success("friend request accepted!");
+        if (newStatus === "rejected") {
+          toast.success("friend request rejected");
+        } else {
+          toast.success("friend request accepted!");
+        }
         sortFriendRequests();
       });
   };
@@ -136,7 +139,6 @@ function FriendsProvider({ children }: childrenType) {
         case found.status === "pending":
           message = "request is pending";
           break;
-
         default:
           message = "";
           break;

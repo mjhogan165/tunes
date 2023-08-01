@@ -8,7 +8,6 @@ import FeedCard from "../../../../Componants/FeedCard";
 import { INewTune } from "../../../../Interfaces/feed";
 import CreateNewCard from "../../../../Componants/CreateNewCard";
 function CreateNewTune() {
-  console.log("RENDER: create new tune");
   const {
     handleClickPostNewTune,
     handleClickSearch,
@@ -27,11 +26,9 @@ function CreateNewTune() {
   const friendUserNames = userFriendRequests.accepted.map((request) => {
     return returnFriend(request, user);
   });
-  // console.log({ searchresults: searchResults });
-  // console.log({ selectedTune: selectedTune });
+
   const localTune = selectedTune ? selectedTune : ({} as INewTune);
   return (
-    // <div className="bg-white rounded-2xl shadow-lg sm:p-6 mb-4 p-4 flex flex-col max-w-xl m-auto">
     <div className="m-auto content-container sm:p-6 mb-4">
       <CreateNewCard key={3} tune={localTune} />
       <form className="flex flex-col" action="">

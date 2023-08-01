@@ -7,9 +7,11 @@ import {
 } from "../../../../providers/friends-provider";
 import { User } from "../../../../Interfaces/user";
 import { NavLink, Outlet, useOutletContext } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCaretRight, faCaretLeft } from "@fortawesome/free-solid-svg-icons";
+import { toast } from "react-hot-toast";
 
 function Friends() {
-  console.log("Render: FriendsContainer");
   const {
     userFriendRequests,
     setUserFriendAccounts,
@@ -20,7 +22,7 @@ function Friends() {
   const activeClassName =
     "underline decoration-indigo-400 font-semibold decoration-4 underline-offset-4";
   const activeClassNameSpecial =
-    "text-xl decoration-indigo-400 decoration-4 font-medium underline-offset-4 underline";
+    "text-xl font-medium underline decoration-indigo-400 decoration-4 underline-offset-4";
 
   const friendUserNames = userFriendRequests.accepted.map((request) => {
     return returnFriend(request, user);
@@ -30,50 +32,46 @@ function Friends() {
     getAccounts()
       .then((response) => response.json())
       .then((accounts) => {
-        // console.log({ accounts: accounts });
         return accounts.filter((account: User) => {
           return friendUserNames.includes(account.userName);
         });
       })
       .then((friends) => {
-        // console.log({ friends: friends });
         setUserFriendAccounts(friends);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => toast.error(err));
   }, [userFriendRequests]);
 
   return (
-    <div className="container bg-white rounded-2xl p-4 shadow-lg sm:p-6 mb-4 mx-auto flex flex-col items-center content-container">
-      <nav>
-        <div className="flex justify-around py-2 text-base">
-          <NavLink
-            to="pending"
-            className={({ isActive }) =>
-              isActive ? activeClassName : undefined
-            }
-          >
-            Pending
-          </NavLink>
-          <NavLink
-            to="all"
-            style={{ width: 100, textAlign: "center" }}
-            className={({ isActive }) =>
-              isActive ? activeClassNameSpecial : "text-lg font-medium"
-            }
-          >
-            All
-          </NavLink>
-          <NavLink
-            to="search"
-            className={({ isActive }) =>
-              isActive ? activeClassName : undefined
-            }
-          >
-            Search
-          </NavLink>
-        </div>
+    <div>
+      <nav className="content-container m-auto flex justify-between py-2 text-base">
+        <NavLink
+          to="pending"
+          className={({ isActive }) => (isActive ? activeClassName : undefined)}
+        >
+          <FontAwesomeIcon icon={faCaretLeft} className="mr-1" />
+          Pending
+        </NavLink>
+        <NavLink
+          to="all"
+          style={{ width: 100, textAlign: "center" }}
+          className={({ isActive }) =>
+            isActive ? activeClassNameSpecial : "text-lg font-medium"
+          }
+        >
+          All
+        </NavLink>
+        <NavLink
+          to="search"
+          className={({ isActive }) => (isActive ? activeClassName : undefined)}
+        >
+          Search
+          <FontAwesomeIcon icon={faCaretRight} className="ml-1" />
+        </NavLink>
       </nav>
-      <Outlet context={{ userFriendAccounts }} />
+      <div className="w-full bg-white rounded-2xl p-4 shadow-lg sm:p-6 mb-4 m-auto flex flex-col items-center content-container">
+        <Outlet context={{ userFriendAccounts }} />
+      </div>
     </div>
   );
 }

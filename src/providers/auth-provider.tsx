@@ -28,10 +28,7 @@ function AuthProvider({ children }: childrenType) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  console.log("Render: *AuthProvider");
-
   useEffect(() => {
-    console.log("AuthProvider useEffect");
     const maybeUser = localStorage.getItem("user");
     if (maybeUser) {
       const parsedUser: User = JSON.parse(maybeUser);
@@ -55,12 +52,10 @@ function AuthProvider({ children }: childrenType) {
           toast.error(err.toString());
         })
         .finally(() => setIsLoading(false));
-      // setUser(JSON.parse(maybeUser));
     } else {
       setUser(null);
     }
   }, []);
-  console.log("after UE");
   const logout = () => {
     setUser(null);
     localStorage.removeItem("user");
@@ -72,11 +67,7 @@ function AuthProvider({ children }: childrenType) {
   ) => {
     e.preventDefault();
     setIsLoading(true);
-    // const maybeUser = localStorage.getItem("user");
-    // if (maybeUser) {
-    //   console.log("somethings there");
-    //   localStorage.removeItem("user");
-    // }
+    localStorage.setItem("token", "");
     getAccounts()
       .then((response) => {
         if (response.ok) {
@@ -144,7 +135,6 @@ export const useAuth = () => {
 export const useRequiredUser = () => {
   const { user } = useAuth();
   if (!user) {
-    console.log("ERROROROROR");
     throw new Error("user not logged in error");
   }
   return user;

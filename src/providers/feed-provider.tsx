@@ -25,7 +25,6 @@ function FeedProvider({ children }: childrenType) {
   const [refreshCards, setRefreshCards] = useState(false);
   const user = useRequiredUser();
   useEffect(() => {
-    console.log("REFRESH useeffext ");
     getTunes()
       .then((response) => response.json())
       .then((parsedArray) => {

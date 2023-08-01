@@ -8,12 +8,7 @@ interface ICardProps {
 }
 function CreateNewCard({ tune }: ICardProps) {
   const { artist, title, comment, img, createdBy, tagged } = tune;
-  const box = img ? (
-    <img className="object-cover w-full" src={img} alt="imagePH" />
-  ) : (
-    // <div style={{ width: 128, height: 128 }}></div>
-    <div></div>
-  );
+
   const artistDiv = artist ? (
     <h2 className="text-lg font-bold truncate">{artist}</h2>
   ) : (
@@ -32,21 +27,13 @@ function CreateNewCard({ tune }: ICardProps) {
         Search for a song to share with your friends!
       </h3>
       <div className="bg-white rounded-2xl p-2 shadow-lg sm:p-6 mb-4">
-        <div className="flex items-center text-xl">
-          {/* <i
-          style={{ maxHeight: 36.46, maxWidth: 38.96 }}
-          className="fa-solid fa-user inline p-2 border-2 rounded-full mr-2"
-        ></i>
-        <h2>New Tune</h2> */}
-        </div>
-        {/* <span className="text-lg font-semibold">{createdBy}</span> */}
+        <div className="flex items-center text-xl"></div>
         <p className="text-base p-2 break-words">{comment}</p>
         <div className="border-2 border-transparent flex gap-4 items-center w-full justify-start p-2 rounded-2xl ">
           <div className="basis-32 h-32 flex-none overflow-hidden rounded-2xl bg-gray-100 shadow-lg">
             {img && (
               <img className="object-cover w-full" src={img} alt="imagePH" />
             )}
-            {/* {box} */}
           </div>
           <div className="flex-col w-full">
             {artistDiv}

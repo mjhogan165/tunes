@@ -46,32 +46,27 @@ function NewTuneProvider({ children }: childrenType) {
   const { setRefreshCards, refreshCards } = useFeed();
   const ifToken = localStorage.getItem("token");
   useEffect(() => {
-    const interval = setInterval(() => {
-      refreshToken();
-    }, 60 * 60 * 1000 * 0.9);
     if (!ifToken) {
       refreshToken();
     }
   }, []);
 
-  const refreshToken = () => {
+  async function refreshToken(): Promise<any> {
     return fetchToken()
       .then((response) => {
         if (!response.ok) {
-          console.log({ response: response });
+          toast.error(response);
         } else {
           return response;
         }
       })
       .then((result) => result.json())
-      .then((newToken) => {
-        setToken(newToken);
-        localStorage.setItem("token", newToken.access_token);
-      })
-      .catch((val) => {
-        console.log({ err: val });
+      .then((parsed) => {
+        setToken(parsed);
+        localStorage.setItem("token", parsed.access_token);
+        return parsed.access_token;
       });
-  };
+  }
 
   const handleChangeTagged = (event: React.SyntheticEvent) => {
     event.preventDefault();
@@ -84,14 +79,13 @@ function NewTuneProvider({ children }: childrenType) {
     tuneObj: INewTune | null
   ) => {
     e.preventDefault();
-    console.log(tuneObj);
     if (tuneObj) {
       tuneObj.comment = commentInput;
       tuneObj.tagged = selectTaggedValue;
       createNewTune(tuneObj)
         .then((response) => {
           if (response.ok) {
-            console.log(response);
+            toast.success("Tune Posted!");
             return response.json();
           }
           return response;
@@ -132,25 +126,12 @@ function NewTuneProvider({ children }: childrenType) {
   };
 
   const searchTrack = async (input: string, token: string) => {
-    let retriesAttempted = 0;
     return fetchTrack(input, token)
       .then((response) => {
-        console.log(response);
         if (!response.ok) {
-          //token fails
-          console.log({ FailedResponse: response });
-          retriesAttempted++;
-          fetchToken()
-            .then((response) => {
-              if (!response.ok) {
-                throw new Error("failed to get token");
-              } else return response;
-            })
-            .then((newToken) => {
-              localStorage.setItem("token", newToken.access_token);
-              setToken(newToken);
-              fetchTrack(input, newToken);
-            });
+          refreshToken().then((refreshedToken) => {
+            searchTrack(input, refreshedToken);
+          });
         }
         return response;
       })
@@ -172,12 +153,13 @@ function NewTuneProvider({ children }: childrenType) {
         setSearchResults(filteredResponse);
       })
       .catch((error) => {
-        console.log(error);
+        toast.error(error);
       });
   };
 
   const handleClickSearch = async (e: React.SyntheticEvent, input: string) => {
     e.preventDefault();
+    console.log("clicked");
     if (ifToken) {
       searchTrack(input, ifToken);
     }

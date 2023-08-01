@@ -2,17 +2,14 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { useAuth, useRequiredUser } from "../../providers/auth-provider";
-import NavLinkItem from "../../Componants/NavLinkItem";
-import { useNavigate } from "react-router-dom";
+
 function NavList() {
-  console.log("Render: Navlist");
   const activeClassName =
     "underline decoration-indigo-400 font-semibold decoration-4 underline-offset-4";
   const activeClassNameSpecial =
     "text-xl decoration-indigo-400 decoration-4 font-medium underline-offset-4 underline";
   const { logout } = useAuth();
   const [showMenuItems, setShowMenuItems] = useState(false);
-  const [subMenu, setSubMenu] = useState();
   const user = useRequiredUser();
   useEffect(() => {
     handleResize();
@@ -56,26 +53,6 @@ function NavList() {
           Logout{" "}
         </NavLink>
       </div>
-
-      {/* <NavLinkItem
-        to="feed"
-        label="Feed"
-        onClick={() => setShowMenuItems(!showMenuItems)}
-      />
-      <NavLinkItem
-        to="friends"
-        label="Friends"
-        onClick={() => {
-          setTimeout(() => setShowMenuItems(!showMenuItems), 100);
-        }}
-      /> */}
-      {/* <NavLinkItem
-        to="create-newtune"
-        label="+NewTune"
-        onClick={() => {
-          setTimeout(() => setShowMenuItems(!showMenuItems), 100);
-        }}
-      /> */}
       <div className="flex justify-around py-2 text-base border-b-2 border-solid border-b-gray-300/50">
         <NavLink
           to="feed"
@@ -86,7 +63,6 @@ function NavList() {
         <NavLink
           to="create-newtune"
           style={{ width: 100, textAlign: "center" }}
-          // style={{ fontSize: "1.25rem" }}
           className={({ isActive }) =>
             isActive ? activeClassNameSpecial : "text-lg font-medium"
           }
