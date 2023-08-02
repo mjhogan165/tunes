@@ -7,58 +7,10 @@ import { User } from "../../Interfaces/user";
 
 function HomeLayout() {
   const { isLoading, user } = useAuth();
-  const [isValid, setIsValid] = useState(false);
-  console.log("Render: HomeLayout");
-  // let maybeUser = localStorage.getItem("user");
-  // if (maybeUser) {
-  //   maybeUser = JSON.parse(maybeUser);
-  //   getAccounts()
-  //     .then((res) => res.json())
-  //     .then((accounts) => {
-  //       const foundUser: User = accounts.find(
-  //         (elm: User) => elm.userName === maybeUser
-  //       );
-  //       if (foundUser) {
-  //         setIsValid(true);
-  //       } else localStorage.removeItem("user");
-  //     });
-  // }
-
-  // useEffect(() => {
-  //   if (maybeUser) {
-  //     maybeUser = JSON.parse(maybeUser);
-  //     getAccounts()
-  //       .then((res) => res.json())
-  //       .then((accounts) => {
-  //         const foundUser: User = accounts.find(
-  //           (elm: User) => elm.userName === maybeUser
-  //         );
-  //         if (foundUser) {
-  //           setIsValid(true);
-  //         } else localStorage.removeItem("user");
-  //       });
-  //   }
-  // }, []);
-  // if (isValid) {
-  //   return <Navigate to="/dashboard/feed" replace />;
-  // }
 
   if (user) {
-    // console.log("HomeLayout: has user");
-    // getAccounts()
-    //   .then((res) => res.json())
-    //   .then((accounts) => {
-    //     const foundUser: User = accounts.find(
-    //       (elm: User) => elm.userName === maybeUser
-    //     );
-    //     if (foundUser) {
-    //       console.log("userfound");
-    //       setIsValid(true);
-    //     }
-    //   });
     return <Navigate to="/dashboard/feed" replace />;
-  } else console.log("HomeLayout: NO user");
-  console.log(user);
+  } else console.log("");
   return (
     <div>
       <section className="flex content-between justify-center gap-6 items-center">
