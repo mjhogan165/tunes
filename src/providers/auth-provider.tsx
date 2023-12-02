@@ -27,7 +27,7 @@ function AuthProvider({ children }: childrenType) {
   const [user, setUser] = useState<null | User>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
-
+  console.log("AUTH");
   useEffect(() => {
     const maybeUser = localStorage.getItem("user");
     if (maybeUser) {
@@ -45,6 +45,7 @@ function AuthProvider({ children }: childrenType) {
             (elm: User) => elm.userName === parsedUser.userName
           );
           if (foundUser) {
+            console.log(setUser(foundUser));
             setUser(foundUser);
           }
         })
@@ -86,7 +87,7 @@ function AuthProvider({ children }: childrenType) {
           toast.success("Success!");
           localStorage.setItem("user", JSON.stringify(foundUser));
           setUser(foundUser);
-          navigate("/dashboard");
+          navigate("/dashboard/myfeed");
         } else toast.error("invalid password");
       })
       .catch((err) => {

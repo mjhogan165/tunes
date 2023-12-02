@@ -4,13 +4,11 @@ import { useAuth } from "../../providers/auth-provider";
 import Loading from "../../Componants/Loading";
 import { getAccounts } from "../../api-calls/get-accounts";
 import { User } from "../../Interfaces/user";
+import Login from "./Login";
+import { Link } from "react-router-dom";
+import Button from "../../Componants/Button";
 
 function HomeLayout() {
-  const { isLoading, user } = useAuth();
-
-  if (user) {
-    return <Navigate to="/dashboard/feed" replace />;
-  } else console.log("");
   return (
     <div>
       <section className="flex content-between justify-center gap-6 items-center">
@@ -31,9 +29,18 @@ function HomeLayout() {
         <h1 className="text-2xl font-semibold text-center my-10">
           Welcome to NewTunes!
         </h1>
+        {/* <Link className="text-blue-500" to="/login">
+          {" "}
+          Login
+        </Link>
+        <p>
+          <Link className="text-blue-500 m-2" to="/create-account">
+            {" "}
+            Signup
+          </Link>
+        </p> */}
       </section>
       <Outlet />
-      {isLoading && <Loading />}
     </div>
   );
 }

@@ -1,96 +1,35 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import DashboardLayout from "./Routes/Dashboard/DashboardLayout";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  RouterProvider,
+} from "react-router-dom";
 import "./index.css";
 import HomeLayout from "./Routes/Home/HomeLayout";
 import Login from "./Routes/Home/Login";
-import Feed from "./Routes/Dashboard/Pages/Feed/MyFeed";
-import Friends from "./Routes/Dashboard/Pages/Friends/FriendsContainer";
 import CreateNewTune from "./Routes/Dashboard/Pages/CreateNewTune/CreateNewTune";
-import CreateAccount from "./Routes/Home/CreateUser";
-import ErrorPage from "./Routes/ErrorPage";
-import AuthWrapper from "./AuthWrapper";
-import AllFriendsList from "./Routes/Dashboard/Pages/Friends/AllFriends";
-import PendingFriends from "./Routes/Dashboard/Pages/Friends/PendingFriends";
-import SearchFriend from "./Routes/Dashboard/Pages/Friends/SearchFriends";
-import MyPosts from "./Routes/Dashboard/Pages/Feed/MyPosts";
+import Signup from "./Routes/Home/Signup";
 import MyFeed from "./Routes/Dashboard/Pages/Feed/MyFeed";
-import FeedContainer from "./Routes/Dashboard/Pages/Feed/FeedContainer";
-const router = createBrowserRouter([
-  {
-    element: <AuthWrapper />,
-    errorElement: <ErrorPage />,
-    children: [
-      {
-        path: "/",
-        element: <HomeLayout />,
-        errorElement: <ErrorPage />,
-        children: [
-          {
-            index: true,
-            element: <Login />,
-            errorElement: <ErrorPage />,
-          },
-          { path: "/create-account", element: <CreateAccount /> },
-        ],
-      },
-      {
-        path: "/dashboard",
-        element: <DashboardLayout />,
-        errorElement: <ErrorPage />,
-        children: [
-          {
-            path: "create-newtune",
-            element: <CreateNewTune />,
-          },
-          {
-            path: "feed",
-            element: <FeedContainer />,
-            errorElement: <ErrorPage />,
-            children: [
-              {
-                index: true,
-                element: <MyFeed />,
-              },
-              {
-                path: "myfeed",
-                element: <MyFeed />,
-              },
-              {
-                path: "myposts",
-                element: <MyPosts />,
-                errorElement: <ErrorPage />,
-              },
-            ],
-          },
-          {
-            path: "friends",
-            element: <Friends />,
-            children: [
-              {
-                index: true,
-                element: <AllFriendsList />,
-              },
-              {
-                path: "all",
-                element: <AllFriendsList />,
-              },
-              {
-                path: "pending",
-                element: <PendingFriends />,
-              },
-              {
-                path: "search",
-                element: <SearchFriend />,
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  },
-]);
+import Feed from "./Routes/Dashboard/Pages/Feed/Feed";
+import Friends from "./Routes/Dashboard/Pages/Friends/Friends";
+import TestAuthProvider from "./testauth/TestAuth";
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<HomeLayout />}>
+      <Route index element={<Login />} />
+      <Route path="signup" element={<Signup />} />
+      <Route path="dashboard" element={<DashboardLayout />}>
+        <Route path="feed" element={<Feed />} />
+        <Route path="friends" element={<Friends />} />
+        <Route path="create-new-tune" element={<CreateNewTune />} />
+      </Route>
+    </Route>
+  )
+);
 
 const rootElm = document.getElementById("root");
 if (rootElm === null) {
@@ -99,6 +38,8 @@ if (rootElm === null) {
 
 ReactDOM.createRoot(rootElm).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <TestAuthProvider>
+      <RouterProvider router={router} />
+    </TestAuthProvider>
   </React.StrictMode>
 );

@@ -11,6 +11,7 @@ const params = new URLSearchParams({
   grant_type: "client_credentials",
 });
 function fetchToken(): Promise<any> {
+  console.log("fetchToken");
   return fetch(url, {
     method: "POST",
     headers: { Authorization: "Basic " + buf },

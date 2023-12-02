@@ -30,17 +30,18 @@ function Login() {
             id="password"
             label="Password"
           />
-          <Button
+          {/* <Button
             btnType="submit"
             label="Login"
             handleClick={(event) => {
               handleClickLogin(event, userNameInput, passwordInput);
             }}
             disabled={false}
-          />
+          /> */}
+          <Link to="dashboard">Login</Link>
           <p>
             Not a member?
-            <Link className="text-blue-500" to="/create-account">
+            <Link className="text-blue-500" to="signup">
               {" "}
               Signup
             </Link>

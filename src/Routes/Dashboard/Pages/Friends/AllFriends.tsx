@@ -7,7 +7,7 @@ export default function AllFriendsList() {
   const { userFriendAccounts } = useFriends();
   return (
     <div className="flex w-full flex-col">
-      {userFriendAccounts.map((array: User, index: number) => {
+      {/* {userFriendAccounts.map((array: User, index: number) => {
         return (
           <div
             className="flex justify-around p-2 border-b-2 items-center"
@@ -23,7 +23,7 @@ export default function AllFriendsList() {
             <FontAwesomeIcon icon={faCircleCheck} className="text-green-600" />
           </div>
         );
-      })}
+      })} */}
     </div>
   );
 }
