@@ -14,7 +14,7 @@ function CreateAccount() {
       <h1 className="font-semibold text-4xl">Create New Account</h1>{" "}
       <CreateUserInput
         setState={setCreateUser}
-        setStateProperty="createUserName"
+        setStateProperty="createusername"
         name="create-username"
         type="text"
         id="create-username"

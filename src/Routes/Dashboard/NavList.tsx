@@ -33,7 +33,7 @@ function NavList() {
           {profileImg === "" && (
             <i className="fa-solid fa-user inline p-2 border-2 rounded-full fa-xl bg-white"></i>
           )}
-          <div>{user.userName}</div>
+          <div>{user.username}</div>
         </NavLink>
         <NavLink to="Feed">
           <svg

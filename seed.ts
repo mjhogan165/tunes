@@ -8,7 +8,7 @@ function generateAccounts(maxAccounts: number) {
   const inputArray: User[] = [];
   for (let i = 0; i < maxAccounts; i++) {
     inputArray.push({
-      userName: `user${i}`,
+      username: `user${i}`,
       profileImg: faker.image.people(100, 100, true),
       password: `pw${i}`,
       id: i,
@@ -35,7 +35,7 @@ function generateTunes() {
   const inputArray = [];
   for (let index = 0; index < accounts.length; index++) {
     const account = accounts[index];
-    inputArray.push(returnDefaultTune(account.userName, index));
+    inputArray.push(returnDefaultTune(account.username, index));
   }
   for (let index = accounts.length; index < accounts.length + 75; index++) {
     const num1 = generateRandomInt(accounts.length);
@@ -83,7 +83,7 @@ function generateFriendRequests(numberPerUser: number) {
   const requestArray: IFriendRequest[] = [];
   let idCount = 0;
   for (let index = 0; index < accounts.length; index++) {
-    const currentUser = accounts[index].userName;
+    const currentUser = accounts[index].username;
     const hasUser = allPossiblePairs.filter((pair) => {
       const values = Object.values(pair);
       return values.includes(currentUser);

@@ -7,7 +7,7 @@ import { useEffect } from "react";
 
 function Login() {
   const { handleClickLogin, isLoading } = useAuth();
-  const [userNameInput, setUserNameInput] = useState("");
+  const [usernameInput, setUsernameInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
   console.log("Render: LoginPage");
 
@@ -17,7 +17,7 @@ function Login() {
       {!isLoading && (
         <form className="flex flex-col items-center" action="">
           <UserInput
-            setInput={setUserNameInput}
+            setInput={setUsernameInput}
             name="userName"
             type="text"
             id="username"
@@ -34,7 +34,7 @@ function Login() {
             btnType="submit"
             label="Login"
             handleClick={(event) => {
-              handleClickLogin(event, userNameInput, passwordInput);
+              handleClickLogin(event, usernameInput, passwordInput);
             }}
             disabled={false}
           />

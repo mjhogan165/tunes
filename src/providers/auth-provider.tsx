@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 interface AuthInterface {
   handleClickLogin: (
     e: React.SyntheticEvent,
-    userNameInput: string,
+    usernameInput: string,
     passwordInput: string
   ) => void;
   isLoading: boolean;
@@ -32,29 +32,31 @@ function AuthProvider({ children }: childrenType) {
     const maybeUser = localStorage.getItem("user");
     if (maybeUser) {
       const parsedUser: User = JSON.parse(maybeUser);
-      getAccounts()
-        .then((response) => {
-          if (response.ok) {
-            return response.json();
-          }
-          return Promise.reject(response);
-        })
-        .then((accounts) => {
-          setIsLoading(false);
-          const foundUser: User = accounts.find(
-            (elm: User) => elm.userName === parsedUser.userName
-          );
-          if (foundUser) {
-            setUser(foundUser);
-          }
-        })
-        .catch((err) => {
-          toast.error(err.toString());
-        })
-        .finally(() => setIsLoading(false));
-    } else {
-      setUser(null);
+      setUser(parsedUser);
+      // console.log(parsedUser);
     }
+    //   getAccounts()
+    //     .then((response) => {
+    //       if (response.ok) {
+    //         return response.json();
+    //       }
+    //     })
+    //     .then((accounts) => {
+    //       setIsLoading(false);
+    //       const foundUser: User = accounts.find(
+    //         (elm: User) => elm.username === parsedUser.username
+    //       );
+    //       if (foundUser) {
+    //         setUser(foundUser);
+    //       }
+    //     })
+    //     .catch((err) => {
+    //       toast.error(err.toString());
+    //     })
+    //     .finally(() => setIsLoading(false));
+    // } else {
+    //   setUser(null);
+    // }
   }, []);
   const logout = () => {
     setUser(null);
@@ -62,7 +64,7 @@ function AuthProvider({ children }: childrenType) {
   };
   const handleClickLogin = (
     e: React.SyntheticEvent,
-    userNameInput: string,
+    usernameInput: string,
     passwordInput: string
   ) => {
     e.preventDefault();
@@ -73,12 +75,12 @@ function AuthProvider({ children }: childrenType) {
         if (response.ok) {
           return response.json();
         }
-        return Promise.reject(response);
       })
       .then((accounts) => {
         setIsLoading(false);
+        console.log(accounts);
         const foundUser: User = accounts.find(
-          (elm: User) => elm.userName === userNameInput
+          (elm: User) => elm.username === usernameInput
         );
         if (!foundUser) {
           toast.error("username not found");

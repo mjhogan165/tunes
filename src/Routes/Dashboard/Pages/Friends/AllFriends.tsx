@@ -18,7 +18,7 @@ export default function AllFriendsList() {
               src={array.profileImg}
             />
             <div className="flex items-center justify-center">
-              <div className="w-min h-min">{array.userName}</div>
+              <div className="w-min h-min">{array.username}</div>
             </div>
             <FontAwesomeIcon icon={faCircleCheck} className="text-green-600" />
           </div>

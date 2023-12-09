@@ -30,7 +30,7 @@ export default function SearchFriend() {
         {selectedSearchFriend && (
           <div className="flex">
             <CheckMarkIcon />
-            <h1>{`${selectedSearchFriend.userName} `}</h1>
+            <h1>{`${selectedSearchFriend.username} `}</h1>
           </div>
         )}
         <div className="flex">

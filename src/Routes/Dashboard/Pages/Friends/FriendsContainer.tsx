@@ -24,7 +24,7 @@ function Friends() {
   const activeClassNameSpecial =
     "text-xl font-medium underline decoration-indigo-400 decoration-4 underline-offset-4";
 
-  const friendUserNames = userFriendRequests.accepted.map((request) => {
+  const friendUsernames = userFriendRequests.accepted.map((request) => {
     return returnFriend(request, user);
   });
 
@@ -33,7 +33,7 @@ function Friends() {
       .then((response) => response.json())
       .then((accounts) => {
         return accounts.filter((account: User) => {
-          return friendUserNames.includes(account.userName);
+          return friendUsernames.includes(account.username);
         });
       })
       .then((friends) => {
@@ -77,7 +77,7 @@ function Friends() {
 }
 export function returnFriend(friendRequest: IFriendRequest, currentUser: User) {
   return friendRequest.sender.toLowerCase() ===
-    currentUser.userName.toLowerCase()
+    currentUser.username.toLowerCase()
     ? friendRequest.receiver
     : friendRequest.sender;
 }

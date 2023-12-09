@@ -6,7 +6,7 @@ export interface UserInputProps {
   id: string;
   label: string;
   state?: string;
-  setUserNameInput?: React.Dispatch<React.SetStateAction<string>>;
+  setUsernameInput?: React.Dispatch<React.SetStateAction<string>>;
   setPasswordInput?: React.Dispatch<React.SetStateAction<string>>;
   setInput: React.Dispatch<React.SetStateAction<string>>;
   input?: string;
@@ -22,13 +22,13 @@ export interface CreateUserInputProps {
   setStateProperty: string;
 }
 export interface CreateUser {
-  createUserName: string;
+  createUsername: string;
   createPassword: string;
   confirmPassword: string;
 }
 
 export interface User {
-  userName: string;
+  username: string;
   password: string;
   profileImg?: string;
   id: number;

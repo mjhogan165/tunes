@@ -39,7 +39,6 @@ export interface IUserFriendRequests {
 }
 
 function FriendsProvider({ children }: childrenType) {
-  const { userName } = useRequiredUser();
   const user = useRequiredUser();
   const [friendInput, setFriendInput] = useState("");
   const [isSendBtnDisabled, setIsSendBtnDisabled] = useState(true);
@@ -62,7 +61,8 @@ function FriendsProvider({ children }: childrenType) {
       .then((response) => response.json())
       .then((requests) => {
         const userFriendRequests: IFriendRequest[] = requests.filter(
-          (request: IFriendRequest) => Object.values(request).includes(userName)
+          (request: IFriendRequest) =>
+            Object.values(request).includes(user.username)
         );
         setUserFriendRequests({
           accepted: userFriendRequests.filter(
@@ -124,8 +124,8 @@ function FriendsProvider({ children }: childrenType) {
     );
     const found = allRequests.find((request) => {
       return (
-        request.sender === selectedSearchFriend?.userName ||
-        request.receiver === selectedSearchFriend?.userName
+        request.sender === selectedSearchFriend?.username ||
+        request.receiver === selectedSearchFriend?.username
       );
     });
     if (found) {
@@ -155,8 +155,8 @@ function FriendsProvider({ children }: childrenType) {
         toast.error(searchError);
       } else
         sendFriendRequest({
-          sender: userName,
-          receiver: selectedSearchFriend.userName,
+          sender: user.username,
+          receiver: selectedSearchFriend.username,
           status: "pending",
         })
           .then((requestObj) => {

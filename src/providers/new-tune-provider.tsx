@@ -40,15 +40,15 @@ function NewTuneProvider({ children }: childrenType) {
   const [commentInput, setCommentInput] = useState("");
   const [searchResults, setSearchResults] = useState<INewTune[]>([]);
   const [selectTaggedValue, setSelectTaggedValue] = useState("");
-  const { userName } = useRequiredUser();
+  const { username } = useRequiredUser();
   const [isSearchBtnDisabled, setIsSearchBtnDisabled] = useState(false);
 
   const { setRefreshCards, refreshCards } = useFeed();
   const ifToken = localStorage.getItem("token");
   useEffect(() => {
-    if (!ifToken) {
-      refreshToken();
-    }
+    // if (!ifToken) {
+    //   refreshToken();
+    // }
   }, []);
 
   async function refreshToken(): Promise<any> {
@@ -144,7 +144,7 @@ function NewTuneProvider({ children }: childrenType) {
             title: elm.name,
             id: elm.id,
             img: elm.album.images[0].url,
-            createdBy: userName,
+            createdBy: username,
           });
         }
         return filteredResponse;

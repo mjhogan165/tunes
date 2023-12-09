@@ -12,14 +12,14 @@ export default function IncomingFriendsList() {
   const { handleRequestResponse } = useFriends();
   const incomingFriendRequests = userFriendRequests.pending.filter(
     (request) => {
-      if (request.receiver === user.userName) {
+      if (request.receiver === user.username) {
         return true;
       }
     }
   );
   const outgoingFriendRequests = userFriendRequests.pending.filter(
     (request) => {
-      if (request.sender === user.userName) {
+      if (request.sender === user.username) {
         return true;
       }
     }

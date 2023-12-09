@@ -1,12 +1,12 @@
 import { getAccounts } from "./api-calls/get-accounts";
 import moment from "moment";
 export const findExsistingUser = (
-  userNameInput: string,
+  usernameInput: string,
   passwordInput: string,
   account: any
 ): boolean => {
   if (
-    account.user_name.toLowerCase() === userNameInput.toLowerCase() &&
+    account.user_name.toLowerCase() === usernameInput.toLowerCase() &&
     account.password.toLowerCase() === passwordInput.toLowerCase()
   ) {
     return true;
@@ -32,7 +32,7 @@ export async function findFriend(input: string) {
     .then((json) => {
       let match;
       for (const elm of json) {
-        if (elm.userName === input) {
+        if (elm.username === input) {
           return elm;
         }
       }

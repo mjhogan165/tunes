@@ -23,7 +23,7 @@ function CreateNewTune() {
     isSearchBtnDisabled,
   } = useNewTune();
   const { userFriendRequests, user } = useFriends();
-  const friendUserNames = userFriendRequests.accepted.map((request) => {
+  const friendUsernames = userFriendRequests.accepted.map((request) => {
     return returnFriend(request, user);
   });
 
@@ -77,7 +77,7 @@ function CreateNewTune() {
               onChange={handleChangeTagged}
             >
               <option value={""}>-</option>
-              {friendUserNames.map((option, index) => (
+              {friendUsernames.map((option, index) => (
                 <option key={index} value={option}>
                   {option}
                 </option>
@@ -139,7 +139,7 @@ function CreateNewTune() {
               onChange={handleChangeTagged}
             >
               {<option value={""}>-</option>}
-              {friendUserNames.map((option, index) => (
+              {friendUsernames.map((option, index) => (
                 <option key={index} value={option}>
                   {option}
                 </option>

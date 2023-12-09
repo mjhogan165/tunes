@@ -24,19 +24,24 @@ function FeedProvider({ children }: childrenType) {
   const [postedCards, setPostedCards] = useState<INewTune[]>([]);
   const [refreshCards, setRefreshCards] = useState(false);
   const user = useRequiredUser();
+
   useEffect(() => {
     getTunes()
       .then((response) => response.json())
       .then((parsedArray) => {
         const tagged = parsedArray.filter((card: INewTune) => {
-          return user.userName === card.tagged;
+          return user.username === card.tagged;
         });
         const posted = parsedArray.filter((card: INewTune) => {
-          return user.userName === card.createdBy;
+          return user.username === card.createdBy;
         });
         setTaggedCards(tagged);
         setPostedCards(posted);
         setTuneCards(parsedArray);
+        return tagged;
+      })
+      .then((res) => {
+        console.log({ user: user, tagged: res });
       })
       .catch((err) => {
         toast.error(err);
