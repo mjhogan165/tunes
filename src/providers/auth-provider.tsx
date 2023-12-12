@@ -1,11 +1,11 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
 import { getAccounts } from "../api-calls/get-accounts";
 import { CreateUser, User } from "../Interfaces/user";
-import { createAccount } from "../api-calls/create-account";
+import { createNewUser } from "../api-calls/create-user";
 import toast from "react-hot-toast";
 import { childrenType } from "../Interfaces/global";
 import { useNavigate } from "react-router-dom";
-import { getUser } from "../api-calls/get-user";
+import { loginUser } from "../api-calls/login-user";
 
 interface AuthInterface {
   handleClickLogin: (
@@ -49,7 +49,7 @@ function AuthProvider({ children }: childrenType) {
     e.preventDefault();
     setIsLoading(true);
     localStorage.setItem("token", "");
-    getUser(usernameInput)
+    loginUser(usernameInput, passwordInput)
       .then((res) => {
         console.log({ res: res });
         if (res.ok) {
@@ -72,19 +72,25 @@ function AuthProvider({ children }: childrenType) {
     createUser: CreateUser
   ) => {
     e.preventDefault();
-    if (createUser.createPassword === createUser.confirmPassword) {
+    const { createPassword, confirmPassword } = createUser;
+    console.log({ createUser: createUser });
+    if (createPassword === confirmPassword) {
       setIsLoading(true);
-      createAccount(createUser)
-        .then((response) => response.json())
-        .then((createdUser) => {
-          localStorage.setItem("user", JSON.stringify(createdUser));
-          setUser(createdUser);
+      createNewUser(createUser)
+        .then((res) => {
+          console.log({ res: res });
+          if (res.ok) {
+            return res.json();
+          }
         })
-        .finally(() => setIsLoading(false))
-        .catch((err) => {
-          toast.error(err.toString());
+        .then((user) => {
+          console.log({ user: user });
+          if (user) {
+            setUser(user);
+            navigate("/dashboard/feed");
+          }
         });
-    } else toast.error("passwords do not match");
+    } else return toast.error("bad");
   };
   return (
     <AuthContext.Provider
