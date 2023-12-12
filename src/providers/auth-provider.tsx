@@ -5,6 +5,7 @@ import { createAccount } from "../api-calls/create-account";
 import toast from "react-hot-toast";
 import { childrenType } from "../Interfaces/global";
 import { useNavigate } from "react-router-dom";
+import { getUser } from "../api-calls/get-user";
 
 interface AuthInterface {
   handleClickLogin: (
@@ -33,30 +34,8 @@ function AuthProvider({ children }: childrenType) {
     if (maybeUser) {
       const parsedUser: User = JSON.parse(maybeUser);
       setUser(parsedUser);
-      // console.log(parsedUser);
     }
-    //   getAccounts()
-    //     .then((response) => {
-    //       if (response.ok) {
-    //         return response.json();
-    //       }
-    //     })
-    //     .then((accounts) => {
-    //       setIsLoading(false);
-    //       const foundUser: User = accounts.find(
-    //         (elm: User) => elm.username === parsedUser.username
-    //       );
-    //       if (foundUser) {
-    //         setUser(foundUser);
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       toast.error(err.toString());
-    //     })
-    //     .finally(() => setIsLoading(false));
-    // } else {
-    //   setUser(null);
-    // }
+    //getUser
   }, []);
   const logout = () => {
     setUser(null);
@@ -70,26 +49,18 @@ function AuthProvider({ children }: childrenType) {
     e.preventDefault();
     setIsLoading(true);
     localStorage.setItem("token", "");
-    getAccounts()
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
+    getUser(usernameInput)
+      .then((res) => {
+        console.log({ res: res });
+        if (res.ok) {
+          return res.json();
         }
       })
-      .then((accounts) => {
-        setIsLoading(false);
-        console.log(accounts);
-        const foundUser: User = accounts.find(
-          (elm: User) => elm.username === usernameInput
-        );
-        if (!foundUser) {
-          toast.error("username not found");
-        } else if (foundUser.password === passwordInput) {
-          toast.success("Success!");
-          localStorage.setItem("user", JSON.stringify(foundUser));
-          setUser(foundUser);
-          navigate("/dashboard");
-        } else toast.error("invalid password");
+      .then((res) => {
+        if (res) {
+          setUser(res);
+          navigate("/dashboard/feed");
+        }
       })
       .catch((err) => {
         toast.error(err.toString());

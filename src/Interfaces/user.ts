@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
-
+import { IFriendRequest } from "../providers/friends-provider";
+import { INewTune } from "./feed";
 export interface UserInputProps {
   name: string;
   type: string;
@@ -28,8 +29,12 @@ export interface CreateUser {
 }
 
 export interface User {
+  id: number;
   username: string;
   password: string;
+  email?: string;
   profileImg?: string;
-  id: number;
+  sentRequests: IFriendRequest[];
+  receivedRequests: IFriendRequest[];
+  createdBy: INewTune[];
 }

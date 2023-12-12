@@ -8,6 +8,7 @@ import { getAllFriendRequests } from "../api-calls/get-friend-requests";
 import { User } from "../Interfaces/user";
 import { useRequiredUser } from "./auth-provider";
 import patchFriendRequest from "../api-calls/patch-friend-request";
+import { getUserFriendRequests } from "../api-calls/get-user-friends";
 
 const FriendsContext = createContext({} as IFriendsContext);
 
@@ -27,10 +28,12 @@ interface IFriendsContext {
 }
 
 export interface IFriendRequest {
-  sender: string;
-  receiver: string;
+  id: number;
+  sender: User;
+  senderId: number;
+  receiver: User;
+  receiverId: number;
   status: "accepted" | "rejected" | "pending";
-  id?: number;
 }
 export interface IUserFriendRequests {
   accepted: IFriendRequest[];
@@ -56,31 +59,31 @@ function FriendsProvider({ children }: childrenType) {
     });
   const [userFriendAccounts, setUserFriendAccounts] = useState<User[]>([]);
 
-  async function sortFriendRequests() {
-    getAllFriendRequests()
-      .then((response) => response.json())
-      .then((requests) => {
-        const userFriendRequests: IFriendRequest[] = requests.filter(
-          (request: IFriendRequest) =>
-            Object.values(request).includes(user.username)
-        );
-        setUserFriendRequests({
-          accepted: userFriendRequests.filter(
-            (request) => request.status === "accepted"
-          ),
-          rejected: userFriendRequests.filter(
-            (request) => request.status === "rejected"
-          ),
-          pending: userFriendRequests.filter((request) => {
-            if (request.status === "pending") {
-              return true;
-            }
-          }),
-        });
-      });
-  }
+  // async function sortFriendRequests() {
+  //   getAllFriendRequests()
+  //     .then((response) => response.json())
+  //     .then((requests) => {
+  //       const userFriendRequests: IFriendRequest[] = requests.filter(
+  //         (request: IFriendRequest) =>
+  //           Object.values(request).includes(user.username)
+  //       );
+  //       setUserFriendRequests({
+  //         accepted: userFriendRequests.filter(
+  //           (request) => request.status === "accepted"
+  //         ),
+  //         rejected: userFriendRequests.filter(
+  //           (request) => request.status === "rejected"
+  //         ),
+  //         pending: userFriendRequests.filter((request) => {
+  //           if (request.status === "pending") {
+  //             return true;
+  //           }
+  //         }),
+  //       });
+  //     });
+  // }
   useEffect(() => {
-    sortFriendRequests();
+    getUserFriendRequests(3);
   }, []);
 
   const handleRequestResponse = (

@@ -1,3 +1,5 @@
+import { User } from "./user";
+
 export interface ISearchResult {
   artist: string;
   title: string;
@@ -5,11 +7,12 @@ export interface ISearchResult {
 }
 
 export interface INewTune {
+  id: number;
   artist: string;
   title: string;
   img?: string;
+  createdBy: User;
+  createdById: number;
   comment?: string;
-  id: string;
-  createdBy: string;
   tagged?: string;
 }

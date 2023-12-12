@@ -8,11 +8,11 @@ function Feed() {
   console.log({ taggedCards: taggedCards });
   return (
     <div>
-      <div className="m-auto content-container">
+      {/* <div className="m-auto content-container">
         {taggedCards.map((tune: INewTune, index: number) => {
           return <FeedCard key={index} tune={tune} />;
         })}
-      </div>
+      </div> */}
     </div>
   );
 }

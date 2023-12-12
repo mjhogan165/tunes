@@ -13,13 +13,13 @@ function DashboardLayout() {
     return (
       <div className="max-w-6xl mx-auto overflow-auto">
         <NavList />
-        <FriendsProvider>
-          <FeedProvider>
-            <NewTuneProvider>
-              <Outlet />
-            </NewTuneProvider>
-          </FeedProvider>
-        </FriendsProvider>
+        {/* <FriendsProvider>
+          <FeedProvider> */}
+        <NewTuneProvider>
+          <Outlet />
+        </NewTuneProvider>
+        {/* </FeedProvider>
+    </FriendsProvider> */}
       </div>
     );
   } else {
