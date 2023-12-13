@@ -23,8 +23,8 @@ interface IFriendsContext {
   friendInput: string;
   setFriendInput: React.Dispatch<React.SetStateAction<string>>;
   isSendBtnDisabled: boolean;
-  userFriendAccounts: User[];
-  setUserFriendAccounts: React.Dispatch<React.SetStateAction<User[]>>;
+  // userFriendAccounts: User[];
+  // setUserFriendAccounts: React.Dispatch<React.SetStateAction<User[]>>;
 }
 
 export interface IFriendRequest {
@@ -59,31 +59,31 @@ function FriendsProvider({ children }: childrenType) {
     });
   const [userFriendAccounts, setUserFriendAccounts] = useState<User[]>([]);
 
-  // async function sortFriendRequests() {
-  //   getAllFriendRequests()
-  //     .then((response) => response.json())
-  //     .then((requests) => {
-  //       const userFriendRequests: IFriendRequest[] = requests.filter(
-  //         (request: IFriendRequest) =>
-  //           Object.values(request).includes(user.username)
-  //       );
-  //       setUserFriendRequests({
-  //         accepted: userFriendRequests.filter(
-  //           (request) => request.status === "accepted"
-  //         ),
-  //         rejected: userFriendRequests.filter(
-  //           (request) => request.status === "rejected"
-  //         ),
-  //         pending: userFriendRequests.filter((request) => {
-  //           if (request.status === "pending") {
-  //             return true;
-  //           }
-  //         }),
-  //       });
-  //     });
-  // }
+  async function sortFriendRequests() {
+    getUserFriendRequests(user.id)
+      .then((response) => response.json())
+      .then((requests) => {
+        const userFriendRequests: IFriendRequest[] = requests.filter(
+          (request: IFriendRequest) => Object.values(request).includes(user.id)
+        );
+        setUserFriendRequests({
+          accepted: userFriendRequests.filter(
+            (request) => request.status === "accepted"
+          ),
+          rejected: userFriendRequests.filter(
+            (request) => request.status === "rejected"
+          ),
+          pending: userFriendRequests.filter((request) => {
+            if (request.status === "pending") {
+              return true;
+            }
+          }),
+        });
+      });
+    // .then(() => console.log({ userFriendAccounts: userFriendAccounts }));
+  }
   useEffect(() => {
-    getUserFriendRequests(3);
+    sortFriendRequests();
   }, []);
 
   const handleRequestResponse = (

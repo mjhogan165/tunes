@@ -58,8 +58,11 @@ function AuthProvider({ children }: childrenType) {
       })
       .then((res) => {
         if (res) {
+          const user = { username: res.username, id: res.id };
           setUser(res);
+          localStorage.setItem("user", JSON.stringify(user));
           navigate("/dashboard/feed");
+          return res;
         }
       })
       .catch((err) => {
