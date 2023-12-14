@@ -2,7 +2,6 @@ import React from "react";
 import Button from "../../../../Componants/Button";
 import { useNewTune } from "../../../../providers/new-tune-provider";
 import SearchTuneDropDown from "../../../../Componants/SearchTuneDropDown";
-import { returnFriend } from "../Friends/FriendsContainer";
 import { useFriends } from "../../../../providers/friends-provider";
 import FeedCard from "../../../../Componants/FeedCard";
 import { INewTune } from "../../../../Interfaces/feed";
@@ -22,10 +21,10 @@ function CreateNewTune() {
     handleInputChange,
     isSearchBtnDisabled,
   } = useNewTune();
-  const { userFriendRequests, user } = useFriends();
-  const friendUsernames = userFriendRequests.accepted.map((request) => {
-    return returnFriend(request, user);
-  });
+  // const { userFriendRequests, user } = useFriends();
+  // const friendUsernames = userFriendRequests.accepted.map((request) => {
+  //   return returnFriend(request, user);
+  // });
 
   const localTune = selectedTune ? selectedTune : ({} as INewTune);
   return (
@@ -77,11 +76,11 @@ function CreateNewTune() {
               onChange={handleChangeTagged}
             >
               <option value={""}>-</option>
-              {friendUsernames.map((option, index) => (
+              {/* {friendUsernames.map((option, index) => (
                 <option key={index} value={option}>
                   {option}
                 </option>
-              ))}
+              ))} */}
             </select>
           </label>
           <Button
