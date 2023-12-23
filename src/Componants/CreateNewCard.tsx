@@ -1,5 +1,6 @@
 import React from "react";
 import { INewTune } from "../Interfaces/feed";
+import { ISearchResults } from "../Interfaces/global";
 
 interface ICardProps {
   key: number;

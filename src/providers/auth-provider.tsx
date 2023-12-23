@@ -51,7 +51,7 @@ function AuthProvider({ children }: childrenType) {
     localStorage.setItem("token", "");
     loginUser(usernameInput, passwordInput)
       .then((res) => {
-        console.log({ res: res });
+        // console.log({ res: res });
         if (res.ok) {
           return res.json();
         }
@@ -76,18 +76,18 @@ function AuthProvider({ children }: childrenType) {
   ) => {
     e.preventDefault();
     const { createPassword, confirmPassword } = createUser;
-    console.log({ createUser: createUser });
+    // console.log({ createUser: createUser });
     if (createPassword === confirmPassword) {
       setIsLoading(true);
       createNewUser(createUser)
         .then((res) => {
-          console.log({ res: res });
+          // console.log({ res: res });
           if (res.ok) {
             return res.json();
           }
         })
         .then((user) => {
-          console.log({ user: user });
+          // console.log({ user: user });
           if (user) {
             setUser(user);
             navigate("/dashboard/feed");

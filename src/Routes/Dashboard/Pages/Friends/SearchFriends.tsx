@@ -3,17 +3,25 @@ import UserInput from "../../../../Componants/UserInput";
 import { useFriends } from "../../../../providers/friends-provider";
 import CheckMarkIcon from "../../../../Componants/CheckMarkIcon";
 import Button from "../../../../Componants/Button";
-
+import { fetchStatusFriends } from "../../../../api-calls/fetch-friends-status";
+import { fetchUsernameFriends } from "../../../../api-calls/fetch-username-friends";
 export default function SearchFriend() {
+  // const {
+  //   handleSendFriendRequest,
+  //   handleSearchFriend,
+  //   selectedSearchFriend,
+  //   friendInput,
+  //   setFriendInput,
+  //   isSendBtnDisabled,
+  // } = useFriends();
+
+  const [friendInput, setFriendInput] = useState("");
   const {
-    handleSendFriendRequest,
     handleSearchFriend,
     selectedSearchFriend,
-    friendInput,
-    setFriendInput,
+    handleSendFriendRequest,
     isSendBtnDisabled,
   } = useFriends();
-
   return (
     <div>
       {" "}

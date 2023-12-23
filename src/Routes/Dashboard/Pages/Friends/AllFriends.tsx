@@ -13,27 +13,10 @@ import { useRequiredUser } from "../../../../providers/auth-provider";
 export default function AllFriendsList() {
   // const { userFriendRequests } = useFriends();
   // const acceptedFriends = userFriendRequests.accepted;
-  const [acceptedFriends, setAcceptedFriends] = useState<User[]>();
 
   const { user } = useAuth();
-  useEffect(() => {
-    if (user) {
-      fetchStatusFriends(user.id, "accepted")
-        .then((res) => res.json())
-        .then((data) => {
-          const accepted: User[] = [];
-          for (const request of data) {
-            console.log(request.senderId);
-            if (request.senderId === user.id) {
-              accepted.push(request.receiver);
-            } else {
-              accepted.push(request.sender);
-            }
-          }
-          setAcceptedFriends(accepted);
-        });
-    }
-  }, []);
+  const { acceptedFriends } = useFriends();
+
   console.log({ acceptedFriends: acceptedFriends });
   if (acceptedFriends) {
     return (

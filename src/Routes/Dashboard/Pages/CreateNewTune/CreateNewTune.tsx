@@ -4,8 +4,9 @@ import { useNewTune } from "../../../../providers/new-tune-provider";
 import SearchTuneDropDown from "../../../../Componants/SearchTuneDropDown";
 import { useFriends } from "../../../../providers/friends-provider";
 import FeedCard from "../../../../Componants/FeedCard";
-import { INewTune } from "../../../../Interfaces/feed";
+import { INewTune, ISearchResult } from "../../../../Interfaces/feed";
 import CreateNewCard from "../../../../Componants/CreateNewCard";
+import { ISearchResults } from "../../../../Interfaces/global";
 function CreateNewTune() {
   const {
     handleClickPostNewTune,

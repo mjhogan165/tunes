@@ -5,7 +5,6 @@ export const createNewUser = function ({
   createUsername,
   confirmPassword,
 }: CreateUser) {
-  console.log(createUsername, confirmPassword);
   return fetch(API + "user/create", {
     method: "POST",
     headers: {

@@ -3,14 +3,15 @@ import { API } from "../constants";
 import { IFriendRequest } from "../providers/friends-provider";
 
 function sendFriendRequest(request: IFriendRequest) {
-  return fetch(API + "friendRequests", {
+  console.log({ request: request });
+  return fetch(API + "friendRequest/create", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      sender: request.sender,
-      receiver: request.receiver,
+      senderId: request.senderId,
+      receiverId: request.receiverId,
       status: request.status,
     }),
   });

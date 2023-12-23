@@ -80,10 +80,10 @@ const router = createBrowserRouter([
                 path: "pending",
                 element: <PendingFriends />,
               },
-              // {
-              //   path: "search",
-              //   element: <SearchFriend />,
-              // },
+              {
+                path: "search",
+                element: <SearchFriend />,
+              },
             ],
           },
         ],

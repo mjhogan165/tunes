@@ -2,7 +2,7 @@ import React from "react";
 import { createContext, useState, useContext, useEffect } from "react";
 import { childrenType } from "../Interfaces/global";
 import createNewTune from "../api-calls/create-newtune";
-import { INewTune } from "../Interfaces/feed";
+import { INewTune, ISearchResult } from "../Interfaces/feed";
 import { toast } from "react-hot-toast";
 import fetchToken from "../api-calls/fetch-token";
 import { fetchTrack } from "../api-calls/fetchTrack";
@@ -11,6 +11,8 @@ import { toggle } from "../functions";
 import { isValidInput, checkRefresh } from "../functions";
 import moment from "moment";
 import { useFeed } from "./feed-provider";
+import { useAuth } from "./auth-provider";
+import { ISearchResults } from "../Interfaces/global";
 
 interface NewTuneInterface {
   handleClickPostNewTune: (
@@ -18,7 +20,7 @@ interface NewTuneInterface {
     tuneObj: INewTune | null
   ) => void;
   handleClickSearch: (e: React.SyntheticEvent, input: string) => void;
-  searchResults: Array<INewTune> | null;
+  searchResults: Array<ISearchResults> | null;
   handleClickTune: (newTune: INewTune) => void;
   songInput: string;
   setSongInput: React.Dispatch<React.SetStateAction<string>>;
@@ -38,17 +40,19 @@ function NewTuneProvider({ children }: childrenType) {
   const [selectedTune, setSelectedTune] = useState<INewTune | null>(null);
   const [songInput, setSongInput] = useState("");
   const [commentInput, setCommentInput] = useState("");
-  const [searchResults, setSearchResults] = useState<INewTune[]>([]);
+  const [searchResults, setSearchResults] = useState<ISearchResults[]>([]);
   const [selectTaggedValue, setSelectTaggedValue] = useState("");
   const { username } = useRequiredUser();
+  const user = useAuth();
   const [isSearchBtnDisabled, setIsSearchBtnDisabled] = useState(false);
 
   const { setRefreshCards, refreshCards } = useFeed();
   const ifToken = localStorage.getItem("token");
+
   useEffect(() => {
-    // if (!ifToken) {
-    //   refreshToken();
-    // }
+    if (!ifToken) {
+      refreshToken();
+    }
   }, []);
 
   async function refreshToken(): Promise<any> {
@@ -62,6 +66,7 @@ function NewTuneProvider({ children }: childrenType) {
       })
       .then((result) => result.json())
       .then((parsed) => {
+        console.log({ parsed: parsed });
         setToken(parsed);
         localStorage.setItem("token", parsed.access_token);
         return parsed.access_token;
@@ -109,13 +114,12 @@ function NewTuneProvider({ children }: childrenType) {
         setSongInput(input);
         if (!isValidInput(input)) {
           setIsSearchBtnDisabled(true);
-          setSelectedTune({
-            artist: "",
-            title: "",
-            id: "",
-            createdBy: "",
-            tagged: "",
-          });
+          // setSelectedTune({
+          //   artist: "",
+          //   title: "",
+          //   createdBy: user.username,
+          //   tagged: "",
+          // });
         } else if (isSearchBtnDisabled) {
           setIsSearchBtnDisabled(toggle(isSearchBtnDisabled));
         }
@@ -137,14 +141,13 @@ function NewTuneProvider({ children }: childrenType) {
       })
       .then((response) => response.json())
       .then((trackObj) => {
-        const filteredResponse = [];
+        console.log({ trackObj: trackObj });
+        const filteredResponse: ISearchResults[] = [];
         for (const elm of trackObj.tracks.items) {
           filteredResponse.push({
             artist: elm.artists[0].name,
             title: elm.name,
-            id: elm.id,
             img: elm.album.images[0].url,
-            createdBy: username,
           });
         }
         return filteredResponse;

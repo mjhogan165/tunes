@@ -10,7 +10,7 @@ const buf = Buffer.from(client_id + ":" + client_secret).toString("base64");
 const params = new URLSearchParams({
   grant_type: "client_credentials",
 });
-function fetchToken(): Promise<any> {
+export function fetchToken(): Promise<any> {
   return fetch(url, {
     method: "POST",
     headers: { Authorization: "Basic " + buf },

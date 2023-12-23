@@ -25,28 +25,29 @@ function FeedProvider({ children }: childrenType) {
   const [refreshCards, setRefreshCards] = useState(false);
   const user = useRequiredUser();
 
-  // useEffect(() => {
-  //   getTunes()
-  //     .then((response) => response.json())
-  //     .then((parsedArray) => {
-  //       const tagged = parsedArray.filter((card: INewTune) => {
-  //         return user.username === card.tagged;
-  //       });
-  //       const posted = parsedArray.filter((card: INewTune) => {
-  //         return user.username === card.createdBy;
-  //       });
-  //       setTaggedCards(tagged);
-  //       setPostedCards(posted);
-  //       setTuneCards(parsedArray);
-  //       return tagged;
-  //     })
-  //     .then((res) => {
-  //       console.log({ user: user, tagged: res });
-  //     })
-  //     .catch((err) => {
-  //       toast.error(err);
-  //     });
-  // }, [user, refreshCards]);
+  useEffect(() => {
+    getTunes()
+      .then((response) => response.json())
+      .then((parsedArray) => {
+        // console.log({ parsedArray: parsedArray });
+        const tagged = parsedArray.filter((card: INewTune) => {
+          return user.username === card.tagged;
+        });
+        // const posted = parsedArray.filter((card: INewTune) => {
+        //   return user.username === card.createdBy.id;
+        // });
+        setTaggedCards(tagged);
+        // setPostedCards(posted);
+        setTuneCards(parsedArray);
+        return tagged;
+      })
+      .then((res) => {
+        // console.log({ user: user, tagged: res });
+      })
+      .catch((err) => {
+        toast.error(err);
+      });
+  }, [user, refreshCards]);
   return (
     <FeedContext.Provider
       value={{

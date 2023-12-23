@@ -12,7 +12,7 @@ export interface INewTune {
   title: string;
   img?: string;
   createdBy: User;
-  createdById: number;
+  createdById?: number;
   comment?: string;
   tagged?: string;
 }

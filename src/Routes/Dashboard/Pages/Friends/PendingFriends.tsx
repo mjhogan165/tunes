@@ -8,60 +8,19 @@ import { useAuth, useRequiredUser } from "../../../../providers/auth-provider";
 import { fetchStatusFriends } from "../../../../api-calls/fetch-friends-status";
 import { User } from "../../../../Interfaces/user";
 import { patchStatusFriends } from "../../../../api-calls/patch-friend-request";
-
+import { INarrowRequest } from "../../../../providers/friends-provider";
 // export interface IFriendRequestData extends IFriendRequest {
 
 // }
 
 export default function IncomingFriendsList() {
-  const [outGoingFriends, setoutGoingFriends] = useState<INarrowRequest[]>();
-  const [incomingFriends, setincomingFriends] = useState<INarrowRequest[]>();
-  const [data, setData] = useState<IFriendRequest[]>();
   const user = useRequiredUser();
   // const { user } = useAuth();
+  const { handleRequestResponse, incomingFriends, outGoingFriends } =
+    useFriends();
 
-  interface INarrowRequest {
-    requestId: number;
-    notUser: User;
-  }
-  useEffect(() => {
-    fetchStatusFriends(user.id, "pending")
-      .then((response) => response.json())
-      .then((data) => {
-        const incomingRequests: INarrowRequest[] = [];
-        const outGoingRequests: INarrowRequest[] = [];
-        for (const request of data) {
-          if (request.senderId === user.id) {
-            const input: INarrowRequest = {
-              requestId: request.id,
-              notUser: request.receiver,
-            };
-            console.log({ outGoingInput: input });
-            outGoingRequests.push(input);
-          } else {
-            const input: INarrowRequest = {
-              requestId: request.id,
-              notUser: request.sender,
-            };
-            console.log({ incomingInput: input });
-            incomingRequests.push(input);
-          }
-        }
-        console.log({ outGoingRequests: outGoingRequests });
-        console.log({ incomingRequests: incomingRequests });
-        setData(data);
-        setincomingFriends(incomingRequests);
-        setoutGoingFriends(outGoingRequests);
-      });
-  }, []);
-  console.log({ data: data, incomingFriends: incomingFriends });
-  const handleRequestResponse = (
-    requestId: number,
-    fromStatus: string,
-    NewStatus: string
-  ) => {
-    patchStatusFriends(requestId, fromStatus, NewStatus);
-  };
+  // console.log({ data: data, incomingFriends: incomingFriends });
+
   return (
     <div>
       {incomingFriends && (
@@ -101,13 +60,13 @@ export default function IncomingFriendsList() {
             </div>
           );
         })}
-      {/* <div>
+      <div>
         <h1 className="font-semibold">Sent Requests:</h1>
         {outGoingFriends &&
-          outGoingFriends.map((request: User, index: number) => {
-            return <div key={index}>{request.username}</div>;
+          outGoingFriends.map((request: INarrowRequest, index: number) => {
+            return <div key={index}>{request.notUser.username}</div>;
           })}
-      </div> */}
+      </div>
     </div>
   );
 }

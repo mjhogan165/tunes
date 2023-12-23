@@ -14,11 +14,11 @@ function DashboardLayout() {
       <div className="max-w-6xl mx-auto overflow-auto">
         <NavList />
         <FriendsProvider>
-          {/* <FeedProvider>  */}
-          {/* <NewTuneProvider> */}
-          <Outlet />
-          {/* </NewTuneProvider> */}
-          {/* </FeedProvider> */}
+          <FeedProvider>
+            <NewTuneProvider>
+              <Outlet />
+            </NewTuneProvider>
+          </FeedProvider>
         </FriendsProvider>
       </div>
     );
