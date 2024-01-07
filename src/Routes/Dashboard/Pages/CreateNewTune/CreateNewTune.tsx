@@ -7,6 +7,7 @@ import FeedCard from "../../../../Componants/FeedCard";
 import { INewTune, ISearchResult } from "../../../../Interfaces/feed";
 import CreateNewCard from "../../../../Componants/CreateNewCard";
 import { ISearchResults } from "../../../../Interfaces/global";
+import { User } from "../../../../Interfaces/user";
 function CreateNewTune() {
   const {
     handleClickPostNewTune,
@@ -22,6 +23,7 @@ function CreateNewTune() {
     handleInputChange,
     isSearchBtnDisabled,
   } = useNewTune();
+  const { acceptedFriends } = useFriends();
   // const { userFriendRequests, user } = useFriends();
   // const friendUsernames = userFriendRequests.accepted.map((request) => {
   //   return returnFriend(request, user);
@@ -77,11 +79,12 @@ function CreateNewTune() {
               onChange={handleChangeTagged}
             >
               <option value={""}>-</option>
-              {/* {friendUsernames.map((option, index) => (
-                <option key={index} value={option}>
-                  {option}
-                </option>
-              ))} */}
+              {acceptedFriends &&
+                acceptedFriends.map((request: User, index) => (
+                  <option key={index} value={request.username}>
+                    {request.username}
+                  </option>
+                ))}
             </select>
           </label>
           <Button

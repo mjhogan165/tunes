@@ -81,6 +81,7 @@ function FriendsProvider({ children }: childrenType) {
   const [userFriendAccounts, setUserFriendAccounts] = useState<User[]>([]);
   const [update, setUpdate] = useState<boolean>(false);
   useEffect(() => {
+    console.log("friends prov");
     // console.log("useeffect friends");
     fetchStatusFriends(user.id, "pending")
       .then((response) => response.json())

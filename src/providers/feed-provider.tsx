@@ -29,17 +29,17 @@ function FeedProvider({ children }: childrenType) {
     getTunes()
       .then((response) => response.json())
       .then((parsedArray) => {
-        // console.log({ parsedArray: parsedArray });
-        const tagged = parsedArray.filter((card: INewTune) => {
-          return user.username === card.tagged;
-        });
+        console.log({ parsedArray: parsedArray });
+        // const tagged = parsedArray.filter((card: INewTune) => {
+        //   return user.username === card.tagged;
+        // });
         // const posted = parsedArray.filter((card: INewTune) => {
         //   return user.username === card.createdBy.id;
         // });
-        setTaggedCards(tagged);
+        // setTaggedCards(tagged);
         // setPostedCards(posted);
         setTuneCards(parsedArray);
-        return tagged;
+        // return tagged;
       })
       .then((res) => {
         // console.log({ user: user, tagged: res });

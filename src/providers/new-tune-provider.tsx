@@ -9,10 +9,10 @@ import { fetchTrack } from "../api-calls/fetchTrack";
 import { useRequiredUser } from "./auth-provider";
 import { toggle } from "../functions";
 import { isValidInput, checkRefresh } from "../functions";
-import moment from "moment";
 import { useFeed } from "./feed-provider";
 import { useAuth } from "./auth-provider";
 import { ISearchResults } from "../Interfaces/global";
+import getUserByName from "../api-calls/getUserByName";
 
 interface NewTuneInterface {
   handleClickPostNewTune: (
@@ -43,7 +43,7 @@ function NewTuneProvider({ children }: childrenType) {
   const [searchResults, setSearchResults] = useState<ISearchResults[]>([]);
   const [selectTaggedValue, setSelectTaggedValue] = useState("");
   const { username } = useRequiredUser();
-  const user = useAuth();
+  const { user } = useAuth();
   const [isSearchBtnDisabled, setIsSearchBtnDisabled] = useState(false);
 
   const { setRefreshCards, refreshCards } = useFeed();
@@ -79,29 +79,37 @@ function NewTuneProvider({ children }: childrenType) {
     setSelectTaggedValue(target.value);
   };
 
-  const handleClickPostNewTune = (
+  const handleClickPostNewTune = async (
     e: React.SyntheticEvent,
     tuneObj: INewTune | null
   ) => {
     e.preventDefault();
-    if (tuneObj) {
-      tuneObj.comment = commentInput;
-      tuneObj.tagged = selectTaggedValue;
-      createNewTune(tuneObj)
-        .then((response) => {
-          if (response.ok) {
-            toast.success("Tune Posted!");
-            return response.json();
-          }
-          return response;
+    if (tuneObj && user) {
+      const TaggedUser = await getUserByName(selectTaggedValue)
+        .then((res) => res.json())
+        .then((res) => {
+          console.log({ res: res });
+          tuneObj.comment = commentInput;
+          tuneObj.tagged = res;
+          tuneObj.createdBy = user;
         })
-        .catch((err) => toast.error(err))
-        .finally(() => {
-          setSearchResults([]);
-          setSongInput("");
-          setCommentInput("");
-          setRefreshCards(!refreshCards);
-          setSelectedTune(null);
+        .then(() => {
+          createNewTune(tuneObj)
+            .then((response) => {
+              if (response.ok) {
+                toast.success("Tune Posted!");
+                return response.json();
+              }
+              return response;
+            })
+            .catch((err) => toast.error(err))
+            .finally(() => {
+              setSearchResults([]);
+              setSongInput("");
+              setCommentInput("");
+              setRefreshCards(!refreshCards);
+              setSelectedTune(null);
+            });
         });
     } else {
       toast.error("Please select tune");
@@ -141,7 +149,6 @@ function NewTuneProvider({ children }: childrenType) {
       })
       .then((response) => response.json())
       .then((trackObj) => {
-        console.log({ trackObj: trackObj });
         const filteredResponse: ISearchResults[] = [];
         for (const elm of trackObj.tracks.items) {
           filteredResponse.push({
@@ -162,7 +169,6 @@ function NewTuneProvider({ children }: childrenType) {
 
   const handleClickSearch = async (e: React.SyntheticEvent, input: string) => {
     e.preventDefault();
-    console.log("clicked");
     if (ifToken) {
       searchTrack(input, ifToken);
     }

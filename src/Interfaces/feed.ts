@@ -7,12 +7,12 @@ export interface ISearchResult {
 }
 
 export interface INewTune {
-  id: number;
+  id?: number;
   artist: string;
   title: string;
   img?: string;
   createdBy: User;
   createdById?: number;
   comment?: string;
-  tagged?: string;
+  tagged?: User;
 }

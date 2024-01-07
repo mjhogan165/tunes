@@ -10,7 +10,7 @@ function HomeLayout() {
 
   if (user) {
     return <Navigate to="/dashboard/feed" replace />;
-  } else console.log("");
+  } else console.log("no user");
   return (
     <div>
       <section className="flex content-between justify-center gap-6 items-center">

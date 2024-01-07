@@ -17,7 +17,7 @@ export default function AllFriendsList() {
   const { user } = useAuth();
   const { acceptedFriends } = useFriends();
 
-  console.log({ acceptedFriends: acceptedFriends });
+  // console.log({ acceptedFriends: acceptedFriends });
   if (acceptedFriends) {
     return (
       <div className="flex w-full flex-col">

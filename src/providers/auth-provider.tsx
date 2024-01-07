@@ -30,6 +30,7 @@ function AuthProvider({ children }: childrenType) {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log("Authprovider");
     const maybeUser = localStorage.getItem("user");
     if (maybeUser) {
       const parsedUser: User = JSON.parse(maybeUser);
@@ -57,6 +58,7 @@ function AuthProvider({ children }: childrenType) {
         }
       })
       .then((res) => {
+        console.log({ response: res });
         if (res) {
           const user = { username: res.username, id: res.id };
           setUser(res);

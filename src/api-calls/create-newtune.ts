@@ -11,7 +11,17 @@ function createNewTune({
   title,
   tagged,
 }: INewTune) {
-  return fetch(API + "tunes", {
+  console.log({
+    newTune: {
+      // id: id,
+      comment: comment,
+      createdBy: createdBy,
+      artist: artist,
+      title: title,
+      tagged: tagged,
+    },
+  });
+  return fetch(API + "newTune", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
