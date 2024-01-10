@@ -3,13 +3,11 @@ import { Link } from "react-router-dom";
 import UserInput from "../../Componants/UserInput";
 import { useAuth } from "../../providers/auth-provider";
 import Button from "../../Componants/Button";
-import { useEffect } from "react";
 
 function Login() {
   const { handleClickLogin, isLoading } = useAuth();
   const [usernameInput, setUsernameInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
-  console.log("Render: LoginPage");
 
   return (
     <section className="rounded-lg bg-white container shadow-sm mx-auto my-6 border-2 flex flex-col items-center border-transparent max-w-lg p-6 gap-6 font-normal">

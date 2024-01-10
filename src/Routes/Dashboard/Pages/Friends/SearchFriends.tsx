@@ -6,15 +6,6 @@ import Button from "../../../../Componants/Button";
 import { fetchStatusFriends } from "../../../../api-calls/fetch-friends-status";
 import { fetchUsernameFriends } from "../../../../api-calls/fetch-username-friends";
 export default function SearchFriend() {
-  // const {
-  //   handleSendFriendRequest,
-  //   handleSearchFriend,
-  //   selectedSearchFriend,
-  //   friendInput,
-  //   setFriendInput,
-  //   isSendBtnDisabled,
-  // } = useFriends();
-
   const [friendInput, setFriendInput] = useState("");
   const {
     handleSearchFriend,

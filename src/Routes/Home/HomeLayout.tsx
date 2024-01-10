@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Outlet, NavLink, Navigate } from "react-router-dom";
 import { useAuth } from "../../providers/auth-provider";
 import Loading from "../../Componants/Loading";
-import { getAccounts } from "../../api-calls/get-accounts";
-import { User } from "../../Interfaces/user";
 
 function HomeLayout() {
   const { isLoading, user } = useAuth();

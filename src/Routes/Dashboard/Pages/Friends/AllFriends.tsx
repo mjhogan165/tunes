@@ -1,25 +1,18 @@
 import React, { useEffect, useState } from "react";
-import {
-  IFriendRequest,
-  useFriends,
-} from "../../../../providers/friends-provider";
+import { useFriends } from "../../../../providers/friends-provider";
 import { User } from "../../../../Interfaces/user";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
-import { fetchStatusFriends } from "../../../../api-calls/fetch-friends-status";
 import { useAuth } from "../../../../providers/auth-provider";
 import { useRequiredUser } from "../../../../providers/auth-provider";
 
 export default function AllFriendsList() {
-  // const { userFriendRequests } = useFriends();
-  // const acceptedFriends = userFriendRequests.accepted;
-
   const { user } = useAuth();
   const { acceptedFriends, update, setUpdate } = useFriends();
   useEffect(() => {
     setUpdate(!update);
   }, []);
-  // console.log({ acceptedFriends: acceptedFriends });
+
   if (acceptedFriends) {
     return (
       <div className="flex w-full flex-col">

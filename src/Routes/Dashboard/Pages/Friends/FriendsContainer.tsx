@@ -1,10 +1,4 @@
 import React from "react";
-import { useEffect } from "react";
-import { getAccounts } from "../../../../api-calls/get-accounts";
-import {
-  IFriendRequest,
-  useFriends,
-} from "../../../../providers/friends-provider";
 import { User } from "../../../../Interfaces/user";
 import { NavLink, Outlet, useOutletContext } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,13 +7,6 @@ import { toast } from "react-hot-toast";
 import { useAuth, useRequiredUser } from "../../../../providers/auth-provider";
 
 function Friends() {
-  // const {
-  //   userFriendRequests,
-  //   setUserFriendAccounts,
-  //   userFriendAccounts,
-  //   user,
-  // } = useFriends();
-
   const { user } = useAuth();
 
   const activeClassName =
@@ -27,11 +14,6 @@ function Friends() {
   const activeClassNameSpecial =
     "text-xl font-medium underline decoration-indigo-400 decoration-4 underline-offset-4";
 
-  // const friendUsernames = userFriendRequests.accepted.map((request) => {
-  //   return returnFriend(request, user);
-  // });
-
-  const ok = useRequiredUser();
   return (
     <div>
       <nav className="content-container m-auto flex justify-between py-2 text-base">

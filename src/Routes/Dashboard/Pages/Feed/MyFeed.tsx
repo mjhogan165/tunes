@@ -5,8 +5,6 @@ import { INewTune } from "../../../../Interfaces/feed";
 import { TEST_RESPONSE } from "../../../../constants";
 function Feed() {
   const { tuneCards } = useFeed();
-  console.log({ tuneCards: tuneCards });
-  // console.log({ taggedCards: taggedCards });
   return (
     <div>
       <div className="m-auto content-container">

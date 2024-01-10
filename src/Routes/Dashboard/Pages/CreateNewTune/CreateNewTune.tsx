@@ -24,11 +24,6 @@ function CreateNewTune() {
     isSearchBtnDisabled,
   } = useNewTune();
   const { acceptedFriends } = useFriends();
-  // const { userFriendRequests, user } = useFriends();
-  // const friendUsernames = userFriendRequests.accepted.map((request) => {
-  //   return returnFriend(request, user);
-  // });
-
   const localTune = selectedTune ? selectedTune : ({} as INewTune);
   return (
     <div className="m-auto content-container sm:p-6 mb-4">

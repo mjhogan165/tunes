@@ -3,7 +3,6 @@ import { API } from "../constants";
 import { IFriendRequest } from "../providers/friends-provider";
 
 function sendFriendRequest(request: IFriendRequest) {
-  console.log({ request: request });
   return fetch(API + "friendRequest/create", {
     method: "POST",
     headers: {

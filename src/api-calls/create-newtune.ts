@@ -11,16 +11,6 @@ function createNewTune({
   title,
   taggedUserIds,
 }: INewTune) {
-  console.log({
-    newTune: {
-      // id: id,
-      comment: comment,
-      createdById: createdById,
-      artist: artist,
-      title: title,
-      taggedUserIds: taggedUserIds,
-    },
-  });
   return fetch(API + "newTune", {
     method: "POST",
     headers: {

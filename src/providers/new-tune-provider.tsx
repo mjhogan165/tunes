@@ -2,13 +2,12 @@ import React from "react";
 import { createContext, useState, useContext, useEffect } from "react";
 import { childrenType } from "../Interfaces/global";
 import createNewTune from "../api-calls/create-newtune";
-import { INewTune, ISearchResult } from "../Interfaces/feed";
+import { INewTune } from "../Interfaces/feed";
 import { toast } from "react-hot-toast";
 import fetchToken from "../api-calls/fetch-token";
 import { fetchTrack } from "../api-calls/fetchTrack";
-import { useRequiredUser } from "./auth-provider";
 import { toggle } from "../functions";
-import { isValidInput, checkRefresh } from "../functions";
+import { isValidInput } from "../functions";
 import { useFeed } from "./feed-provider";
 import { useAuth } from "./auth-provider";
 import { ISearchResults } from "../Interfaces/global";
@@ -42,7 +41,6 @@ function NewTuneProvider({ children }: childrenType) {
   const [commentInput, setCommentInput] = useState("");
   const [searchResults, setSearchResults] = useState<ISearchResults[]>([]);
   const [selectTaggedValue, setSelectTaggedValue] = useState("");
-  const { username } = useRequiredUser();
   const { user } = useAuth();
   const [isSearchBtnDisabled, setIsSearchBtnDisabled] = useState(false);
 
@@ -66,7 +64,6 @@ function NewTuneProvider({ children }: childrenType) {
       })
       .then((result) => result.json())
       .then((parsed) => {
-        console.log({ parsed: parsed });
         setToken(parsed);
         localStorage.setItem("token", parsed.access_token);
         return parsed.access_token;
@@ -89,7 +86,6 @@ function NewTuneProvider({ children }: childrenType) {
       const taggedUsers = await getUserIdsByName(usernames)
         .then((res) => res.json())
         .then((res) => {
-          console.log({ res: res, userid: user.id });
           tuneObj.comment = commentInput;
           tuneObj.taggedUserIds = res;
           tuneObj.createdById = user.id;
@@ -123,12 +119,6 @@ function NewTuneProvider({ children }: childrenType) {
         setSongInput(input);
         if (!isValidInput(input)) {
           setIsSearchBtnDisabled(true);
-          // setSelectedTune({
-          //   artist: "",
-          //   title: "",
-          //   createdBy: user.username,
-          //   tagged: "",
-          // });
         } else if (isSearchBtnDisabled) {
           setIsSearchBtnDisabled(toggle(isSearchBtnDisabled));
         }

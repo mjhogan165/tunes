@@ -1,25 +1,14 @@
 import React, { useEffect, useState } from "react";
-import {
-  IFriendRequest,
-  useFriends,
-} from "../../../../providers/friends-provider";
+import { useFriends } from "../../../../providers/friends-provider";
 import Button from "../../../../Componants/Button";
-import { useAuth, useRequiredUser } from "../../../../providers/auth-provider";
-import { fetchStatusFriends } from "../../../../api-calls/fetch-friends-status";
-import { User } from "../../../../Interfaces/user";
-import { patchStatusFriends } from "../../../../api-calls/patch-friend-request";
+import { useRequiredUser } from "../../../../providers/auth-provider";
 import { INarrowRequest } from "../../../../providers/friends-provider";
-// export interface IFriendRequestData extends IFriendRequest {
-
-// }
 
 export default function IncomingFriendsList() {
   const user = useRequiredUser();
-  // const { user } = useAuth();
+
   const { handleRequestResponse, incomingFriends, outGoingFriends } =
     useFriends();
-
-  // console.log({ data: data, incomingFriends: incomingFriends });
 
   return (
     <div>

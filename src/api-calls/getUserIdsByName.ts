@@ -14,14 +14,4 @@ export default async function getUserIdsByName(
       usernames: usernames,
     }),
   });
-  // if (response) {
-  //   return response;
-  // } else return arr;
-  //     .then((res) => res.json())
-  //     .then((res) => {
-  //       console.log({ taggedUser: tagUser });
-  //       //   if (res.body) {
-  //       //     return res.body;
-  //       //   }
-  //     });
 }

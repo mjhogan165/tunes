@@ -1,5 +1,4 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
-import { getAccounts } from "../api-calls/get-accounts";
 import { CreateUser, User } from "../Interfaces/user";
 import { createNewUser } from "../api-calls/create-user";
 import toast from "react-hot-toast";
@@ -36,7 +35,6 @@ function AuthProvider({ children }: childrenType) {
       const parsedUser: User = JSON.parse(maybeUser);
       setUser(parsedUser);
     }
-    //getUser
   }, []);
   const logout = () => {
     setUser(null);
@@ -52,18 +50,16 @@ function AuthProvider({ children }: childrenType) {
     localStorage.setItem("token", "");
     loginUser(usernameInput, passwordInput)
       .then((res) => {
-        // console.log({ res: res });
         if (res.ok) {
           return res.json();
         }
       })
       .then((res) => {
-        console.log({ response: res });
         if (res) {
           const user = {
             username: res.username,
             id: res.id,
-            profileImg: res.img,
+            profileImg: res.profileImg,
           };
           setUser(res);
           localStorage.setItem("user", JSON.stringify(user));
@@ -82,18 +78,15 @@ function AuthProvider({ children }: childrenType) {
   ) => {
     e.preventDefault();
     const { createPassword, confirmPassword } = createUser;
-    // console.log({ createUser: createUser });
     if (createPassword === confirmPassword) {
       setIsLoading(true);
       createNewUser(createUser)
         .then((res) => {
-          // console.log({ res: res });
           if (res.ok) {
             return res.json();
           }
         })
         .then((user) => {
-          // console.log({ user: user });
           if (user) {
             setUser(user);
             navigate("/dashboard/feed");
