@@ -60,7 +60,11 @@ function AuthProvider({ children }: childrenType) {
       .then((res) => {
         console.log({ response: res });
         if (res) {
-          const user = { username: res.username, id: res.id };
+          const user = {
+            username: res.username,
+            id: res.id,
+            profileImg: res.img,
+          };
           setUser(res);
           localStorage.setItem("user", JSON.stringify(user));
           navigate("/dashboard/feed");

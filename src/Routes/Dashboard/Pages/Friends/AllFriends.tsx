@@ -15,8 +15,10 @@ export default function AllFriendsList() {
   // const acceptedFriends = userFriendRequests.accepted;
 
   const { user } = useAuth();
-  const { acceptedFriends } = useFriends();
-
+  const { acceptedFriends, update, setUpdate } = useFriends();
+  useEffect(() => {
+    setUpdate(!update);
+  }, []);
   // console.log({ acceptedFriends: acceptedFriends });
   if (acceptedFriends) {
     return (

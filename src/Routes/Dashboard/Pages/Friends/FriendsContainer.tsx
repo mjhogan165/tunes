@@ -21,6 +21,7 @@ function Friends() {
   // } = useFriends();
 
   const { user } = useAuth();
+
   const activeClassName =
     "underline decoration-indigo-400 font-semibold decoration-4 underline-offset-4";
   const activeClassNameSpecial =
@@ -30,9 +31,6 @@ function Friends() {
   //   return returnFriend(request, user);
   // });
 
-  // useEffect(() => {
-
-  // }, []);
   const ok = useRequiredUser();
   return (
     <div>

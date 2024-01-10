@@ -3,22 +3,22 @@ import { API } from "../constants";
 import { INewTune } from "../Interfaces/feed";
 
 function createNewTune({
-  id,
   comment,
+  createdById,
   createdBy,
   img,
   artist,
   title,
-  tagged,
+  taggedUserIds,
 }: INewTune) {
   console.log({
     newTune: {
       // id: id,
       comment: comment,
-      createdBy: createdBy,
+      createdById: createdById,
       artist: artist,
       title: title,
-      tagged: tagged,
+      taggedUserIds: taggedUserIds,
     },
   });
   return fetch(API + "newTune", {
@@ -27,13 +27,14 @@ function createNewTune({
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      id: id,
+      // id: id,
       artist: artist,
       title: title,
       comment: comment,
+      createdById: createdById,
       createdBy: createdBy,
       img: img,
-      tagged: tagged,
+      taggedUserIds: taggedUserIds,
     }),
   });
 }

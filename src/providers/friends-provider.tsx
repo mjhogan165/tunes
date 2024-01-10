@@ -38,6 +38,8 @@ interface IFriendsContext {
   setIncomingFriends: React.Dispatch<
     React.SetStateAction<INarrowRequest[] | undefined>
   >;
+  update: boolean;
+  setUpdate: React.Dispatch<React.SetStateAction<boolean>>;
   // setUserFriendAccounts: React.Dispatch<React.SetStateAction<User[]>>;
 }
 export interface INarrowRequest {
@@ -227,6 +229,8 @@ function FriendsProvider({ children }: childrenType) {
         isSendBtnDisabled,
         // userFriendAccounts,
         // setUserFriendAccounts,
+        update,
+        setUpdate,
       }}
     >
       {children}

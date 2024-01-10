@@ -12,7 +12,7 @@ import { isValidInput, checkRefresh } from "../functions";
 import { useFeed } from "./feed-provider";
 import { useAuth } from "./auth-provider";
 import { ISearchResults } from "../Interfaces/global";
-import getUserByName from "../api-calls/getUserByName";
+import getUserIdsByName from "../api-calls/getUserIdsByName";
 
 interface NewTuneInterface {
   handleClickPostNewTune: (
@@ -85,13 +85,14 @@ function NewTuneProvider({ children }: childrenType) {
   ) => {
     e.preventDefault();
     if (tuneObj && user) {
-      const TaggedUser = await getUserByName(selectTaggedValue)
+      const usernames = [selectTaggedValue];
+      const taggedUsers = await getUserIdsByName(usernames)
         .then((res) => res.json())
         .then((res) => {
-          console.log({ res: res });
+          console.log({ res: res, userid: user.id });
           tuneObj.comment = commentInput;
-          tuneObj.tagged = res;
-          tuneObj.createdBy = user;
+          tuneObj.taggedUserIds = res;
+          tuneObj.createdById = user.id;
         })
         .then(() => {
           createNewTune(tuneObj)

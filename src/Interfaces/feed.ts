@@ -12,7 +12,8 @@ export interface INewTune {
   title: string;
   img?: string;
   createdBy: User;
-  createdById?: number;
+  createdById: number;
   comment?: string;
-  tagged?: User;
+  taggedUserIds?: number[];
+  tagged?: User[];
 }

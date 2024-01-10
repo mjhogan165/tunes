@@ -29,7 +29,7 @@ function FeedProvider({ children }: childrenType) {
     getTunes()
       .then((response) => response.json())
       .then((parsedArray) => {
-        console.log({ parsedArray: parsedArray });
+        console.log({ cards: parsedArray });
         // const tagged = parsedArray.filter((card: INewTune) => {
         //   return user.username === card.tagged;
         // });

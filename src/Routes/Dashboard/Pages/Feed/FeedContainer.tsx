@@ -22,7 +22,7 @@ export default function FeedContainer() {
           <FontAwesomeIcon icon={faCaretLeft} />
           Back
         </NavLink>
-        <NavLink
+        {/* <NavLink
           to="myposts"
           className={({ isActive }) =>
             isActive ? activeClassName : inactiveClassName
@@ -33,7 +33,7 @@ export default function FeedContainer() {
             icon={faCaretRight}
             className="flex self-center ml-1"
           />
-        </NavLink>
+        </NavLink> */}
       </div>
       <Outlet />
     </div>
