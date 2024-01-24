@@ -42,14 +42,12 @@ export async function findFriend(input: string) {
     })
     .catch((err) => console.log(err));
 }
-
 export function toggle(bool: boolean) {
   return !bool;
 }
 export const isValidInput = (input: string) => {
   return input.trim().length > 0;
 };
-
 export const checkRefresh = (timeFetchedStr: string) => {
   const now = moment();
   const timeFetchedObj = moment(timeFetchedStr);

@@ -34,7 +34,7 @@ export interface User {
   password?: string;
   email?: string;
   profileImg?: string;
-  sentRequests: IFriendRequest[];
-  receivedRequests: IFriendRequest[];
-  createdBy: INewTune[];
+  sentRequests?: IFriendRequest[];
+  receivedRequests?: IFriendRequest[];
+  createdBy?: INewTune[];
 }

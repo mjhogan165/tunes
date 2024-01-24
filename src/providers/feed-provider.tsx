@@ -26,9 +26,11 @@ function FeedProvider({ children }: childrenType) {
   const user = useRequiredUser();
 
   useEffect(() => {
+    console.log("feed-provider useeffect");
     getTunes()
       .then((response) => response.json())
       .then((parsedArray) => {
+        console.log({ parsedArray: parsedArray });
         setTuneCards(parsedArray);
       })
       .catch((err) => {

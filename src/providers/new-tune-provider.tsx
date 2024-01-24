@@ -69,7 +69,7 @@ function NewTuneProvider({ children }: childrenType) {
         return parsed.access_token;
       });
   }
-
+  //rororor
   const handleChangeTagged = (event: React.SyntheticEvent) => {
     event.preventDefault();
     const target = event.target as HTMLSelectElement;
@@ -91,6 +91,7 @@ function NewTuneProvider({ children }: childrenType) {
           tuneObj.createdById = user.id;
         })
         .then(() => {
+          console.log({ tuneObj: tuneObj });
           createNewTune(tuneObj)
             .then((response) => {
               if (response.ok) {

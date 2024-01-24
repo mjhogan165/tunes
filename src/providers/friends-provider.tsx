@@ -8,6 +8,8 @@ import { useRequiredUser } from "./auth-provider";
 import { patchStatusFriends } from "../api-calls/patch-friend-request";
 import { fetchStatusFriends } from "../api-calls/fetch-friends-status";
 import getUsers from "../api-calls/get-users";
+import { getAllFriendRequests } from "../api-calls/get-friend-requests";
+import { rejects } from "assert";
 
 const FriendsContext = createContext({} as IFriendsContext);
 
@@ -136,6 +138,7 @@ function FriendsProvider({ children }: childrenType) {
             findUser.username?.toLowerCase() === input.toLowerCase();
           return findUser.username?.toLowerCase() === input.toLowerCase();
         });
+        console.log({ friend: friend });
         if (friend) {
           setSelectedSearchFriend(friend);
           setIsSendBtnDisabled(false);
@@ -144,19 +147,72 @@ function FriendsProvider({ children }: childrenType) {
   };
   const handleSendFriendRequest = (e: React.SyntheticEvent) => {
     e.preventDefault();
+    getAllFriendRequests()
+      .then((res) => res.json())
+      .then((res) => {
+        // console.log({ res: res });
+      });
+    const isRejected = fetchStatusFriends(user.id, "rejected")
+      .then((res) => res.json())
+      .then((res) => {
+        console.log({ rejected: res });
+        for (const req of res) {
+          console.log({ req: req });
+          // console.log({
+          //   recievername: req.receiver.username,
+          //   sendername: req.sender.username,
+          //   searchfriend: selectedSearchFriend?.username,
+          // });
+          if (selectedSearchFriend) {
+            if (req.receiver.username === selectedSearchFriend.username) {
+              toast.error("rejected request");
+              console.log("rej1");
+              return true;
+            }
+            if (req.sender.username === selectedSearchFriend.username) {
+              toast.error("rejected request");
+              console.log("rej2");
+              return true;
+            }
+          }
+        }
+        return false;
+      });
+    const isPending = fetchStatusFriends(user.id, "pending")
+      .then((res) => res.json())
+      .then((res) => {
+        console.log({ rejected: res });
+        for (const req of res) {
+          console.log({ req: req });
+          if (selectedSearchFriend) {
+            if (req.receiver.username === selectedSearchFriend.username) {
+              toast.error("pending request");
+              console.log("pending2");
+              return true;
+            }
+            if (req.sender.username === selectedSearchFriend.username) {
+              toast.error("pending request");
+              console.log("pending2");
+              return true;
+            }
+          }
+        }
+        return false;
+      });
     if (selectedSearchFriend) {
       const newFriendRequest: IFriendRequest = {
         senderId: user.id,
         receiverId: selectedSearchFriend.id,
         status: "pending",
       };
-
-      sendFriendRequest(newFriendRequest)
-        .then((res) => res.json())
-        .then((res) => {
-          setIsSendBtnDisabled(true);
-          setUpdate(!update);
-        });
+      if (!isRejected && !isPending) {
+        sendFriendRequest(newFriendRequest)
+          .then((res) => res.json())
+          .then((res) => {
+            setIsSendBtnDisabled(true);
+            setUpdate(!update);
+          });
+      }
     }
   };
 

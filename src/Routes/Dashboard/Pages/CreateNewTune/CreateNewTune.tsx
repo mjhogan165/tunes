@@ -25,6 +25,7 @@ function CreateNewTune() {
   } = useNewTune();
   const { acceptedFriends } = useFriends();
   const localTune = selectedTune ? selectedTune : ({} as INewTune);
+
   return (
     <div className="m-auto content-container sm:p-6 mb-4">
       <CreateNewCard key={3} tune={localTune} />

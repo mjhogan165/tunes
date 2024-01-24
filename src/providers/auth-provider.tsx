@@ -55,16 +55,18 @@ function AuthProvider({ children }: childrenType) {
         }
       })
       .then((res) => {
+        console.log({ responso: res });
         if (res) {
           const user = {
-            username: res.username,
-            id: res.id,
-            profileImg: res.profileImg,
+            username: res.user.username,
+            id: res.user.id,
+            profileImg: res.user.profileImg,
           };
-          setUser(res);
+          setUser(user);
+          localStorage.setItem("jwt", JSON.stringify(res.myJwt));
           localStorage.setItem("user", JSON.stringify(user));
           navigate("/dashboard/feed");
-          return res;
+          return user;
         }
       })
       .catch((err) => {
@@ -86,13 +88,26 @@ function AuthProvider({ children }: childrenType) {
             return res.json();
           }
         })
+        .then((res) => {
+          if (res) {
+            const user = {
+              username: res.username,
+              id: res.id,
+              profileImg: res.profileImg,
+            };
+            setUser(res);
+            localStorage.setItem("user", JSON.stringify(user));
+            navigate("/dashboard/feed");
+            return res;
+          }
+        })
         .then((user) => {
           if (user) {
             setUser(user);
             navigate("/dashboard/feed");
           }
         });
-    } else return toast.error("bad");
+    } else return toast.error("invalid input");
   };
   return (
     <AuthContext.Provider
